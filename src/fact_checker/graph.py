@@ -1,4 +1,4 @@
-"""The fact-checking graph: extract claims, research each in parallel, ask for a source, reply."""
+"""The fact-checking graph: extract claims, research each in parallel, reply."""
 
 import hashlib
 import operator
@@ -12,11 +12,11 @@ from langchain_core.tools import tool
 from langgraph.errors import GraphRecursionError
 from langgraph.graph import END, START, StateGraph
 from langgraph.runtime import Runtime
-from langgraph.types import RetryPolicy, Send, interrupt
+from langgraph.types import RetryPolicy, Send
 from pydantic import BaseModel, Field
 
 from fact_checker.evidence import (
-    SAME_CLAIM_MIN, Passage, fetch_source, gate, same_claim, search_archive, search_web,
+    SAME_CLAIM_MIN, Passage, gate, same_claim, search_archive, search_web,
 )
 
 MODEL = os.getenv("FACT_CHECKER_MODEL", "claude-opus-5-5")
@@ -63,17 +63,11 @@ class ClaimResult(TypedDict):
     from_memory: bool
 
 
-def by_claim(old: list[ClaimResult], new: list[ClaimResult]) -> list[ClaimResult]:
-    """Re-researching a claim replaces its result in place."""
-    return list({r["claim"]: r for r in old + new}.values())
-
-
 class State(TypedDict):
     forward: Forward
     language: str
     claims: list[str]
-    source: str | None  # link the user gave for unverified claims
-    results: Annotated[list[ClaimResult], by_claim]
+    results: Annotated[list[ClaimResult], operator.add]
     reply: str
 
 
@@ -87,7 +81,6 @@ class Judgement(BaseModel):
 class ClaimState(TypedDict):
     claim: str
     as_of: str  # ISO date: evidence published after it doesn't count
-    source: str | None
     evidence: Annotated[list[Evidence], operator.add]
     arguments: Annotated[list[str], operator.add]
     judgement: dict  # Judgement, kept JSON-native for the checkpointer
@@ -130,8 +123,6 @@ def archive(state: ClaimState) -> dict:
 
 def web(state: ClaimState) -> dict:
     found = search_web(state["claim"], date.fromisoformat(state["as_of"]))
-    if state["source"]:
-        found += fetch_source(state["source"])
     return {"evidence": with_ids("W", gate(state["claim"], found))}
 
 
@@ -243,10 +234,8 @@ research_builder.add_node("skeptic", debater("false", "S", "Find the strongest e
 research_builder.add_node("finish", finish)
 research_builder.add_edge(START, "recall")
 research_builder.add_conditional_edges("recall", lambda s: END if s.get("results") else "archive", ["archive", END])
-# Corrective RAG: the web only when the archive has nothing usable, or the user gave a source.
-research_builder.add_conditional_edges(
-    "archive", lambda s: "judge" if s["evidence"] and not s["source"] else "web", ["judge", "web"]
-)
+# Corrective RAG: the web only when the archive has nothing usable.
+research_builder.add_conditional_edges("archive", lambda s: "judge" if s["evidence"] else "web", ["judge", "web"])
 research_builder.add_edge("web", "judge")
 research_builder.add_conditional_edges("judge", after_judge, ["advocate", "skeptic", "finish"])
 research_builder.add_edge(["advocate", "skeptic"], "judge")
@@ -284,30 +273,8 @@ def extract(state: State) -> dict:
 
 
 def research_all(state: State) -> list[Send] | str:
-    return [Send("research", claim_input(state, c)) for c in state["claims"]] or "reply"
-
-
-def claim_input(state: State, claim: str) -> dict:
     as_of = datetime.fromisoformat(state["forward"]["received_at"]).date().isoformat()
-    return {"claim": claim, "as_of": as_of, "source": state.get("source")}
-
-
-def unverified(state: State) -> list[str]:
-    return [r["claim"] for r in state["results"] if r["verdict"] == "unverifiable"]
-
-
-def ask_source(state: State) -> dict:
-    """Runs once all claims are researched; asks for a link only if something is left unverified."""
-    if not unverified(state):
-        return {}
-    answer = interrupt("I couldn't verify part of this. Do you have a link to where it came from?").strip()
-    return {"source": answer if answer.startswith(("http://", "https://")) else ""}
-
-
-def recheck_unverified(state: State) -> list[Send] | str:
-    if not state.get("source"):
-        return "reply"
-    return [Send("recheck", claim_input(state, c)) for c in unverified(state)]
+    return [Send("research", {"claim": c, "as_of": as_of}) for c in state["claims"]] or "reply"
 
 
 REPLY_PROMPT = """Write the reply to someone who forwarded a message to check it, in {language}.
@@ -333,13 +300,9 @@ def reply(state: State) -> dict:
 builder = StateGraph(State)
 builder.add_node("extract", extract, retry_policy=RETRY)
 builder.add_node("research", research)
-builder.add_node("ask_source", ask_source)
-builder.add_node("recheck", research)
 builder.add_node("reply", reply, retry_policy=RETRY)
 builder.add_edge(START, "extract")
 builder.add_conditional_edges("extract", research_all, ["research", "reply"])
 # Plain edges out of fanned-out nodes join: the next node runs once, after every branch.
-builder.add_edge("research", "ask_source")
-builder.add_conditional_edges("ask_source", recheck_unverified, ["recheck", "reply"])
-builder.add_edge("recheck", "reply")
+builder.add_edge("research", "reply")
 builder.add_edge("reply", END)

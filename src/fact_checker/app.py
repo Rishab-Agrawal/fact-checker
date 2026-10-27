@@ -7,7 +7,6 @@ from uuid import uuid4
 import streamlit as st
 from langgraph.checkpoint.postgres import PostgresSaver
 from langgraph.store.postgres import PostgresStore
-from langgraph.types import Command
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 
@@ -61,15 +60,8 @@ if st.button("Check", type="primary", disabled=not (text.strip() or image)):
     run({"forward": forward}, {"configurable": {"thread_id": st.session_state.thread}})
 
 if "thread" in st.session_state:
-    config = {"configurable": {"thread_id": st.session_state.thread}}
-    snapshot = graph().get_state(config)
-    if snapshot.interrupts:
-        with st.form("source"):
-            link = st.text_input(snapshot.interrupts[0].value)
-            if st.form_submit_button("Continue"):
-                run(Command(resume=link), config)
-                st.rerun()
-    elif reply := snapshot.values.get("reply"):
+    snapshot = graph().get_state({"configurable": {"thread_id": st.session_state.thread}})
+    if reply := snapshot.values.get("reply"):
         st.success(reply)
         for r in snapshot.values.get("results", []):
             with st.expander(f"{VERDICTS[r['verdict']]} · {r['claim']}"):

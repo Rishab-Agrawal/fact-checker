@@ -1,11 +1,7 @@
 from fact_checker.evidence import credible
-from fact_checker.graph import by_claim, cite, fresh
+from fact_checker.graph import cite, fresh
 
 EVIDENCE = [{"id": "F1", "title": "Alt News rated a claim \"False\"", "url": "https://altnews.in/x"}]
-
-
-def result(claim, verdict):
-    return {"claim": claim, "verdict": verdict}
 
 
 def test_verdict_without_existing_citation_is_unverifiable():
@@ -18,11 +14,6 @@ def test_cited_verdict_keeps_sources():
     out = cite(judgement, EVIDENCE, "c")
     assert out["verdict"] == "false"
     assert out["sources"] == [{"title": EVIDENCE[0]["title"], "url": "https://altnews.in/x"}]
-
-
-def test_rechecked_claim_replaces_its_result_in_place():
-    old = [result("a", "unverifiable"), result("b", "true")]
-    assert by_claim(old, [result("a", "false")]) == [result("a", "false"), result("b", "true")]
 
 
 def test_memory_is_fresh_only_within_window_and_never_from_the_future():

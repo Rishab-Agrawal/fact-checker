@@ -45,7 +45,7 @@ def main(n: int = 40) -> None:
         store=InMemoryStore(index={"embed": embeddings(), "dims": EMBED_DIMS, "fields": ["claim"]})
     )
     inputs = [
-        {"claim": c["claim"], "as_of": datetime.strptime(c["claim_date"], "%d-%m-%Y").date().isoformat(), "source": None}
+        {"claim": c["claim"], "as_of": datetime.strptime(c["claim_date"], "%d-%m-%Y").date().isoformat()}
         for c in sample
     ]
     start = time.time()

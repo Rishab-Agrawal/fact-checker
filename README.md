@@ -13,17 +13,12 @@ graph TD;
 	__start__([<p>__start__</p>]):::first
 	extract(extract)
 	research(research)
-	ask_source(ask_source)
-	recheck(recheck)
 	reply(reply)
 	__end__([<p>__end__</p>]):::last
 	__start__ --> extract;
-	ask_source -.-> recheck;
-	ask_source -.-> reply;
 	extract -.-> reply;
 	extract -.-> research;
-	recheck --> reply;
-	research --> ask_source;
+	research --> reply;
 	reply --> __end__;
 	classDef default fill:#f2f0ff,line-height:1.2
 	classDef first fill-opacity:0
@@ -33,10 +28,7 @@ graph TD;
 1. **extract**: Claude reads the message (and screenshot), returns up to 5 stand-alone claims in English plus the
    message's language.
 2. **research**: one `Send` per claim, so claims are researched in parallel by the subgraph below.
-3. **ask_source**: a join. Once every claim is done, if any is unverifiable it `interrupt()`s to ask the user for a
-   link. The run is checkpointed in Postgres, so the answer can come hours later.
-4. **recheck**: the same subgraph, run again for the unverified claims with the user's link as extra evidence.
-5. **reply**: Claude writes a short, kind reply in the sender's language.
+3. **reply**: a join, so it runs once every claim is done. Claude writes a short, kind reply in the sender's language.
 
 Research subgraph, one claim:
 
@@ -71,7 +63,7 @@ graph TD;
 - **recall** (memory): semantic search over earlier verdicts. Jev confirms it is the *same* claim before reusing one.
 - **archive** (RAG): ~90k professional fact-checks from Google's ClaimReview feed, in pgvector. Viral hoaxes repeat,
   so an existing fact-check is the most precise evidence.
-- **web** (corrective RAG): Tavily search, only when the archive has nothing usable or the user gave a link.
+- **web** (corrective RAG): Tavily search, only when the archive has nothing usable.
 - **judge**: Claude, at high effort, decides from the evidence only and cites evidence ids.
 - **advocate / skeptic** (multi-agent): when the judge is unsure or says unverifiable, two tool-using agents search
   for the strongest case on each side, in parallel. Then the judge decides again, once.

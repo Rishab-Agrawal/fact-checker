@@ -1,4 +1,4 @@
-"""Where evidence comes from (fact-check archive, web, a user's link) and the Jev gate it passes."""
+"""Where evidence comes from (fact-check archive, web) and the Jev gate it passes."""
 
 import os
 from datetime import date
@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 from langchain_openai import OpenAIEmbeddings
 from langchain_postgres import PGEngine, PGVectorStore
-from langchain_tavily import TavilyExtract, TavilySearch
+from langchain_tavily import TavilySearch
 from langchain_typesafe import Noul, TypeSafeClassifier
 
 DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5433/factcheck")
@@ -32,7 +32,7 @@ CREDIBLE_SUFFIXES = (".gov", ".gov.in", ".nic.in", ".edu", ".ac.in", ".int", ".m
 
 
 class Passage(TypedDict):
-    kind: str  # "fact-check" | "web" | "user source"
+    kind: str  # "fact-check" | "web"
     url: str
     title: str
     text: str
@@ -89,15 +89,6 @@ def search_web(query: str, as_of: date) -> list[Passage]:
         Passage(kind="web", url=h["url"], title=h["title"], text=h["content"],
                 published=h.get("published_date"), credible=credible(h["url"]))
         for h in hits
-    ]
-
-
-def fetch_source(url: str) -> list[Passage]:
-    pages = TavilyExtract().invoke({"urls": [url]})["results"]
-    return [
-        Passage(kind="user source", url=p["url"], title=p["url"], text=p["raw_content"][:PASSAGE_CHARS],
-                published=None, credible=credible(p["url"]))
-        for p in pages
     ]
 
 
