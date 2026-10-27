@@ -34,14 +34,16 @@ graph TD
 
 ## Run
 
-Deployed on Railway from this repo (`Procfile`) with Railway Postgres. Locally: copy `.env.example` to `.env`, then
+One Railway project, deployed from this repo:
 
-1. `uv run python -m fact_checker.ingest` loads the archive (estimate: 10 to 20 minutes, ~$0.05; re-run to add new ones)
-2. `uv run streamlit run src/fact_checker/app.py`
-3. `uv run pytest`
+- **app**: the Streamlit page (`Procfile`). API keys are set here; the jobs reference them.
+- **ingest**: daily cron, `python -m fact_checker.ingest`. Adds new fact-checks to the archive.
+- **evals**: monthly cron, `python evals/averitec.py 40`. Run it now with `railway cron run --service evals`.
+- **Postgres**: archive, checkpoints, memory and eval runs.
+
+Locally: copy `.env.example` to `.env` and run the same commands with `uv run`. Tests: `uv run pytest`.
 
 ## Evals
 
-`uv run python evals/averitec.py 40` runs research on 40 [AVeriTeC](https://github.com/MichSchli/AVeriTeC) claims and
-writes accuracy, macro-F1, a confusion table and token usage to `evals/results/`. Commit results with the change they
-measure.
+`evals/averitec.py` runs research on 40 [AVeriTeC](https://github.com/MichSchli/AVeriTeC) claims and saves accuracy,
+macro-F1, a confusion table and token usage to the `eval_runs` table, with the deployed commit.
