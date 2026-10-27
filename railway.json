@@ -1,6 +1,0 @@
-{
-  "$schema": "https://railway.com/railway.schema.json",
-  "deploy": {
-    "startCommand": "streamlit run src/fact_checker/app.py --server.headless true"
-  }
-}

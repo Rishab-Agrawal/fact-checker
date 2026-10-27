@@ -34,7 +34,7 @@ graph TD
 
 ## Run
 
-Deployed on Railway from this repo (`railway.json`) with Railway Postgres. Locally: copy `.env.example` to `.env`, then
+Deployed on Railway from this repo (`Procfile`) with Railway Postgres. Locally: copy `.env.example` to `.env`, then
 
 1. `uv run python -m fact_checker.ingest` loads the archive (estimate: 10 to 20 minutes, ~$0.05; re-run to add new ones)
 2. `uv run streamlit run src/fact_checker/app.py`
