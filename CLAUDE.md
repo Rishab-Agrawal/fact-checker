@@ -16,5 +16,4 @@ A bug, bloat or over-engineering usually points to something larger: weak design
 
 ## Project
 
-- Jev (TypeSafe System One) only for narrow single-hop gates where it loses no quality; generation, multi-hop reasoning and dates stay with Claude. The README table is the source of truth.
-- Postgres runs on port 5433: a native Postgres owns 5432 on the dev machine.
+- Jev (TypeSafe System One) only for narrow single-hop gates where it loses no quality; generation, multi-hop reasoning and dates stay with Claude. The README lists where.

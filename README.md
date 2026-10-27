@@ -1,125 +1,47 @@
 # fact-checker
 
-Paste a forwarded message (text or screenshot). The agent pulls out its checkable claims, researches each one in
-parallel, has two researchers argue opposite sides when the evidence is unclear, and replies in the sender's
-language with a verdict per claim (true / false / misleading / unverifiable) and its sources.
+Paste a forwarded message (text or screenshot). It extracts the checkable claims, researches each in parallel, and
+replies in the sender's language with a verdict per claim (true / false / misleading / unverifiable) and sources.
 
 ## How it works
 
-Main graph (`src/fact_checker/graph.py`, diagrams generated with `graph.get_graph().draw_mermaid()`):
+`src/fact_checker/graph.py` (LangGraph): `extract → research (one per claim, via Send) → reply`. Research, per claim:
 
 ```mermaid
-graph TD;
-	__start__([<p>__start__</p>]):::first
-	extract(extract)
-	research(research)
-	reply(reply)
-	__end__([<p>__end__</p>]):::last
-	__start__ --> extract;
-	extract -.-> reply;
-	extract -.-> research;
-	research --> reply;
-	reply --> __end__;
-	classDef default fill:#f2f0ff,line-height:1.2
-	classDef first fill-opacity:0
-	classDef last fill:#bfb6fc
+graph TD
+  recall -->|seen before| done([done])
+  recall --> archive
+  archive -->|usable| judge
+  archive -->|nothing usable| web --> judge
+  judge -->|unsure| advocate & skeptic --> judge
+  judge --> finish --> done
 ```
 
-1. **extract**: Claude reads the message (and screenshot), returns up to 5 stand-alone claims in English plus the
-   message's language.
-2. **research**: one `Send` per claim, so claims are researched in parallel by the subgraph below.
-3. **reply**: a join, so it runs once every claim is done. Claude writes a short, kind reply in the sender's language.
-
-Research subgraph, one claim:
-
-```mermaid
-graph TD;
-	__start__([<p>__start__</p>]):::first
-	recall(recall)
-	archive(archive)
-	web(web)
-	judge(judge)
-	advocate(advocate)
-	skeptic(skeptic)
-	finish(finish)
-	__end__([<p>__end__</p>]):::last
-	__start__ --> recall;
-	advocate --> judge;
-	archive -.-> judge;
-	archive -.-> web;
-	judge -.-> advocate;
-	judge -.-> finish;
-	judge -.-> skeptic;
-	recall -.-> __end__;
-	recall -.-> archive;
-	skeptic --> judge;
-	web --> judge;
-	finish --> __end__;
-	classDef default fill:#f2f0ff,line-height:1.2
-	classDef first fill-opacity:0
-	classDef last fill:#bfb6fc
-```
-
-- **recall** (memory): semantic search over earlier verdicts. Jev confirms it is the *same* claim before reusing one.
-- **archive** (RAG): ~90k professional fact-checks from Google's ClaimReview feed, in pgvector. Viral hoaxes repeat,
-  so an existing fact-check is the most precise evidence.
-- **web** (corrective RAG): Tavily search, only when the archive has nothing usable.
-- **judge**: Claude, at high effort, decides from the evidence only and cites evidence ids.
-- **advocate / skeptic** (multi-agent): when the judge is unsure or says unverifiable, two tool-using agents search
-  for the strongest case on each side, in parallel. Then the judge decides again, once.
-- **finish**: a verdict that cites no existing evidence becomes "unverifiable". Confident verdicts are remembered.
+- **recall** (memory): earlier verdicts; Jev confirms it is the same claim before one is reused.
+- **archive** (RAG): ~88k professional fact-checks from Google's ClaimReview feed, in pgvector.
+- **web** (corrective RAG): Tavily search.
+- **advocate / skeptic** (multi-agent): two tool-using agents argue opposite sides, then the judge decides again, once.
+- **finish**: a verdict citing no real evidence becomes unverifiable; confident ones (≥ 0.8) are remembered for 30 days.
 
 ## Design decisions
 
-**Jev (TypeSafe's System One model) only where it loses no quality.** Jev returns calibrated probabilities for
-narrow questions, fast and cheaply, and its [documented weak spots](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md)
-are generation, multi-hop reasoning, dates and long state. So it handles the high-volume gates, and everything
-generative or multi-step stays with Claude:
+- **Jev only where it loses no quality**: passage relevance, prompt-injection and same-claim checks. Extraction,
+  judging, debate and the reply stay with Claude: they generate text or reason across sources and dates, which are
+  Jev's [documented weak spots](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md).
+- **Evidence is capped at the claim's date**, so evals can't find the fact-check a benchmark claim came from.
+- **The citation guard is code, not an LLM grader**: free, and it can't hallucinate.
+- **One Postgres** holds the archive, graph checkpoints and memory.
 
-| Decision | Model | Why |
-|---|---|---|
-| Does this passage help decide the claim? (per passage) | Jev Noul | single-hop relevance on short state; the most frequent call |
-| Does this passage try to instruct the system? | Jev Noul | same request, a second question costs nothing extra |
-| Is this new claim the same as a remembered one? | Jev Noul | paraphrase match on two sentences |
-| Claim extraction, verdict, debate, reply | Claude | generation and multi-hop reasoning over several sources and dates |
+## Run
 
-`tests/test_jev.py` checks the gates live, including a Hindi paraphrase and a changed number.
+Deployed on Railway from this repo (`railway.json`) with Railway Postgres. Locally: copy `.env.example` to `.env`, then
 
-**Evidence is capped at the claim's date (`as_of`).** Live checks use the day the message arrived. Evals use each
-claim's original date, so the agent can't find the very fact-check the benchmark claim came from. Same code path,
-no special eval mode.
-
-**A verdict must cite evidence that exists.** A deterministic check in `finish` instead of another LLM grader: it is
-free, and it can't itself hallucinate.
-
-**Memory reuses only confident, recent verdicts.** Below 0.8 confidence nothing is stored, and verdicts older than
-30 days are re-checked: a wrong verdict served to every later forward of the same claim is worse than re-checking.
-
-**One Postgres** holds the fact-check archive (pgvector), graph checkpoints and long-term memory (LangGraph store).
-
-**Claude Opus 5.5 with effort per step**: low for extraction and reply, medium for debaters, high for the judge.
-Requests opt into server-side fallbacks so a safety-classifier refusal on health or politics claims retries on
-another model instead of failing.
-
-## Run it
-
-Needs Docker, [uv](https://docs.astral.sh/uv/), and API keys for Anthropic, OpenAI (embeddings), Tavily and TypeSafe.
-
-1. `cp .env.example .env` and fill in the keys
-2. `docker compose up -d` (Postgres with pgvector on port 5433)
-3. `uv run python -m fact_checker.ingest` (downloads and embeds the fact-check archive; estimate: 10 to 20 minutes,
-   about $0.05 of embeddings; re-run any time to add new fact-checks)
-4. `uv run streamlit run src/fact_checker/app.py`
-
-Tests: `uv run pytest` (Jev tests run when `TYPESAFE_API_KEY` is set). Tracing: set the LangSmith variables in `.env`.
+1. `uv run python -m fact_checker.ingest` loads the archive (estimate: 10 to 20 minutes, ~$0.05; re-run to add new ones)
+2. `uv run streamlit run src/fact_checker/app.py`
+3. `uv run pytest`
 
 ## Evals
 
-`uv run python evals/averitec.py 40` runs the research subgraph on 40 claims from the
-[AVeriTeC](https://github.com/MichSchli/AVeriTeC) dev set (real-world claims with gold verdicts) and writes accuracy,
-macro-F1, a confusion table and token usage to `evals/results/`. Commit the result file with the change it measures.
-
-## Not built yet
-
-- A chat channel (Telegram or WhatsApp). The UI is a Streamlit page; `Forward` is the input either would fill.
-- Hybrid (keyword + vector) archive search, for names and numbers that embeddings blur.
+`uv run python evals/averitec.py 40` runs research on 40 [AVeriTeC](https://github.com/MichSchli/AVeriTeC) claims and
+writes accuracy, macro-F1, a confusion table and token usage to `evals/results/`. Commit results with the change they
+measure.

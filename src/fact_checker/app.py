@@ -1,6 +1,7 @@
 """Paste a forwarded message, get verdicts. Run: streamlit run src/fact_checker/app.py"""
 
 import base64
+import os
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -10,7 +11,7 @@ from langgraph.store.postgres import PostgresStore
 from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 
-from fact_checker.evidence import DB_URL, EMBED_DIMS, embeddings
+from fact_checker.evidence import EMBED_DIMS, embeddings
 from fact_checker.graph import builder
 
 STEPS = {
@@ -28,7 +29,10 @@ VERDICTS = {"true": "✅ True", "false": "❌ False", "misleading": "⚠️ Misl
 
 @st.cache_resource
 def graph():
-    pool = ConnectionPool(DB_URL, open=True, kwargs={"autocommit": True, "prepare_threshold": 0, "row_factory": dict_row})
+    pool = ConnectionPool(
+        os.environ["DATABASE_URL"], open=True,
+        kwargs={"autocommit": True, "prepare_threshold": 0, "row_factory": dict_row},
+    )
     saver = PostgresSaver(pool)
     store = PostgresStore(pool, index={"embed": embeddings(), "dims": EMBED_DIMS, "fields": ["claim"]})
     saver.setup()

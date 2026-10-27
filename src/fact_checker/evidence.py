@@ -11,7 +11,6 @@ from langchain_postgres import PGEngine, PGVectorStore
 from langchain_tavily import TavilySearch
 from langchain_typesafe import Noul, TypeSafeClassifier
 
-DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5433/factcheck")
 ARCHIVE_TABLE = "fact_checks"
 EMBED_DIMS = 1536
 
@@ -48,7 +47,7 @@ def embeddings() -> OpenAIEmbeddings:
 @cache
 def engine() -> PGEngine:
     # asyncpg, because psycopg's async mode can't run on Windows' default event loop.
-    return PGEngine.from_connection_string(DB_URL.replace("postgresql://", "postgresql+asyncpg://", 1))
+    return PGEngine.from_connection_string(os.environ["DATABASE_URL"].replace("postgresql://", "postgresql+asyncpg://", 1))
 
 
 @cache
