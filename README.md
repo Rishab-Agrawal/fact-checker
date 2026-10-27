@@ -31,7 +31,7 @@ graph TD
 - **Evidence is capped at the claim's date**, so evals can't find the fact-check a benchmark claim came from.
 - **The citation guard is code, not an LLM grader**: free, and it can't hallucinate.
 - **One Postgres** holds the archive, graph checkpoints and memory.
-- **Public, no login**: 10 checks per IP and 50 in total per day, and an admin Telegram bot that reports each check.
+- **Public, no login**: 10 checks per IP per day, and an admin Telegram bot that reports each check.
 
 ## Run
 

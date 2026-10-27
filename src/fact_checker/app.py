@@ -31,7 +31,7 @@ STEPS = {
 }
 VERDICTS = {"true": "✅ True", "false": "❌ False", "misleading": "⚠️ Misleading", "unverifiable": "❔ Unverified"}
 # ponytail: in-memory, so limits reset on redeploy and assume one replica; move to Postgres if the app scales out
-PER_IP_DAILY, DAILY = 10, 50
+PER_IP_DAILY = 10
 
 
 @st.cache_resource
@@ -41,12 +41,10 @@ def checks() -> defaultdict[str, list[float]]:
 
 def allow(ip: str) -> bool:
     now, seen = time.time(), checks()
-    for key in (ip, "all"):
-        seen[key] = [t for t in seen[key] if now - t < 86400]
-    if len(seen[ip]) >= PER_IP_DAILY or len(seen["all"]) >= DAILY:
+    seen[ip] = [t for t in seen[ip] if now - t < 86400]
+    if len(seen[ip]) >= PER_IP_DAILY:
         return False
     seen[ip].append(now)
-    seen["all"].append(now)
     return True
 
 
