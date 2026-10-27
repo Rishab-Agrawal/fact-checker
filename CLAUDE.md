@@ -17,3 +17,4 @@ A bug, bloat or over-engineering usually points to something larger: weak design
 ## Project
 
 - Jev (TypeSafe System One) only for narrow single-hop gates where it loses no quality; generation, multi-hop reasoning and dates stay with Claude. The README lists where.
+- The Telegram bot is the *admin* bot (`TELEGRAM_ADMIN_*`); unprefixed Telegram names are kept for a possible user-facing bot.
