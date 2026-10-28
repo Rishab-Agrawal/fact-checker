@@ -47,7 +47,11 @@ def embeddings() -> OpenAIEmbeddings:
 @cache
 def engine() -> PGEngine:
     # asyncpg, because psycopg's async mode can't run on Windows' default event loop.
-    return PGEngine.from_connection_string(os.environ["DATABASE_URL"].replace("postgresql://", "postgresql+asyncpg://", 1))
+    # No parallel index builds: they need more shared memory than Railway's Postgres container has.
+    return PGEngine.from_connection_string(
+        os.environ["DATABASE_URL"].replace("postgresql://", "postgresql+asyncpg://", 1),
+        connect_args={"server_settings": {"max_parallel_maintenance_workers": "0"}},
+    )
 
 
 @cache
