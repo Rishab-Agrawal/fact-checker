@@ -22,9 +22,9 @@ def test_memory_is_fresh_only_within_window_and_never_from_the_future():
     assert not fresh("2026-10-27", "2026-10-26")
 
 
-def test_credible_matches_domains_and_official_suffixes():
+def test_credible_uses_domain_ratings_and_official_suffixes():
     assert credible("https://www.reuters.com/a")
     assert credible("https://pib.gov.in/x")
-    assert credible("https://en.wikipedia.org/wiki/X")
-    assert not credible("https://notreuters.com/a")
-    assert not credible("https://viral-news.blogspot.com/x")
+    assert not credible("https://www.infowars.com/a")  # rated, but low
+    assert not credible("https://notreuters.com/a")  # unrated
+    assert not credible("https://viral-news.blogspot.com/x")  # blogspot.com's rating isn't this blog's

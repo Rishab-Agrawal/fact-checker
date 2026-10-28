@@ -30,6 +30,9 @@ graph TD
   Jev's [documented weak spots](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md).
 - **Evidence is capped at the claim's date**, so evals can't find the fact-check a benchmark claim came from.
 - **The citation guard is code, not an LLM grader**: free, and it can't hallucinate.
+- **Source credibility comes from published ratings**, not a hand-picked list: [Lin et al. 2023](https://github.com/hauselin/domain-quality-ratings)
+  rate ~11.5k news domains; official `.gov`/`.edu`-style sites count too. The judge weighs it; a primary source
+  (a company's own blog) can still settle a claim.
 - **One Postgres** holds the archive, graph checkpoints and memory.
 - **Public, no login**: 10 checks per IP per day, and an admin Telegram bot that reports each check.
 

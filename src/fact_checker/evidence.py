@@ -1,8 +1,10 @@
 """Where evidence comes from (fact-check archive, web) and the Jev gate it passes."""
 
+import csv
 import os
 from datetime import date
 from functools import cache
+from pathlib import Path
 from typing import TypedDict
 from urllib.parse import urlparse
 
@@ -22,11 +24,9 @@ SAME_CLAIM_MIN = 0.9
 # ponytail: plain truncation, chunk + gate per chunk if long pages lose evidence
 PASSAGE_CHARS = 4000
 
-CREDIBLE_DOMAINS = {
-    "reuters.com", "apnews.com", "afp.com", "bbc.com", "bbc.co.uk", "thehindu.com",
-    "indianexpress.com", "snopes.com", "politifact.com", "factcheck.org", "fullfact.org",
-    "altnews.in", "boomlive.in", "factly.in", "who.int", "un.org", "wikipedia.org",
-}
+# News-domain quality ratings, 0 to 1, for ~11.5k domains: Lin et al. 2023, PNAS Nexus
+# (github.com/hauselin/domain-quality-ratings). Starting point, tune against evals.
+CREDIBLE_MIN = 0.6
 CREDIBLE_SUFFIXES = (".gov", ".gov.in", ".nic.in", ".edu", ".ac.in", ".int", ".mil")
 
 
@@ -64,9 +64,17 @@ def jev() -> TypeSafeClassifier:
     return TypeSafeClassifier()
 
 
+@cache
+def domain_quality() -> dict[str, float]:
+    with open(Path(__file__).with_name("domain_quality.csv"), newline="") as f:
+        return {row["domain"]: float(row["pc1"]) for row in csv.DictReader(f)}
+
+
 def credible(url: str) -> bool:
+    # Exact host only: the ratings list subdomains separately, and a platform's
+    # rating (blogspot.com, medium.com) says nothing about one blog on it.
     host = (urlparse(url).hostname or "").removeprefix("www.")
-    return host.endswith(CREDIBLE_SUFFIXES) or any(host == d or host.endswith("." + d) for d in CREDIBLE_DOMAINS)
+    return host.endswith(CREDIBLE_SUFFIXES) or domain_quality().get(host, 0) >= CREDIBLE_MIN
 
 
 def search_archive(claim: str, as_of: date) -> list[Passage]:

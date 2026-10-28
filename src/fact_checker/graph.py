@@ -19,7 +19,7 @@ from fact_checker.evidence import (
     SAME_CLAIM_MIN, Passage, gate, same_claim, search_archive, search_web,
 )
 
-MODEL = os.getenv("FACT_CHECKER_MODEL", "claude-opus-5-5")
+MODEL = os.getenv("FACT_CHECKER_MODEL", "claude-sonnet-5-5")
 MAX_CLAIMS = 5
 DEBATE_BELOW = 0.7  # judge confidence under which the debate runs (it always runs for "unverifiable")
 REMEMBER_MIN = 0.8  # judge confidence needed before a verdict is reused for other forwards
