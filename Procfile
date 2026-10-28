@@ -1,1 +1,1 @@
-web: streamlit run src/fact_checker/app.py --server.headless true --server.maxUploadSize 5
+web: uvicorn fact_checker.app:app --host 0.0.0.0 --port $PORT

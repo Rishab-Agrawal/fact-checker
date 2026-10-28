@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fact checker</title>
+  <meta name="description" content="Paste a forwarded message or screenshot. Get a verdict for each claim, with sources.">
+  <meta property="og:title" content="Fact checker">
+  <meta property="og:description" content="Paste a forwarded message or screenshot. Get a verdict for each claim, with sources.">
+  <meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#262624" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="/mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..600&family=Noto+Serif+Devanagari:wght@400..600&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body class="empty">
+  <main>
+    <h1 class="greeting">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="m9 12 2 2 4-4"/></svg>
+      What should we check?
+    </h1>
+    <ol class="messages" aria-live="polite"></ol>
+  </main>
+
+  <footer>
+    <form class="composer">
+      <div class="attachment" hidden>
+        <button type="button" class="remove" aria-label="Remove screenshot">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <textarea name="text" rows="1" maxlength="4000" placeholder="Paste a message or screenshot"
+                aria-label="Message to check"></textarea>
+      <div class="actions">
+        <button type="button" class="attach" aria-label="Add a screenshot" title="Add a screenshot">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        </button>
+        <input type="file" accept="image/png,image/jpeg,image/webp" hidden>
+        <button class="send" aria-label="Check" title="Check" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+        </button>
+      </div>
+    </form>
+    <p class="problem" role="alert" hidden></p>
+    <div class="examples">
+      <button type="button" data-text="Proud moment for every Indian! UNESCO has declared Jana Gana Mana the best national anthem in the world. Share with everyone!">UNESCO's best national anthem</button>
+      <button type="button" data-text="Japanese doctors advise: drinking hot water every 15 minutes washes the coronavirus into the stomach, where acid kills it. Forward to everyone you love.">Hot water kills the virus</button>
+      <button type="button" lang="hi" data-text="नासा ने पुष्टि की है कि दिसंबर में पृथ्वी पर 6 दिन तक पूरा अंधेरा रहेगा। सभी को बताएं।">दिसंबर में 6 दिन अंधेरा</button>
+    </div>
+    <p class="note">Verdicts can be wrong. Check the sources.</p>
+  </footer>
+
+  <template id="verdict-icons">
+    <svg data-verdict="true" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+    <svg data-verdict="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    <svg data-verdict="misleading" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+    <svg data-verdict="unverifiable" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+    <svg class="chevron" data-icon="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    <svg data-icon="copy" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+  </template>
+</body>
+</html>

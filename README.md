@@ -35,17 +35,20 @@ graph TD
   (a company's own blog) can still settle a claim.
 - **One Postgres** holds the archive, graph checkpoints and memory.
 - **Public, no login**: 10 checks per IP per day, and an admin Telegram bot that reports each check.
+- **FastAPI and one hand-written page, not a UI framework**: the API streams each step as it starts (LangGraph's
+  `tasks` stream mode), and the chat page owns every pixel. Failures reach the page only as a generic message.
 
 ## Run
 
 One Railway project, deployed from this repo:
 
-- **app**: the Streamlit page (`Procfile`). API keys are set here; the jobs reference them.
+- **app**: the API and chat page (`Procfile`). API keys are set here; the jobs reference them.
 - **ingest**: daily cron, `python -m fact_checker.ingest`. Adds new fact-checks to the archive.
 - **evals**: monthly cron, `python evals/averitec.py 5` (40 once cost per claim is known). Run it now with `railway cron run --service evals`.
 - **Postgres**: archive, checkpoints, memory and eval runs.
 
-Locally: copy `.env.example` to `.env` and run the same commands with `uv run`. Tests: `uv run pytest`.
+Locally: copy `.env.example` to `.env`, then `uv run uvicorn fact_checker.app:app --reload` and open
+http://localhost:8000. The jobs run the same commands with `uv run`. Tests: `uv run pytest`.
 
 ## Evals
 

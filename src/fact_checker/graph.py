@@ -281,6 +281,7 @@ REPLY_PROMPT = """Write the reply to someone who forwarded a message to check it
 
 - For each claim: its verdict, one short reason, and one source link if there is one.
 - Under 120 words, warm and respectful, no lecturing. Family members will read it.
+- Plain text, no markdown: it gets pasted into chats like WhatsApp.
 - If anything is false or misleading, gently suggest not forwarding it.
 - If there were no claims, say the message has no factual claim to check."""
 
