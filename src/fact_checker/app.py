@@ -29,7 +29,14 @@ STEPS = {
     "skeptic": "Argued it is false",
     "reply": "Wrote the reply",
 }
-VERDICTS = {"true": "✅ True", "false": "❌ False", "misleading": "⚠️ Misleading", "unverifiable": "❔ Unverified"}
+VERDICTS = {
+    "true": ":green-badge[:material/check: True]",
+    "false": ":red-badge[:material/close: False]",
+    "misleading": ":orange-badge[:material/warning: Misleading]",
+    "unverifiable": ":gray-badge[:material/help: Unverified]",
+}
+AVATAR = ":material/fact_check:"
+USER_AVATAR = ":material/person:"
 # ponytail: in-memory, so limits reset on redeploy and assume one replica; move to Postgres if the app scales out
 PER_IP_DAILY = 10
 
@@ -73,41 +80,71 @@ def graph():
     return builder.compile(checkpointer=saver, store=store)
 
 
-def run(payload, config) -> None:
-    with st.status("Checking…", expanded=True) as status:
-        for _, update in graph().stream(payload, config, stream_mode="updates", subgraphs=True):
+def config(thread: str) -> dict:
+    return {"configurable": {"thread_id": thread}}
+
+
+def run(payload, thread: str) -> None:
+    with st.status("Checking…") as status:
+        for _, update in graph().stream(payload, config(thread), stream_mode="updates", subgraphs=True):
             for node in update:
                 if node in STEPS:
+                    status.update(label=STEPS[node])
                     status.write(STEPS[node])
-        status.update(label="Done", state="complete", expanded=False)
+        status.update(label="Checked", state="complete")
 
 
-st.title("Is this forward true?")
-text = st.text_area("Forwarded message", height=160, max_chars=4000)
-image = st.file_uploader("Or a screenshot", type=["png", "jpg", "jpeg", "webp"])
+def show_forward(forward) -> None:
+    if forward["image"]:
+        st.image(base64.b64decode(forward["image"]), width=320)
+    if forward["text"]:
+        st.text(forward["text"])
 
-if st.button("Check", type="primary", disabled=not (text.strip() or image)):
-    ip = st.context.headers.get("X-Real-IP") or st.context.ip_address  # Railway's edge sets X-Real-IP
-    if allow(ip):
-        notify_admin(ip, text, image)
-        st.session_state.thread = uuid4().hex
-        forward = {
-            "text": text,
-            "image": base64.b64encode(image.getvalue()).decode() if image else None,
-            "image_type": image.type if image else None,
-            "received_at": datetime.now(timezone.utc).isoformat(),
-        }
-        run({"forward": forward}, {"configurable": {"thread_id": st.session_state.thread}})
-    else:
-        st.warning("Limit reached for now. Please try again later.")
 
-if "thread" in st.session_state:
-    snapshot = graph().get_state({"configurable": {"thread_id": st.session_state.thread}})
-    if reply := snapshot.values.get("reply"):
-        st.success(reply)
-        for r in snapshot.values.get("results", []):
-            with st.expander(f"{VERDICTS[r['verdict']]} · {r['claim']}"):
-                st.write(r["rationale"])
-                for s in r["sources"]:
-                    st.markdown(f"- [{s['title']}]({s['url']})")
-                st.caption(f"Confidence {r['confidence']:.0%}" + (" · from an earlier check" if r["from_memory"] else ""))
+def show_answer(values) -> None:
+    st.markdown(values["reply"])
+    for r in values.get("results", []):
+        with st.expander(f"{VERDICTS[r['verdict']]} {r['claim']}"):
+            st.write(r["rationale"])
+            for s in r["sources"]:
+                st.markdown(f"- [{s['title']}]({s['url']})")
+            st.caption(f"Confidence {r['confidence']:.0%}" + (" · from an earlier check" if r["from_memory"] else ""))
+
+
+st.set_page_config(page_title="Is this forward true?", page_icon=AVATAR)
+threads = st.session_state.setdefault("threads", [])
+
+if not threads:
+    st.space("large")
+    st.title("Is this forward true?", anchor=False, text_alignment="center")
+    st.markdown("Paste a forwarded message or attach a screenshot. You get a verdict for each claim, with sources.",
+                text_alignment="center")
+
+for thread in threads:
+    values = graph().get_state(config(thread)).values
+    with st.chat_message("user", avatar=USER_AVATAR):
+        show_forward(values["forward"])
+    with st.chat_message("assistant", avatar=AVATAR):
+        show_answer(values)
+
+if prompt := st.chat_input("Paste a forwarded message", max_chars=4000, accept_file=True,
+                           file_type=["png", "jpg", "jpeg", "webp"]):
+    image = prompt.files[0] if prompt.files else None
+    forward = {
+        "text": prompt.text,
+        "image": base64.b64encode(image.getvalue()).decode() if image else None,
+        "image_type": image.type if image else None,
+        "received_at": datetime.now(timezone.utc).isoformat(),
+    }
+    with st.chat_message("user", avatar=USER_AVATAR):
+        show_forward(forward)
+    with st.chat_message("assistant", avatar=AVATAR):
+        ip = st.context.headers.get("X-Real-IP") or st.context.ip_address  # Railway's edge sets X-Real-IP
+        if allow(ip):
+            notify_admin(ip, prompt.text, image)
+            thread = uuid4().hex
+            run({"forward": forward}, thread)
+            show_answer(graph().get_state(config(thread)).values)
+            threads.append(thread)
+        else:
+            st.markdown(f"You've reached today's limit of {PER_IP_DAILY} checks. Please try again tomorrow.")
