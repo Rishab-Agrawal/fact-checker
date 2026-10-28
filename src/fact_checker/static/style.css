@@ -1,20 +1,20 @@
 :root {
   color-scheme: light dark;
-  --bg: #faf9f5;
+  --bg: #fcfcfc;
   --surface: #ffffff;
-  --bubble: #f0eee6;
-  --text: #29261b;
-  --muted: #5e5a4e;
-  --placeholder: #6f6b60;
-  --border: #e3dfd3;
-  --border-strong: #cfcabb;
-  --accent: #c96442;
-  --link: #a8502f;
-  --true: #25693a;
-  --false: #a8322d;
-  --misleading: #9a4a0c;
-  --unverifiable: #5e5a4e;
-  --shadow: 0 0.25rem 1.25rem rgb(41 38 27 / 0.05);
+  --bubble: #f0f0f1;
+  --text: #18181b;
+  --muted: #63636b;
+  --placeholder: #71717a;
+  --border: #e6e6e9;
+  --border-strong: #d2d2d7;
+  --accent: #18181b;
+  --link: #18181b;
+  --true: #166534;
+  --false: #b91c1c;
+  --misleading: #8a4b05;
+  --unverifiable: #52525b;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 0.25rem 1rem rgb(0 0 0 / 0.04);
   --column: 44rem;
   --small: 0.875rem;
   --radius-sm: 0.5rem;
@@ -25,21 +25,21 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #262624;
-    --surface: #30302e;
-    --bubble: #141413;
-    --text: #ecebe4;
-    --muted: #a8a59b;
-    --placeholder: #9e9b91;
-    --border: #3e3e3a;
-    --border-strong: #55544e;
-    --accent: #d97757;
-    --link: #e8946f;
-    --true: #86cf96;
-    --false: #f2998e;
-    --misleading: #ecaa69;
-    --unverifiable: #bdbab0;
-    --shadow: 0 0.25rem 1.25rem rgb(0 0 0 / 0.25);
+    --bg: #111113;
+    --surface: #1c1c1f;
+    --bubble: #27272a;
+    --text: #ededef;
+    --muted: #a1a1aa;
+    --placeholder: #8e8e96;
+    --border: #2a2a2e;
+    --border-strong: #3f3f46;
+    --accent: #ededef;
+    --link: #ededef;
+    --true: #7dcf9a;
+    --false: #f0a19b;
+    --misleading: #e9ac74;
+    --unverifiable: #b4b4bc;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 0.25rem 1rem rgb(0 0 0 / 0.25);
   }
 }
 
@@ -58,7 +58,7 @@ body {
   flex-direction: column;
   background: var(--bg);
   color: var(--text);
-  font: 400 1rem/1.65 Literata, "Noto Serif Devanagari", serif;
+  font: 400 1rem/1.6 Geist, "Noto Sans Devanagari", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -79,6 +79,7 @@ svg {
 a {
   color: var(--link);
   text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
   text-underline-offset: 0.2em;
 }
 
@@ -110,9 +111,9 @@ body:not(.empty) .examples { display: none; }
   margin: 0;
   text-align: center;
   font-size: clamp(1.75rem, 7vw, 2.5rem);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
   text-wrap: balance;
 }
 
@@ -139,7 +140,7 @@ body:not(.empty) .examples { display: none; }
   view-transition-name: composer;
 }
 
-.composer:focus-within { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+.composer:focus-within { border-color: var(--border-strong); }
 .composer.dragging { border-color: var(--accent); }
 
 textarea {
@@ -183,11 +184,11 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
 .actions .send {
   border-color: transparent;
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
 }
 
 .actions .send:disabled { opacity: 0.4; }
-.actions .send:enabled:hover { background: color-mix(in srgb, var(--accent) 75%, var(--text)); }
+.actions .send:enabled:hover { background: color-mix(in srgb, var(--accent) 80%, var(--bg)); }
 .actions .send:enabled:active { transform: scale(0.94); }
 
 .attachment { position: relative; width: 4rem; height: 4rem; }
@@ -311,6 +312,7 @@ summary::-webkit-details-marker { display: none; }
 details[open] > summary .chevron { transform: rotate(180deg); }
 
 .progress summary {
+  font-variant-numeric: tabular-nums;
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -370,8 +372,11 @@ details[open] > summary .chevron { transform: rotate(180deg); }
   align-items: flex-start;
   gap: 0.625rem;
   padding: 0.625rem 0.875rem;
+  border-radius: calc(var(--radius) - 1px); /* inside the row's 1px border */
 }
 
+.claims summary:hover { background: color-mix(in srgb, var(--bubble) 50%, transparent); }
+.claims details[open] > summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 .claims summary .chevron { margin-top: 0.3rem; color: var(--muted); }
 .claim { flex: 1; }
 
@@ -406,7 +411,7 @@ details[open] > summary .chevron { transform: rotate(180deg); }
 .sources ::marker { color: var(--muted); }
 .sources li + li { margin-top: 0.25rem; }
 .domain { margin-left: 0.375rem; color: var(--muted); font-size: var(--small); }
-.evidence .meta { margin: 0; color: var(--muted); font-size: var(--small); }
+.evidence .meta { font-variant-numeric: tabular-nums; margin: 0; color: var(--muted); font-size: var(--small); }
 
 /* The composer glides from the centre to the bottom when the first check starts. */
 ::view-transition-group(composer) { animation-duration: 0.45s; animation-timing-function: var(--ease-out); }

@@ -165,7 +165,7 @@ async function check(payload, li) {
     }
     if (!done) throw new Error("Stream ended early");
   } catch {
-    fail(li, "Something went wrong. Please try again.", payload);
+    fail(li, "Something went wrong.", payload);
   } finally {
     busy = false;
     update();

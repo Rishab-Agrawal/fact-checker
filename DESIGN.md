@@ -1,53 +1,53 @@
 ---
 name: Fact checker
-description: Paste a forward, get a verdict per claim, in a claude.ai-style chat.
+description: Paste a forward, get a verdict per claim, in a familiar chat.
 colors:
-  accent: "#c96442"
-  link: "#a8502f"
-  bg: "#faf9f5"
+  accent: "#18181b"
+  link: "#18181b"
+  bg: "#fcfcfc"
   surface: "#ffffff"
-  bubble: "#f0eee6"
-  text: "#29261b"
-  muted: "#5e5a4e"
-  placeholder: "#6f6b60"
-  border: "#e3dfd3"
-  border-strong: "#cfcabb"
-  "true": "#25693a"
-  "false": "#a8322d"
-  misleading: "#9a4a0c"
-  unverifiable: "#5e5a4e"
-  accent-dark: "#d97757"
-  link-dark: "#e8946f"
-  bg-dark: "#262624"
-  surface-dark: "#30302e"
-  bubble-dark: "#141413"
-  text-dark: "#ecebe4"
-  muted-dark: "#a8a59b"
-  placeholder-dark: "#9e9b91"
-  border-dark: "#3e3e3a"
-  border-strong-dark: "#55544e"
-  true-dark: "#86cf96"
-  false-dark: "#f2998e"
-  misleading-dark: "#ecaa69"
-  unverifiable-dark: "#bdbab0"
+  bubble: "#f0f0f1"
+  text: "#18181b"
+  muted: "#63636b"
+  placeholder: "#71717a"
+  border: "#e6e6e9"
+  border-strong: "#d2d2d7"
+  "true": "#166534"
+  "false": "#b91c1c"
+  misleading: "#8a4b05"
+  unverifiable: "#52525b"
+  accent-dark: "#ededef"
+  link-dark: "#ededef"
+  bg-dark: "#111113"
+  surface-dark: "#1c1c1f"
+  bubble-dark: "#27272a"
+  text-dark: "#ededef"
+  muted-dark: "#a1a1aa"
+  placeholder-dark: "#8e8e96"
+  border-dark: "#2a2a2e"
+  border-strong-dark: "#3f3f46"
+  true-dark: "#7dcf9a"
+  false-dark: "#f0a19b"
+  misleading-dark: "#e9ac74"
+  unverifiable-dark: "#b4b4bc"
 typography:
   display:
-    fontFamily: "Literata, Noto Serif Devanagari, serif"
+    fontFamily: "Geist, Noto Sans Devanagari, sans-serif"
     fontSize: "clamp(1.75rem, 7vw, 2.5rem)"
-    fontWeight: 400
+    fontWeight: 500
     lineHeight: 1.2
-    letterSpacing: "-0.01em"
+    letterSpacing: "-0.025em"
   body:
-    fontFamily: "Literata, Noto Serif Devanagari, serif"
+    fontFamily: "Geist, Noto Sans Devanagari, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
-    lineHeight: 1.65
+    lineHeight: 1.6
   label:
-    fontFamily: "Literata, Noto Serif Devanagari, serif"
+    fontFamily: "Geist, Noto Sans Devanagari, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
   badge:
-    fontFamily: "Literata, Noto Serif Devanagari, serif"
+    fontFamily: "Geist, Noto Sans Devanagari, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 500
     lineHeight: 1.6
@@ -70,7 +70,7 @@ components:
     width: "44rem"
   send-button:
     backgroundColor: "{colors.accent}"
-    textColor: "#ffffff"
+    textColor: "{colors.bg}"
     rounded: "{rounded.sm}"
     size: "2rem"
   attach-button:
@@ -132,64 +132,65 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Familiar Assistant"**
+**Creative North Star: "Graphite"**
 
-A fact-checker that looks and behaves like the chat assistant people already use: claude.ai, pinned by the user and executed straight. One question, one input, then a conversation. The world is warm paper rather than white screen: an ivory ground, warm near-black ink, one terracotta accent and one serif voice. A dark twin on warm charcoal follows the device setting; there is no theme toggle.
+A fact-checker that behaves like the chat assistant people already use: claude.ai's flow, with its own look. One question, one input, then a conversation. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and grey user bubbles, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.
 
-Plain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names. Components read those properties (the send arrow's white is the one literal), so both themes come from one rule set.
+Plain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names, so both themes come from one rule set. The favicon (`mark.svg`) carries its own dark variant.
 
 **Key Characteristics:**
-- Warm ivory ground (charcoal in dark), a white composer card, sand user bubbles, unboxed replies.
-- One accent, terracotta, for the mark, the send button, focus and selection.
-- Literata in every role, Noto Serif Devanagari for Hindi; one small size.
+- Near-white ground (near-black in dark), a white composer card, grey user bubbles, unboxed replies.
+- No hue but the verdicts: ink fills the send button and draws the mark, focus ring, caret and selection.
+- Geist in every role, Noto Sans Devanagari for Hindi; one small size.
 - Verdicts as tinted badges pairing a colour, a drawn icon and a word.
 - Lucide-drawn line icons only; soft corners (0.5 / 0.75 / 1.25rem) and full pills.
 
 ## Colors
 
-Warm neutrals with one terracotta accent and four verdict colours that only ever mean a verdict. Each light token has a dark twin of the same name (`-dark` in the frontmatter); the stylesheet swaps them under `prefers-color-scheme: dark`.
+Cool greys from near-white to near-black, and four verdict colours that only ever mean a verdict. Each light token has a dark twin of the same name (`-dark` in the frontmatter); the stylesheet swaps them under `prefers-color-scheme: dark`.
 
 ### Primary
-- **Terracotta** (accent): the mark, the send button fill, the focus outline, the caret, the drag-over border and text selection (28% mix). At 3.7:1 on the ivory ground it is for glyphs, fills and outlines, never text.
-- **Terracotta Ink** (link): source and reply links (5.2:1 light, 6.4:1 dark).
+- **Ink** (accent, link): the same value as the text colour. The mark, the send button fill, the focus outline, the caret, the drag-over border, text selection (28% mix) and links (underlined at 35% of their colour, so they read as links without a hue).
 
 ### Neutral
-- **Ivory Ground / Charcoal Ground** (bg): the page and the `theme-color`.
-- **Paper White / Graphite Surface** (surface): the composer card and hovered example pills.
-- **Sand Bubble** (bubble): the user's message, and the hover fill of quiet buttons. In dark it sits below the ground (#141413), so the bubble reads as a well, not a raised card.
-- **Warm Ink** (text): all body text (14.4:1 light, 12.7:1 dark).
-- **Stone Gray** (muted): secondary text, the progress line, source domains, idle icon buttons (6.5:1).
-- **Placeholder**: the composer placeholder only (5.3:1 on the surface).
-- **Sand Rule** (border): every hairline. **Strong Rule** (border-strong): hovered pills and the scrollbar thumb.
+- **Near-white Ground / Near-black Ground** (bg): the page and the `theme-color`; also the send arrow and the remove-button cross, which sit on ink.
+- **White Surface / Graphite Surface** (surface): the composer card and hovered example pills.
+- **Grey Bubble** (bubble): the user's message and the hover fill of quiet buttons.
+- **Ink** (text): all body text.
+- **Zinc Gray** (muted): secondary text, the progress line, source domains, idle icon buttons.
+- **Placeholder**: the composer placeholder only.
+- **Hairline** (border): every rule. **Strong Hairline** (border-strong): the focused composer, hovered pills, the scrollbar thumb.
 
 ### Verdict
-- **True / False / Misleading / Unverifiable**: badge text, with a 14% tint of the same colour over the ground as the fill. All clear 5.9:1 on their ground in both themes. Unverifiable shares Stone Gray in light. False also colours the composer's inline error line.
+- **True / False / Misleading / Unverifiable**: badge text, over a 14% tint of the same colour on the ground. False also colours the composer's inline error line. The dark set sits in one lightness band just below the ink, so no verdict outshouts another or the text.
 
 ### Named Rules
-**The One Accent Rule.** Terracotta is the only non-verdict hue. No second accent; hovers deepen the accent by mixing it toward the text colour (75%) rather than introducing a new one.
+**The Ink Accent Rule.** There is no accent hue. Interactive emphasis is ink; hover softens it by mixing 80% ink toward the ground, never by adding a colour.
 
-**The Verdict Colour Rule.** Green, red, orange and the verdict gray appear only in verdict badges (and red in error text), each paired with its icon and word so colour never carries the meaning alone.
+**The Verdict Colour Rule.** Green, red, amber and the verdict gray appear only in verdict badges (and red in error text), each paired with its icon and word so colour never carries the meaning alone.
 
-**The Twin Rule.** A new colour is a new custom property with a value in both the light `:root` and the dark override. Never hard-code a colour in a component; the only literal is the send arrow's white, which sits on terracotta in both themes.
+**The Twin Rule.** A new colour is a new custom property with a value in both the light `:root` and the dark override. Never hard-code a colour in a component.
 
 ## Typography
 
-**Body Font:** Literata (variable, opsz 7..72, weights 400 to 600, Google Fonts), falling back to Noto Serif Devanagari, then serif.
-**Display Font:** Literata.
-**Devanagari:** Noto Serif Devanagari (400 to 600), reached through the same stack for Hindi text.
+**Body Font:** Geist (variable, 400 to 600, Google Fonts), falling back to Noto Sans Devanagari, then sans-serif.
+**Display Font:** Geist.
+**Devanagari:** Noto Sans Devanagari (400 to 600), reached through the same stack for Hindi text.
 
-**Character:** A bookish text serif in every role at regular weight; it reads as a calm letter, not a dashboard. The Devanagari serif matches its stroke so Hindi forwards sit in the same voice.
+**Character:** A plain, precise grotesque at regular weight; the greeting is the only tightened, heavier line. Geist is a user-confirmed choice (recorded as a detector ignore-value in `.impeccable/config.json`). The Devanagari sans matches its stroke so Hindi forwards sit in the same voice.
 
 ### Hierarchy
-- **Display** (400, clamp(1.75rem, 7vw, 2.5rem), 1.2, -0.01em, balanced wrap): the empty-page greeting only.
-- **Body** (400, 1rem, 1.65): replies, rationales, user messages, the composer.
+- **Display** (500, clamp(1.75rem, 7vw, 2.5rem), 1.2, -0.025em, balanced wrap): the empty-page greeting only.
+- **Body** (400, 1rem, 1.6): replies, rationales, user messages, the composer.
 - **Label** (400, 0.875rem): every secondary line: progress, example pills, copy and retry, domains, confidence, the footer note, the error line.
-- **Badge** (500, 0.875rem, 1.6): verdict badges; the only place weight changes.
+- **Badge** (500, 0.875rem, 1.6): verdict badges.
 
 ### Named Rules
 **The One Small Size Rule.** There are two text sizes in conversation: 1rem and `--small` (0.875rem). Nothing else.
 
-**The One Serif Rule.** Literata everywhere, with Noto Serif Devanagari only as its Hindi partner. No sans, no mono, no second display face.
+**The Tabular Figures Rule.** Changing numbers (the "Checked in Ns" time and the confidence percentage) use `font-variant-numeric: tabular-nums`.
+
+**The One Family Rule.** Geist everywhere, with Noto Sans Devanagari only as its Hindi partner. No serif, no mono, no second display face.
 
 ## Layout
 
@@ -197,46 +198,46 @@ One centred column, 44rem of content plus 1rem gutters, shared by `main` and `fo
 
 ## Elevation & Depth
 
-Nearly flat. Surfaces separate by tone and 1px hairlines; the one shadow is the composer's soft ambient lift, so the input reads as the object on the page.
+Nearly flat. Surfaces separate by tone and 1px hairlines; the one shadow is the composer's soft two-layer lift, so the input reads as the object on the page.
 
 ### Shadow Vocabulary
-- **Composer lift** (`box-shadow: 0 0.25rem 1.25rem rgb(41 38 27 / 0.05)`; dark `rgb(0 0 0 / 0.25)`): the composer only.
+- **Composer lift** (`box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 0.25rem 1rem rgb(0 0 0 / 0.04)`; dark `0.3` / `0.25` alpha): the composer only.
 
 ### Named Rules
 **The One Lift Rule.** Only the composer casts a shadow. Everything else is tone and hairline.
 
 ## Shapes
 
-Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for claim rows and image thumbnails, 1.25rem for the composer and user bubbles, full pills for example chips (and a circle for the attachment's remove button). Borders are 1px hairlines. Icons are Lucide line icons drawn inline (24 viewBox, 2px round stroke, `currentColor`), including the mark (Lucide's message-circle-check in terracotta). Never emoji or text glyphs.
+Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for claim rows and image thumbnails, 1.25rem for the composer and user bubbles, full pills for example chips (and a circle for the attachment's remove button). Borders are 1px hairlines. Icons are Lucide line icons drawn inline (24 viewBox, 2px round stroke, `currentColor`), including the mark (Lucide's message-circle-check in ink). Never emoji or text glyphs.
 
 ## Components
 
 ### Composer (signature)
 - **Character:** the one object on the page; a white two-row card.
-- **Shape:** 1.25rem corners, 1px rule, the composer lift.
+- **Shape:** 1.25rem corners, 1px hairline, the composer lift.
 - **Content:** the auto-growing textarea (to 40dvh) on top; an actions row below with attach on the left and send on the right. An attached screenshot shows as a 4rem thumbnail with a small ink-filled remove circle.
-- **Focus:** the border warms to a 55% terracotta mix; the textarea has no outline of its own. Drag-over sets the border to full terracotta.
-- **Motion:** on the first send the composer glides from the centre to the bottom with a View Transition (0.45s, `cubic-bezier(0.16, 1, 0.3, 1)`). Reduced motion removes it along with every other animation and transition.
+- **Focus:** the border steps up to Strong Hairline; the textarea has no outline of its own. Drag-over sets the border to ink.
+- **Motion:** the one motion moment. On the first send the composer glides from the centre to the bottom with a View Transition (0.45s, `cubic-bezier(0.16, 1, 0.3, 1)`). Reduced motion removes it along with every other animation and transition.
 
 ### Buttons
-- **Send:** terracotta square (0.5rem corners, 2rem) with a white up-arrow; disabled at 40% opacity; hover mixes the accent 75% toward the text colour; press scales to 0.94.
-- **Attach:** the same square, transparent with a rule border and a muted plus; hover fills Sand Bubble and turns the icon to ink.
-- **Quiet (copy, try again):** muted label text with an optional icon, 0.5rem corners; hover fills Sand Bubble. Try again carries a rule border, copy does not.
+- **Send:** ink square (0.5rem corners, 2rem) with a ground-coloured up-arrow; disabled at 40% opacity; hover mixes 80% ink toward the ground; press scales to 0.94.
+- **Attach:** the same square, transparent with a hairline border and a muted plus; hover fills Grey Bubble and turns the icon to ink.
+- **Quiet (copy, try again):** muted label text with an optional icon, 0.5rem corners; hover fills Grey Bubble. Try again carries a hairline border, copy does not.
 
 ### Chips (example pills)
-- **Style:** transparent, rule border, full pill, muted label text.
-- **Hover:** strong-rule border, surface fill, ink text. Shown only on the empty page.
+- **Style:** transparent, hairline border, full pill, muted label text.
+- **Hover:** strong-hairline border, surface fill, ink text. Shown only on the empty page.
 
 ### Messages
-- **User bubble:** Sand Bubble, 1.25rem corners, right-aligned; attached images sit above it with a rule border and 0.75rem corners.
+- **User bubble:** Grey Bubble, 1.25rem corners, right-aligned; attached images sit above it with a hairline border and 0.75rem corners.
 - **Reply:** unboxed body text with linkified URLs, followed by a copy button.
 - **Progress:** a disclosure line in muted label text with a chevron; while running, the current step pulses between muted and ink (1.6s), keeping full contrast at both ends.
 
 ### Cards / Containers (claim rows)
 - **Corner Style:** 0.75rem.
-- **Background:** none; 1px rule border.
+- **Background:** none; 1px hairline border; header hover a 50% Grey Bubble wash.
 - **Header:** verdict badge, the claim, and a muted chevron that rotates 180° on open (0.2s).
-- **Body:** separated by a rule; the rationale, a disc list of source links each with its muted domain, then the confidence line.
+- **Body:** separated by a hairline; the rationale, a disc list of source links each with its muted domain, then the confidence line.
 
 ### Verdict Badges
 Tinted 0.5rem-cornered badges: drawn icon plus one word in the verdict colour. Check/True, x/False, warning triangle/Misleading, circled question/Unverifiable.
@@ -246,12 +247,12 @@ Tinted 0.5rem-cornered badges: drawn icon plus one word in the verdict colour. C
 ### Do:
 - **Do** set colour, size, radius and easing through the `:root` custom properties, with a dark value for every colour.
 - **Do** pair every verdict colour with its icon and word.
-- **Do** use Terracotta Ink, not Terracotta, for any text-sized accent.
+- **Do** use tabular figures for any changing number.
 - **Do** draw new icons from Lucide, inline, stroked in `currentColor`.
 - **Do** keep every animation inside the reduced-motion reset.
 
 ### Don't:
-- **Don't** add a second accent colour or a second typeface.
+- **Don't** add an accent hue or a second typeface.
 - **Don't** use the verdict colours outside verdicts and error text.
 - **Don't** add a text size beyond the display, 1rem and 0.875rem.
 - **Don't** give anything but the composer a shadow.

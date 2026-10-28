@@ -1,427 +1,427 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-29T00:00:00Z",
+  "generatedAt": "2026-10-28T20:56:33.760Z",
   "title": "Design System: Fact checker",
   "extensions": {
     "colorMeta": {
       "accent": {
         "role": "primary",
-        "displayName": "Terracotta",
-        "canonical": "#c96442",
+        "displayName": "Ink",
+        "canonical": "#18181b",
         "tonalRamp": [
-          "oklch(15% 0.138 39)",
-          "oklch(27% 0.138 39)",
-          "oklch(39% 0.138 39)",
-          "oklch(51% 0.138 39)",
-          "oklch(63% 0.138 39)",
-          "oklch(75% 0.083 39)",
-          "oklch(86% 0.083 39)",
-          "oklch(95% 0.041 39)"
+          "oklch(15% 0.006 286)",
+          "oklch(27% 0.006 286)",
+          "oklch(39% 0.006 286)",
+          "oklch(51% 0.006 286)",
+          "oklch(63% 0.006 286)",
+          "oklch(75% 0.004 286)",
+          "oklch(86% 0.004 286)",
+          "oklch(95% 0.002 286)"
         ]
       },
       "link": {
         "role": "primary",
-        "displayName": "Terracotta Ink",
-        "canonical": "#a8502f",
+        "displayName": "Ink Link",
+        "canonical": "#18181b",
         "tonalRamp": [
-          "oklch(15% 0.125 40)",
-          "oklch(27% 0.125 40)",
-          "oklch(39% 0.125 40)",
-          "oklch(51% 0.125 40)",
-          "oklch(63% 0.125 40)",
-          "oklch(75% 0.075 40)",
-          "oklch(86% 0.075 40)",
-          "oklch(95% 0.038 40)"
+          "oklch(15% 0.006 286)",
+          "oklch(27% 0.006 286)",
+          "oklch(39% 0.006 286)",
+          "oklch(51% 0.006 286)",
+          "oklch(63% 0.006 286)",
+          "oklch(75% 0.004 286)",
+          "oklch(86% 0.004 286)",
+          "oklch(95% 0.002 286)"
         ]
       },
       "bg": {
         "role": "neutral",
-        "displayName": "Ivory Ground",
-        "canonical": "#faf9f5",
+        "displayName": "Near-white Ground",
+        "canonical": "#fcfcfc",
         "tonalRamp": [
-          "oklch(15% 0.005 95)",
-          "oklch(27% 0.005 95)",
-          "oklch(39% 0.005 95)",
-          "oklch(51% 0.005 95)",
-          "oklch(63% 0.005 95)",
-          "oklch(75% 0.003 95)",
-          "oklch(86% 0.003 95)",
-          "oklch(95% 0.002 95)"
+          "oklch(15% 0 286)",
+          "oklch(27% 0 286)",
+          "oklch(39% 0 286)",
+          "oklch(51% 0 286)",
+          "oklch(63% 0 286)",
+          "oklch(75% 0 286)",
+          "oklch(86% 0 286)",
+          "oklch(95% 0 286)"
         ]
       },
       "surface": {
         "role": "neutral",
-        "displayName": "Paper White",
+        "displayName": "White Surface",
         "canonical": "#ffffff",
         "tonalRamp": [
-          "oklch(15% 0.0 90)",
-          "oklch(27% 0.0 90)",
-          "oklch(39% 0.0 90)",
-          "oklch(51% 0.0 90)",
-          "oklch(63% 0.0 90)",
-          "oklch(75% 0.0 90)",
-          "oklch(86% 0.0 90)",
-          "oklch(95% 0.0 90)"
+          "oklch(15% 0 286)",
+          "oklch(27% 0 286)",
+          "oklch(39% 0 286)",
+          "oklch(51% 0 286)",
+          "oklch(63% 0 286)",
+          "oklch(75% 0 286)",
+          "oklch(86% 0 286)",
+          "oklch(95% 0 286)"
         ]
       },
       "bubble": {
         "role": "neutral",
-        "displayName": "Sand Bubble",
-        "canonical": "#f0eee6",
+        "displayName": "Grey Bubble",
+        "canonical": "#f0f0f1",
         "tonalRamp": [
-          "oklch(15% 0.011 95)",
-          "oklch(27% 0.011 95)",
-          "oklch(39% 0.011 95)",
-          "oklch(51% 0.011 95)",
-          "oklch(63% 0.011 95)",
-          "oklch(75% 0.007 95)",
-          "oklch(86% 0.007 95)",
-          "oklch(95% 0.003 95)"
+          "oklch(15% 0.002 286)",
+          "oklch(27% 0.002 286)",
+          "oklch(39% 0.002 286)",
+          "oklch(51% 0.002 286)",
+          "oklch(63% 0.002 286)",
+          "oklch(75% 0.001 286)",
+          "oklch(86% 0.001 286)",
+          "oklch(95% 0.001 286)"
         ]
       },
       "text": {
         "role": "neutral",
-        "displayName": "Warm Ink",
-        "canonical": "#29261b",
+        "displayName": "Ink",
+        "canonical": "#18181b",
         "tonalRamp": [
-          "oklch(15% 0.02 95)",
-          "oklch(27% 0.02 95)",
-          "oklch(39% 0.02 95)",
-          "oklch(51% 0.02 95)",
-          "oklch(63% 0.02 95)",
-          "oklch(75% 0.012 95)",
-          "oklch(86% 0.012 95)",
-          "oklch(95% 0.006 95)"
+          "oklch(15% 0.006 286)",
+          "oklch(27% 0.006 286)",
+          "oklch(39% 0.006 286)",
+          "oklch(51% 0.006 286)",
+          "oklch(63% 0.006 286)",
+          "oklch(75% 0.004 286)",
+          "oklch(86% 0.004 286)",
+          "oklch(95% 0.002 286)"
         ]
       },
       "muted": {
         "role": "neutral",
-        "displayName": "Stone Gray",
-        "canonical": "#5e5a4e",
+        "displayName": "Zinc Gray",
+        "canonical": "#63636b",
         "tonalRamp": [
-          "oklch(15% 0.019 92)",
-          "oklch(27% 0.019 92)",
-          "oklch(39% 0.019 92)",
-          "oklch(51% 0.019 92)",
-          "oklch(63% 0.019 92)",
-          "oklch(75% 0.012 92)",
-          "oklch(86% 0.012 92)",
-          "oklch(95% 0.006 92)"
+          "oklch(15% 0.014 286)",
+          "oklch(27% 0.014 286)",
+          "oklch(39% 0.014 286)",
+          "oklch(51% 0.014 286)",
+          "oklch(63% 0.014 286)",
+          "oklch(75% 0.008 286)",
+          "oklch(86% 0.008 286)",
+          "oklch(95% 0.004 286)"
         ]
       },
       "placeholder": {
         "role": "neutral",
-        "displayName": "Pale Stone",
-        "canonical": "#6f6b60",
+        "displayName": "Placeholder",
+        "canonical": "#71717a",
         "tonalRamp": [
-          "oklch(15% 0.018 90)",
-          "oklch(27% 0.018 90)",
-          "oklch(39% 0.018 90)",
-          "oklch(51% 0.018 90)",
-          "oklch(63% 0.018 90)",
-          "oklch(75% 0.011 90)",
-          "oklch(86% 0.011 90)",
-          "oklch(95% 0.005 90)"
+          "oklch(15% 0.016 286)",
+          "oklch(27% 0.016 286)",
+          "oklch(39% 0.016 286)",
+          "oklch(51% 0.016 286)",
+          "oklch(63% 0.016 286)",
+          "oklch(75% 0.01 286)",
+          "oklch(86% 0.01 286)",
+          "oklch(95% 0.005 286)"
         ]
       },
       "border": {
         "role": "neutral",
-        "displayName": "Sand Rule",
-        "canonical": "#e3dfd3",
+        "displayName": "Hairline",
+        "canonical": "#e6e6e9",
         "tonalRamp": [
-          "oklch(15% 0.017 92)",
-          "oklch(27% 0.017 92)",
-          "oklch(39% 0.017 92)",
-          "oklch(51% 0.017 92)",
-          "oklch(63% 0.017 92)",
-          "oklch(75% 0.01 92)",
-          "oklch(86% 0.01 92)",
-          "oklch(95% 0.005 92)"
+          "oklch(15% 0.004 286)",
+          "oklch(27% 0.004 286)",
+          "oklch(39% 0.004 286)",
+          "oklch(51% 0.004 286)",
+          "oklch(63% 0.004 286)",
+          "oklch(75% 0.002 286)",
+          "oklch(86% 0.002 286)",
+          "oklch(95% 0.001 286)"
         ]
       },
       "border-strong": {
         "role": "neutral",
-        "displayName": "Strong Sand Rule",
-        "canonical": "#cfcabb",
+        "displayName": "Strong Hairline",
+        "canonical": "#d2d2d7",
         "tonalRamp": [
-          "oklch(15% 0.021 92)",
-          "oklch(27% 0.021 92)",
-          "oklch(39% 0.021 92)",
-          "oklch(51% 0.021 92)",
-          "oklch(63% 0.021 92)",
-          "oklch(75% 0.013 92)",
-          "oklch(86% 0.013 92)",
-          "oklch(95% 0.006 92)"
+          "oklch(15% 0.007 286)",
+          "oklch(27% 0.007 286)",
+          "oklch(39% 0.007 286)",
+          "oklch(51% 0.007 286)",
+          "oklch(63% 0.007 286)",
+          "oklch(75% 0.004 286)",
+          "oklch(86% 0.004 286)",
+          "oklch(95% 0.002 286)"
         ]
       },
       "true": {
         "role": "verdict",
         "displayName": "Verdict Green",
-        "canonical": "#25693a",
+        "canonical": "#166534",
         "tonalRamp": [
-          "oklch(15% 0.102 151)",
-          "oklch(27% 0.102 151)",
-          "oklch(39% 0.102 151)",
-          "oklch(51% 0.102 151)",
-          "oklch(63% 0.102 151)",
-          "oklch(75% 0.061 151)",
-          "oklch(86% 0.061 151)",
-          "oklch(95% 0.031 151)"
+          "oklch(15% 0.119 151)",
+          "oklch(27% 0.119 151)",
+          "oklch(39% 0.119 151)",
+          "oklch(51% 0.119 151)",
+          "oklch(63% 0.119 151)",
+          "oklch(75% 0.071 151)",
+          "oklch(86% 0.071 151)",
+          "oklch(95% 0.036 151)"
         ]
       },
       "false": {
         "role": "verdict",
         "displayName": "Verdict Red",
-        "canonical": "#a8322d",
+        "canonical": "#b91c1c",
         "tonalRamp": [
-          "oklch(15% 0.15 27)",
-          "oklch(27% 0.15 27)",
-          "oklch(39% 0.15 27)",
-          "oklch(51% 0.15 27)",
-          "oklch(63% 0.15 27)",
-          "oklch(75% 0.09 27)",
-          "oklch(86% 0.09 27)",
-          "oklch(95% 0.045 27)"
+          "oklch(15% 0.213 27)",
+          "oklch(27% 0.213 27)",
+          "oklch(39% 0.213 27)",
+          "oklch(51% 0.213 27)",
+          "oklch(63% 0.213 27)",
+          "oklch(75% 0.128 27)",
+          "oklch(86% 0.128 27)",
+          "oklch(95% 0.064 27)"
         ]
       },
       "misleading": {
         "role": "verdict",
         "displayName": "Verdict Amber",
-        "canonical": "#9a4a0c",
+        "canonical": "#8a4b05",
         "tonalRamp": [
-          "oklch(15% 0.126 51)",
-          "oklch(27% 0.126 51)",
-          "oklch(39% 0.126 51)",
-          "oklch(51% 0.126 51)",
-          "oklch(63% 0.126 51)",
-          "oklch(75% 0.075 51)",
-          "oklch(86% 0.075 51)",
-          "oklch(95% 0.038 51)"
+          "oklch(15% 0.11 60)",
+          "oklch(27% 0.11 60)",
+          "oklch(39% 0.11 60)",
+          "oklch(51% 0.11 60)",
+          "oklch(63% 0.11 60)",
+          "oklch(75% 0.066 60)",
+          "oklch(86% 0.066 60)",
+          "oklch(95% 0.033 60)"
         ]
       },
       "unverifiable": {
         "role": "verdict",
-        "displayName": "Verdict Stone",
-        "canonical": "#5e5a4e",
+        "displayName": "Verdict Zinc",
+        "canonical": "#52525b",
         "tonalRamp": [
-          "oklch(15% 0.019 92)",
-          "oklch(27% 0.019 92)",
-          "oklch(39% 0.019 92)",
-          "oklch(51% 0.019 92)",
-          "oklch(63% 0.019 92)",
-          "oklch(75% 0.012 92)",
-          "oklch(86% 0.012 92)",
-          "oklch(95% 0.006 92)"
+          "oklch(15% 0.017 286)",
+          "oklch(27% 0.017 286)",
+          "oklch(39% 0.017 286)",
+          "oklch(51% 0.017 286)",
+          "oklch(63% 0.017 286)",
+          "oklch(75% 0.01 286)",
+          "oklch(86% 0.01 286)",
+          "oklch(95% 0.005 286)"
         ]
       },
       "accent-dark": {
         "role": "primary",
-        "displayName": "Lit Terracotta",
-        "canonical": "#d97757",
+        "displayName": "Light Ink",
+        "canonical": "#ededef",
         "tonalRamp": [
-          "oklch(15% 0.131 39)",
-          "oklch(27% 0.131 39)",
-          "oklch(39% 0.131 39)",
-          "oklch(51% 0.131 39)",
-          "oklch(63% 0.131 39)",
-          "oklch(75% 0.079 39)",
-          "oklch(86% 0.079 39)",
-          "oklch(95% 0.039 39)"
+          "oklch(15% 0.003 286)",
+          "oklch(27% 0.003 286)",
+          "oklch(39% 0.003 286)",
+          "oklch(51% 0.003 286)",
+          "oklch(63% 0.003 286)",
+          "oklch(75% 0.002 286)",
+          "oklch(86% 0.002 286)",
+          "oklch(95% 0.001 286)"
         ]
       },
       "link-dark": {
         "role": "primary",
-        "displayName": "Terracotta Glow",
-        "canonical": "#e8946f",
+        "displayName": "Light Ink Link",
+        "canonical": "#ededef",
         "tonalRamp": [
-          "oklch(15% 0.114 44)",
-          "oklch(27% 0.114 44)",
-          "oklch(39% 0.114 44)",
-          "oklch(51% 0.114 44)",
-          "oklch(63% 0.114 44)",
-          "oklch(75% 0.068 44)",
-          "oklch(86% 0.068 44)",
-          "oklch(95% 0.034 44)"
+          "oklch(15% 0.003 286)",
+          "oklch(27% 0.003 286)",
+          "oklch(39% 0.003 286)",
+          "oklch(51% 0.003 286)",
+          "oklch(63% 0.003 286)",
+          "oklch(75% 0.002 286)",
+          "oklch(86% 0.002 286)",
+          "oklch(95% 0.001 286)"
         ]
       },
       "bg-dark": {
         "role": "neutral",
-        "displayName": "Charcoal Ground",
-        "canonical": "#262624",
+        "displayName": "Near-black Ground",
+        "canonical": "#111113",
         "tonalRamp": [
-          "oklch(15% 0.004 107)",
-          "oklch(27% 0.004 107)",
-          "oklch(39% 0.004 107)",
-          "oklch(51% 0.004 107)",
-          "oklch(63% 0.004 107)",
-          "oklch(75% 0.002 107)",
-          "oklch(86% 0.002 107)",
-          "oklch(95% 0.001 107)"
+          "oklch(15% 0.004 286)",
+          "oklch(27% 0.004 286)",
+          "oklch(39% 0.004 286)",
+          "oklch(51% 0.004 286)",
+          "oklch(63% 0.004 286)",
+          "oklch(75% 0.002 286)",
+          "oklch(86% 0.002 286)",
+          "oklch(95% 0.001 286)"
         ]
       },
       "surface-dark": {
         "role": "neutral",
         "displayName": "Graphite Surface",
-        "canonical": "#30302e",
+        "canonical": "#1c1c1f",
         "tonalRamp": [
-          "oklch(15% 0.004 107)",
-          "oklch(27% 0.004 107)",
-          "oklch(39% 0.004 107)",
-          "oklch(51% 0.004 107)",
-          "oklch(63% 0.004 107)",
-          "oklch(75% 0.002 107)",
-          "oklch(86% 0.002 107)",
-          "oklch(95% 0.001 107)"
+          "oklch(15% 0.005 286)",
+          "oklch(27% 0.005 286)",
+          "oklch(39% 0.005 286)",
+          "oklch(51% 0.005 286)",
+          "oklch(63% 0.005 286)",
+          "oklch(75% 0.003 286)",
+          "oklch(86% 0.003 286)",
+          "oklch(95% 0.002 286)"
         ]
       },
       "bubble-dark": {
         "role": "neutral",
-        "displayName": "Night Bubble",
-        "canonical": "#141413",
+        "displayName": "Dark Grey Bubble",
+        "canonical": "#27272a",
         "tonalRamp": [
-          "oklch(15% 0.002 107)",
-          "oklch(27% 0.002 107)",
-          "oklch(39% 0.002 107)",
-          "oklch(51% 0.002 107)",
-          "oklch(63% 0.002 107)",
-          "oklch(75% 0.001 107)",
-          "oklch(86% 0.001 107)",
-          "oklch(95% 0.001 107)"
+          "oklch(15% 0.006 286)",
+          "oklch(27% 0.006 286)",
+          "oklch(39% 0.006 286)",
+          "oklch(51% 0.006 286)",
+          "oklch(63% 0.006 286)",
+          "oklch(75% 0.004 286)",
+          "oklch(86% 0.004 286)",
+          "oklch(95% 0.002 286)"
         ]
       },
       "text-dark": {
         "role": "neutral",
-        "displayName": "Parchment Ink",
-        "canonical": "#ecebe4",
+        "displayName": "Light Ink",
+        "canonical": "#ededef",
         "tonalRamp": [
-          "oklch(15% 0.009 100)",
-          "oklch(27% 0.009 100)",
-          "oklch(39% 0.009 100)",
-          "oklch(51% 0.009 100)",
-          "oklch(63% 0.009 100)",
-          "oklch(75% 0.006 100)",
-          "oklch(86% 0.006 100)",
-          "oklch(95% 0.003 100)"
+          "oklch(15% 0.003 286)",
+          "oklch(27% 0.003 286)",
+          "oklch(39% 0.003 286)",
+          "oklch(51% 0.003 286)",
+          "oklch(63% 0.003 286)",
+          "oklch(75% 0.002 286)",
+          "oklch(86% 0.002 286)",
+          "oklch(95% 0.001 286)"
         ]
       },
       "muted-dark": {
         "role": "neutral",
-        "displayName": "Dusk Gray",
-        "canonical": "#a8a59b",
+        "displayName": "Light Zinc Gray",
+        "canonical": "#a1a1aa",
         "tonalRamp": [
-          "oklch(15% 0.015 93)",
-          "oklch(27% 0.015 93)",
-          "oklch(39% 0.015 93)",
-          "oklch(51% 0.015 93)",
-          "oklch(63% 0.015 93)",
-          "oklch(75% 0.009 93)",
-          "oklch(86% 0.009 93)",
-          "oklch(95% 0.004 93)"
+          "oklch(15% 0.015 286)",
+          "oklch(27% 0.015 286)",
+          "oklch(39% 0.015 286)",
+          "oklch(51% 0.015 286)",
+          "oklch(63% 0.015 286)",
+          "oklch(75% 0.009 286)",
+          "oklch(86% 0.009 286)",
+          "oklch(95% 0.004 286)"
         ]
       },
       "placeholder-dark": {
         "role": "neutral",
-        "displayName": "Pale Dusk",
-        "canonical": "#9e9b91",
+        "displayName": "Dark Placeholder",
+        "canonical": "#8e8e96",
         "tonalRamp": [
-          "oklch(15% 0.015 93)",
-          "oklch(27% 0.015 93)",
-          "oklch(39% 0.015 93)",
-          "oklch(51% 0.015 93)",
-          "oklch(63% 0.015 93)",
-          "oklch(75% 0.009 93)",
-          "oklch(86% 0.009 93)",
-          "oklch(95% 0.004 93)"
+          "oklch(15% 0.014 286)",
+          "oklch(27% 0.014 286)",
+          "oklch(39% 0.014 286)",
+          "oklch(51% 0.014 286)",
+          "oklch(63% 0.014 286)",
+          "oklch(75% 0.008 286)",
+          "oklch(86% 0.008 286)",
+          "oklch(95% 0.004 286)"
         ]
       },
       "border-dark": {
         "role": "neutral",
-        "displayName": "Slate Rule",
-        "canonical": "#3e3e3a",
+        "displayName": "Dark Hairline",
+        "canonical": "#2a2a2e",
         "tonalRamp": [
-          "oklch(15% 0.007 107)",
-          "oklch(27% 0.007 107)",
-          "oklch(39% 0.007 107)",
-          "oklch(51% 0.007 107)",
-          "oklch(63% 0.007 107)",
-          "oklch(75% 0.004 107)",
-          "oklch(86% 0.004 107)",
-          "oklch(95% 0.002 107)"
+          "oklch(15% 0.007 286)",
+          "oklch(27% 0.007 286)",
+          "oklch(39% 0.007 286)",
+          "oklch(51% 0.007 286)",
+          "oklch(63% 0.007 286)",
+          "oklch(75% 0.004 286)",
+          "oklch(86% 0.004 286)",
+          "oklch(95% 0.002 286)"
         ]
       },
       "border-strong-dark": {
         "role": "neutral",
-        "displayName": "Strong Slate Rule",
-        "canonical": "#55544e",
+        "displayName": "Strong Dark Hairline",
+        "canonical": "#3f3f46",
         "tonalRamp": [
-          "oklch(15% 0.01 99)",
-          "oklch(27% 0.01 99)",
-          "oklch(39% 0.01 99)",
-          "oklch(51% 0.01 99)",
-          "oklch(63% 0.01 99)",
-          "oklch(75% 0.006 99)",
-          "oklch(86% 0.006 99)",
-          "oklch(95% 0.003 99)"
+          "oklch(15% 0.012 286)",
+          "oklch(27% 0.012 286)",
+          "oklch(39% 0.012 286)",
+          "oklch(51% 0.012 286)",
+          "oklch(63% 0.012 286)",
+          "oklch(75% 0.007 286)",
+          "oklch(86% 0.007 286)",
+          "oklch(95% 0.004 286)"
         ]
       },
       "true-dark": {
         "role": "verdict",
         "displayName": "Verdict Mint",
-        "canonical": "#86cf96",
+        "canonical": "#7dcf9a",
         "tonalRamp": [
-          "oklch(15% 0.109 150)",
-          "oklch(27% 0.109 150)",
-          "oklch(39% 0.109 150)",
-          "oklch(51% 0.109 150)",
-          "oklch(63% 0.109 150)",
-          "oklch(75% 0.065 150)",
-          "oklch(86% 0.065 150)",
-          "oklch(95% 0.033 150)"
+          "oklch(15% 0.12 155)",
+          "oklch(27% 0.12 155)",
+          "oklch(39% 0.12 155)",
+          "oklch(51% 0.12 155)",
+          "oklch(63% 0.12 155)",
+          "oklch(75% 0.072 155)",
+          "oklch(86% 0.072 155)",
+          "oklch(95% 0.036 155)"
         ]
       },
       "false-dark": {
         "role": "verdict",
-        "displayName": "Verdict Coral",
-        "canonical": "#f2998e",
+        "displayName": "Verdict Rose",
+        "canonical": "#f0a19b",
         "tonalRamp": [
-          "oklch(15% 0.109 27)",
-          "oklch(27% 0.109 27)",
-          "oklch(39% 0.109 27)",
-          "oklch(51% 0.109 27)",
-          "oklch(63% 0.109 27)",
-          "oklch(75% 0.065 27)",
-          "oklch(86% 0.065 27)",
-          "oklch(95% 0.033 27)"
+          "oklch(15% 0.095 24)",
+          "oklch(27% 0.095 24)",
+          "oklch(39% 0.095 24)",
+          "oklch(51% 0.095 24)",
+          "oklch(63% 0.095 24)",
+          "oklch(75% 0.057 24)",
+          "oklch(86% 0.057 24)",
+          "oklch(95% 0.028 24)"
         ]
       },
       "misleading-dark": {
         "role": "verdict",
         "displayName": "Verdict Apricot",
-        "canonical": "#ecaa69",
+        "canonical": "#e9ac74",
         "tonalRamp": [
-          "oklch(15% 0.113 64)",
-          "oklch(27% 0.113 64)",
-          "oklch(39% 0.113 64)",
-          "oklch(51% 0.113 64)",
-          "oklch(63% 0.113 64)",
-          "oklch(75% 0.068 64)",
-          "oklch(86% 0.068 64)",
-          "oklch(95% 0.034 64)"
+          "oklch(15% 0.1 65)",
+          "oklch(27% 0.1 65)",
+          "oklch(39% 0.1 65)",
+          "oklch(51% 0.1 65)",
+          "oklch(63% 0.1 65)",
+          "oklch(75% 0.06 65)",
+          "oklch(86% 0.06 65)",
+          "oklch(95% 0.03 65)"
         ]
       },
       "unverifiable-dark": {
         "role": "verdict",
-        "displayName": "Verdict Ash",
-        "canonical": "#bdbab0",
+        "displayName": "Verdict Light Zinc",
+        "canonical": "#b4b4bc",
         "tonalRamp": [
-          "oklch(15% 0.014 93)",
-          "oklch(27% 0.014 93)",
-          "oklch(39% 0.014 93)",
-          "oklch(51% 0.014 93)",
-          "oklch(63% 0.014 93)",
-          "oklch(75% 0.009 93)",
-          "oklch(86% 0.009 93)",
-          "oklch(95% 0.004 93)"
+          "oklch(15% 0.012 286)",
+          "oklch(27% 0.012 286)",
+          "oklch(39% 0.012 286)",
+          "oklch(51% 0.012 286)",
+          "oklch(63% 0.012 286)",
+          "oklch(75% 0.007 286)",
+          "oklch(86% 0.007 286)",
+          "oklch(95% 0.004 286)"
         ]
       }
     },
@@ -440,18 +440,18 @@
       },
       "badge": {
         "displayName": "Badge",
-        "purpose": "Verdict badges; the only weight change."
+        "purpose": "Verdict badges."
       }
     },
     "shadows": [
       {
         "name": "composer-lift",
-        "value": "0 0.25rem 1.25rem rgb(41 38 27 / 0.05)",
+        "value": "0 1px 2px rgb(0 0 0 / 0.04), 0 0.25rem 1rem rgb(0 0 0 / 0.04)",
         "purpose": "The composer only (light)."
       },
       {
         "name": "composer-lift-dark",
-        "value": "0 0.25rem 1.25rem rgb(0 0 0 / 0.25)",
+        "value": "0 1px 2px rgb(0 0 0 / 0.3), 0 0.25rem 1rem rgb(0 0 0 / 0.25)",
         "purpose": "The composer only (dark)."
       }
     ],
@@ -464,7 +464,7 @@
       {
         "name": "composer-glide",
         "value": "View Transition, 0.45s, ease-out",
-        "purpose": "On the first send the composer glides from the centre to the bottom."
+        "purpose": "The one motion moment: on the first send the composer glides from the centre to the bottom."
       },
       {
         "name": "state-fade",
@@ -507,23 +507,23 @@
       "refersTo": "composer",
       "description": "The single entry point: text or one screenshot, attach left, send right.",
       "html": "<form class=\"ds-composer\"><textarea rows=\"1\" placeholder=\"Paste a message or screenshot\" aria-label=\"Message to check\"></textarea><div class=\"ds-actions\"><button type=\"button\" class=\"ds-attach\" aria-label=\"Add a screenshot\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg></button><button type=\"button\" class=\"ds-send\" aria-label=\"Check\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12 7-7 7 7\"/><path d=\"M12 19V5\"/></svg></button></div></form>",
-      "css": ".ds-composer { display: flex; flex-direction: column; gap: 0.5rem; max-width: 44rem; padding: 0.875rem 0.75rem 0.625rem 1rem; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); font: 400 1rem/1.65 Literata, 'Noto Serif Devanagari', serif; transition: border-color 0.15s; } .ds-composer:focus-within { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); } .ds-composer textarea { padding: 0; border: 0; outline: 0; resize: none; background: none; color: inherit; font: inherit; caret-color: var(--accent); } .ds-composer textarea::placeholder { color: var(--placeholder); opacity: 1; } .ds-actions { display: flex; justify-content: space-between; align-items: center; } .ds-attach { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border-radius: var(--radius-sm); cursor: pointer; transition: background-color 0.15s, color 0.15s, opacity 0.15s; border: 1px solid var(--border); background: none; color: var(--muted); } .ds-attach svg { width: 1.125rem; height: 1.125rem; } .ds-attach:hover { background: var(--bubble); color: var(--text); } .ds-attach:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; } .ds-send { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border-radius: var(--radius-sm); cursor: pointer; transition: background-color 0.15s, color 0.15s, opacity 0.15s; border: 1px solid transparent; background: var(--accent); color: #fff; } .ds-send svg { width: 1.125rem; height: 1.125rem; } .ds-send:disabled { opacity: 0.4; cursor: default; } .ds-send:enabled:hover { background: color-mix(in srgb, var(--accent) 75%, var(--text)); } .ds-send:enabled:active { transform: scale(0.94); } .ds-send:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+      "css": ".ds-composer { display: flex; flex-direction: column; gap: 0.5rem; max-width: 44rem; padding: 0.875rem 0.75rem 0.625rem 1rem; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow); font: 400 1rem/1.6 Geist, 'Noto Sans Devanagari', sans-serif; transition: border-color 0.15s; } .ds-composer:focus-within { border-color: var(--border-strong); } .ds-composer textarea { padding: 0; border: 0; outline: 0; resize: none; background: none; color: inherit; font: inherit; caret-color: var(--accent); } .ds-composer textarea::placeholder { color: var(--placeholder); opacity: 1; } .ds-actions { display: flex; justify-content: space-between; align-items: center; } .ds-attach { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border-radius: var(--radius-sm); cursor: pointer; transition: background-color 0.15s, color 0.15s, opacity 0.15s; border: 1px solid var(--border); background: none; color: var(--muted); } .ds-attach svg { width: 1.125rem; height: 1.125rem; } .ds-attach:hover { background: var(--bubble); color: var(--text); } .ds-attach:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; } .ds-send { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border-radius: var(--radius-sm); cursor: pointer; transition: background-color 0.15s, color 0.15s, opacity 0.15s; border: 1px solid transparent; background: var(--accent); color: var(--bg); } .ds-send svg { width: 1.125rem; height: 1.125rem; } .ds-send:disabled { opacity: 0.4; cursor: default; } .ds-send:enabled:hover { background: color-mix(in srgb, var(--accent) 80%, var(--bg)); } .ds-send:enabled:active { transform: scale(0.94); } .ds-send:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
     },
     {
       "name": "Send Button",
       "kind": "button",
       "refersTo": "send-button",
-      "description": "Terracotta square with a drawn up-arrow, enabled and disabled; the only filled button.",
+      "description": "Ink square with a drawn up-arrow, enabled and disabled; the only filled button.",
       "html": "<button class=\"ds-send\" aria-label=\"Check\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12 7-7 7 7\"/><path d=\"M12 19V5\"/></svg></button> <button class=\"ds-send\" aria-label=\"Check\" disabled><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m5 12 7-7 7 7\"/><path d=\"M12 19V5\"/></svg></button>",
-      "css": ".ds-send { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border-radius: var(--radius-sm); cursor: pointer; transition: background-color 0.15s, color 0.15s, opacity 0.15s; border: 1px solid transparent; background: var(--accent); color: #fff; } .ds-send svg { width: 1.125rem; height: 1.125rem; } .ds-send:disabled { opacity: 0.4; cursor: default; } .ds-send:enabled:hover { background: color-mix(in srgb, var(--accent) 75%, var(--text)); } .ds-send:enabled:active { transform: scale(0.94); } .ds-send:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+      "css": ".ds-send { display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border-radius: var(--radius-sm); cursor: pointer; transition: background-color 0.15s, color 0.15s, opacity 0.15s; border: 1px solid transparent; background: var(--accent); color: var(--bg); } .ds-send svg { width: 1.125rem; height: 1.125rem; } .ds-send:disabled { opacity: 0.4; cursor: default; } .ds-send:enabled:hover { background: color-mix(in srgb, var(--accent) 80%, var(--bg)); } .ds-send:enabled:active { transform: scale(0.94); } .ds-send:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
     },
     {
       "name": "Quiet Button",
       "kind": "button",
       "refersTo": "quiet-button",
-      "description": "Copy reply and try again: muted label text, Sand Bubble on hover.",
+      "description": "Copy reply and try again: muted label text, Grey Bubble on hover.",
       "html": "<button class=\"ds-quiet\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg>Copy reply</button> <button class=\"ds-quiet ds-quiet-bordered\">Try again</button>",
-      "css": ".ds-quiet { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.5rem; border: 1px solid transparent; border-radius: var(--radius-sm); background: none; color: var(--muted); font: 400 0.875rem Literata, 'Noto Serif Devanagari', serif; cursor: pointer; transition: background-color 0.15s, color 0.15s; } .ds-quiet svg { width: 1rem; height: 1rem; } .ds-quiet-bordered { border-color: var(--border); } .ds-quiet:hover { background: var(--bubble); color: var(--text); } .ds-quiet:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+      "css": ".ds-quiet { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.5rem; border: 1px solid transparent; border-radius: var(--radius-sm); background: none; color: var(--muted); font: 400 0.875rem Geist, 'Noto Sans Devanagari', sans-serif; cursor: pointer; transition: background-color 0.15s, color 0.15s; } .ds-quiet svg { width: 1rem; height: 1rem; } .ds-quiet-bordered { border-color: var(--border); } .ds-quiet:hover { background: var(--bubble); color: var(--text); } .ds-quiet:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
     },
     {
       "name": "Example Pill",
@@ -531,22 +531,22 @@
       "refersTo": "example-pill",
       "description": "Starts a check from a sample forward; empty page only.",
       "html": "<div class=\"ds-pills\"><button class=\"ds-pill\">UNESCO's best national anthem</button><button class=\"ds-pill\">Hot water kills the virus</button><button class=\"ds-pill\" lang=\"hi\">दिसंबर में 6 दिन अंधेरा</button></div>",
-      "css": ".ds-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; } .ds-pill { padding: 0.375rem 0.875rem; border: 1px solid var(--border); border-radius: 999px; background: none; color: var(--muted); font: 400 0.875rem Literata, 'Noto Serif Devanagari', serif; cursor: pointer; transition: background-color 0.15s, color 0.15s, border-color 0.15s; } .ds-pill:hover { border-color: var(--border-strong); background: var(--surface); color: var(--text); } .ds-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
+      "css": ".ds-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; } .ds-pill { padding: 0.375rem 0.875rem; border: 1px solid var(--border); border-radius: 999px; background: none; color: var(--muted); font: 400 0.875rem Geist, 'Noto Sans Devanagari', sans-serif; cursor: pointer; transition: background-color 0.15s, color 0.15s, border-color 0.15s; } .ds-pill:hover { border-color: var(--border-strong); background: var(--surface); color: var(--text); } .ds-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }"
     },
     {
       "name": "User Bubble",
       "kind": "card",
       "refersTo": "user-bubble",
-      "description": "The forwarded message, right-aligned in Sand Bubble.",
+      "description": "The forwarded message, right-aligned in Grey Bubble.",
       "html": "<div class=\"ds-user\"><p>My aunt sent this, is it real?</p></div>",
-      "css": ".ds-user { display: flex; justify-content: flex-end; } .ds-user p { max-width: min(85%, 36rem); margin: 0; padding: 0.625rem 1rem; border-radius: var(--radius-lg); background: var(--bubble); color: var(--text); font: 400 1rem/1.65 Literata, 'Noto Serif Devanagari', serif; white-space: pre-wrap; }"
+      "css": ".ds-user { display: flex; justify-content: flex-end; } .ds-user p { max-width: min(85%, 36rem); margin: 0; padding: 0.625rem 1rem; border-radius: var(--radius-lg); background: var(--bubble); color: var(--text); font: 400 1rem/1.6 Geist, 'Noto Sans Devanagari', sans-serif; white-space: pre-wrap; }"
     },
     {
       "name": "Progress Line",
       "kind": "custom",
       "description": "The running step pulses between muted and ink; it expands to the step list.",
       "html": "<details class=\"ds-progress\"><summary><span>Searching the web…</span><svg class=\"ds-chev\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></summary><ol><li>Reading the message</li><li>Searching the web</li></ol></details>",
-      "css": ".ds-progress { color: var(--muted); font: 400 0.875rem Literata, 'Noto Serif Devanagari', serif; } .ds-progress summary { display: inline-flex; align-items: center; gap: 0.375rem; list-style: none; cursor: pointer; } .ds-progress summary::-webkit-details-marker { display: none; } .ds-progress summary span { animation: ds-pulse 1.6s ease-in-out infinite; } @keyframes ds-pulse { 50% { color: var(--text); } } .ds-progress ol { margin: 0.5rem 0 0; padding-left: 1.25rem; } .ds-chev { flex: none; width: 1rem; height: 1rem; transition: transform 0.2s var(--ease-out); } details[open] > summary .ds-chev { transform: rotate(180deg); } @media (prefers-reduced-motion: reduce) { .ds-progress * { animation: none; transition: none; } }"
+      "css": ".ds-progress { color: var(--muted); font: 400 0.875rem Geist, 'Noto Sans Devanagari', sans-serif; } .ds-progress summary { display: inline-flex; align-items: center; gap: 0.375rem; list-style: none; cursor: pointer; font-variant-numeric: tabular-nums; } .ds-progress summary::-webkit-details-marker { display: none; } .ds-progress summary span { animation: ds-pulse 1.6s ease-in-out infinite; } @keyframes ds-pulse { 50% { color: var(--text); } } .ds-progress ol { margin: 0.5rem 0 0; padding-left: 1.25rem; } .ds-chev { flex: none; width: 1rem; height: 1rem; transition: transform 0.2s var(--ease-out); } details[open] > summary .ds-chev { transform: rotate(180deg); } @media (prefers-reduced-motion: reduce) { .ds-progress * { animation: none; transition: none; } }"
     },
     {
       "name": "Claim Row",
@@ -554,7 +554,7 @@
       "refersTo": "claim-row",
       "description": "One per claim: badge, claim and chevron in the header; rationale, sources and confidence inside.",
       "html": "<details class=\"ds-claim\" open><summary><span class=\"ds-badge ds-badge-false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>False</span><span class=\"ds-claim-text\">UNESCO declared Jana Gana Mana the best national anthem in the world</span><svg class=\"ds-chev\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></summary><div class=\"ds-evidence\"><p>UNESCO does not rank or award national anthems.</p><ul><li><a href=\"#\">UNESCO best anthem hoax</a><span class=\"ds-domain\">altnews.in</span></li></ul><p class=\"ds-meta\">Confidence 95%</p></div></details>",
-      "css": ".ds-claim { border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font: 400 1rem/1.65 Literata, 'Noto Serif Devanagari', serif; } .ds-claim summary { display: flex; align-items: flex-start; gap: 0.625rem; padding: 0.625rem 0.875rem; list-style: none; cursor: pointer; } .ds-claim summary::-webkit-details-marker { display: none; } .ds-claim-text { flex: 1; } .ds-claim .ds-badge { flex: none; margin-top: 0.125rem; } .ds-claim .ds-chev { margin-top: 0.3rem; color: var(--muted); } .ds-evidence { padding: 0.75rem 0.875rem 0.875rem; border-top: 1px solid var(--border); } .ds-evidence p { margin: 0 0 0.5rem; } .ds-evidence ul { margin: 0 0 0.5rem; padding-left: 1.125rem; } .ds-evidence a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 0.2em; } .ds-domain { margin-left: 0.375rem; color: var(--muted); font-size: 0.875rem; } .ds-evidence .ds-meta { margin: 0; color: var(--muted); font-size: 0.875rem; } .ds-chev { flex: none; width: 1rem; height: 1rem; transition: transform 0.2s var(--ease-out); } details[open] > summary .ds-chev { transform: rotate(180deg); } .ds-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0 0.5rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--verdict) 14%, var(--bg)); color: var(--verdict); font: 500 0.875rem/1.6 Literata, 'Noto Serif Devanagari', serif; } .ds-badge svg { width: 0.875rem; height: 0.875rem; stroke-width: 2.25; } .ds-badge-true { --verdict: var(--true); } .ds-badge-false { --verdict: var(--false); } .ds-badge-misleading { --verdict: var(--misleading); } .ds-badge-unverifiable { --verdict: var(--unverifiable); }"
+      "css": ".ds-claim { border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font: 400 1rem/1.6 Geist, 'Noto Sans Devanagari', sans-serif; } .ds-claim summary { display: flex; align-items: flex-start; gap: 0.625rem; padding: 0.625rem 0.875rem; border-radius: calc(var(--radius) - 1px); list-style: none; cursor: pointer; } .ds-claim summary::-webkit-details-marker { display: none; } .ds-claim summary:hover { background: color-mix(in srgb, var(--bubble) 50%, transparent); } .ds-claim[open] > summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; } .ds-claim-text { flex: 1; } .ds-claim .ds-badge { flex: none; margin-top: 0.125rem; } .ds-claim .ds-chev { margin-top: 0.3rem; color: var(--muted); } .ds-evidence { padding: 0.75rem 0.875rem 0.875rem; border-top: 1px solid var(--border); } .ds-evidence p { margin: 0 0 0.5rem; } .ds-evidence ul { margin: 0 0 0.5rem; padding-left: 1.125rem; } .ds-evidence a { color: var(--link); text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 0.2em; } .ds-domain { margin-left: 0.375rem; color: var(--muted); font-size: 0.875rem; } .ds-evidence .ds-meta { margin: 0; color: var(--muted); font-size: 0.875rem; font-variant-numeric: tabular-nums; } .ds-chev { flex: none; width: 1rem; height: 1rem; transition: transform 0.2s var(--ease-out); } details[open] > summary .ds-chev { transform: rotate(180deg); } .ds-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0 0.5rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--verdict) 14%, var(--bg)); color: var(--verdict); font: 500 0.875rem/1.6 Geist, 'Noto Sans Devanagari', sans-serif; } .ds-badge svg { width: 0.875rem; height: 0.875rem; stroke-width: 2.25; } .ds-badge-true { --verdict: var(--true); } .ds-badge-false { --verdict: var(--false); } .ds-badge-misleading { --verdict: var(--misleading); } .ds-badge-unverifiable { --verdict: var(--unverifiable); }"
     },
     {
       "name": "Verdict Badges",
@@ -562,33 +562,33 @@
       "refersTo": "badge-true",
       "description": "Drawn icon, word and colour together; one per verdict.",
       "html": "<span class=\"ds-badge ds-badge-true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg>True</span> <span class=\"ds-badge ds-badge-false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>False</span> <span class=\"ds-badge ds-badge-misleading\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/></svg>Misleading</span> <span class=\"ds-badge ds-badge-unverifiable\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"/><path d=\"M12 17h.01\"/></svg>Unverifiable</span>",
-      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0 0.5rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--verdict) 14%, var(--bg)); color: var(--verdict); font: 500 0.875rem/1.6 Literata, 'Noto Serif Devanagari', serif; } .ds-badge svg { width: 0.875rem; height: 0.875rem; stroke-width: 2.25; } .ds-badge-true { --verdict: var(--true); } .ds-badge-false { --verdict: var(--false); } .ds-badge-misleading { --verdict: var(--misleading); } .ds-badge-unverifiable { --verdict: var(--unverifiable); }"
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0 0.5rem; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--verdict) 14%, var(--bg)); color: var(--verdict); font: 500 0.875rem/1.6 Geist, 'Noto Sans Devanagari', sans-serif; } .ds-badge svg { width: 0.875rem; height: 0.875rem; stroke-width: 2.25; } .ds-badge-true { --verdict: var(--true); } .ds-badge-false { --verdict: var(--false); } .ds-badge-misleading { --verdict: var(--misleading); } .ds-badge-unverifiable { --verdict: var(--unverifiable); }"
     }
   ],
   "narrative": {
-    "northStar": "The Familiar Assistant",
-    "overview": "A fact-checker that looks and behaves like the chat assistant people already use: claude.ai, pinned by the user and executed straight. One question, one input, then a conversation. The world is warm paper rather than white screen: an ivory ground, warm near-black ink, one terracotta accent and one serif voice. A dark twin on warm charcoal follows the device setting; there is no theme toggle.\n\nPlain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names. Components read those properties (the send arrow's white is the one literal), so both themes come from one rule set.",
+    "northStar": "Graphite",
+    "overview": "A fact-checker that behaves like the chat assistant people already use: claude.ai's flow, with its own look. One question, one input, then a conversation. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and grey user bubbles, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.\n\nPlain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names, so both themes come from one rule set. The favicon (`mark.svg`) carries its own dark variant.",
     "keyCharacteristics": [
-      "Warm ivory ground (charcoal in dark), a white composer card, sand user bubbles, unboxed replies.",
-      "One accent, terracotta, for the mark, the send button, focus and selection.",
-      "Literata in every role, Noto Serif Devanagari for Hindi; one small size.",
+      "Near-white ground (near-black in dark), a white composer card, grey user bubbles, unboxed replies.",
+      "No hue but the verdicts: ink fills the send button and draws the mark, focus ring, caret and selection.",
+      "Geist in every role, Noto Sans Devanagari for Hindi; one small size.",
       "Verdicts as tinted badges pairing a colour, a drawn icon and a word.",
       "Lucide-drawn line icons only; soft corners (0.5 / 0.75 / 1.25rem) and full pills."
     ],
     "rules": [
       {
-        "name": "The One Accent Rule",
-        "body": "Terracotta is the only non-verdict hue. No second accent; hovers deepen the accent by mixing it toward the text colour (75%) rather than introducing a new one.",
+        "name": "The Ink Accent Rule",
+        "body": "There is no accent hue. Interactive emphasis is ink; hover softens it by mixing 80% ink toward the ground, never by adding a colour.",
         "section": "colors"
       },
       {
         "name": "The Verdict Colour Rule",
-        "body": "Green, red, orange and the verdict gray appear only in verdict badges (and red in error text), each paired with its icon and word so colour never carries the meaning alone.",
+        "body": "Green, red, amber and the verdict gray appear only in verdict badges (and red in error text), each paired with its icon and word so colour never carries the meaning alone.",
         "section": "colors"
       },
       {
         "name": "The Twin Rule",
-        "body": "A new colour is a new custom property with a value in both the light `:root` and the dark override. Never hard-code a colour in a component; the only literal is the send arrow's white, which sits on terracotta in both themes.",
+        "body": "A new colour is a new custom property with a value in both the light `:root` and the dark override. Never hard-code a colour in a component.",
         "section": "colors"
       },
       {
@@ -597,8 +597,13 @@
         "section": "typography"
       },
       {
-        "name": "The One Serif Rule",
-        "body": "Literata everywhere, with Noto Serif Devanagari only as its Hindi partner. No sans, no mono, no second display face.",
+        "name": "The Tabular Figures Rule",
+        "body": "Changing numbers (the \"Checked in Ns\" time and the confidence percentage) use `font-variant-numeric: tabular-nums`.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Geist everywhere, with Noto Sans Devanagari only as its Hindi partner. No serif, no mono, no second display face.",
         "section": "typography"
       },
       {
@@ -610,12 +615,12 @@
     "dos": [
       "Do set colour, size, radius and easing through the `:root` custom properties, with a dark value for every colour.",
       "Do pair every verdict colour with its icon and word.",
-      "Do use Terracotta Ink, not Terracotta, for any text-sized accent.",
+      "Do use tabular figures for any changing number.",
       "Do draw new icons from Lucide, inline, stroked in `currentColor`.",
       "Do keep every animation inside the reduced-motion reset."
     ],
     "donts": [
-      "Don't add a second accent colour or a second typeface.",
+      "Don't add an accent hue or a second typeface.",
       "Don't use the verdict colours outside verdicts and error text.",
       "Don't add a text size beyond the display, 1rem and 0.875rem.",
       "Don't give anything but the composer a shadow.",

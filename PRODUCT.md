@@ -30,7 +30,8 @@ Each claim is researched on its own: earlier verdicts, an archive of ~88k profes
 
 ## Brand Commitments
 
-- Look and feel of claude.ai (user-pinned): a chat interface, user messages right, replies left, following the device's light or dark setting. On an empty page the greeting and input sit centered; once a check starts, the input moves to the bottom.
+- The flow of claude.ai (user-pinned), not its look: a chat interface, user messages right, replies left, following the device's light or dark setting. On an empty page the greeting and input sit centered; once a check starts, the input moves to the bottom.
+- Look: minimal and sophisticated, never a clone of another product (user-pinned).
 - Voice: minimal, friendly, simple. No copy repeated between the heading, the placeholder and other text.
 
 ## Product Principles
