@@ -90,20 +90,14 @@ main, footer {
   padding-inline: 1rem;
 }
 
-main { flex: 1; padding-block: 2.5rem 1rem; }
-
-footer {
-  position: sticky;
-  bottom: 0;
-  padding-block: 1.5rem max(0.75rem, env(safe-area-inset-bottom));
-  background: linear-gradient(transparent, var(--bg) 1.5rem);
-}
+main { padding-block: 2.5rem 0; }
+footer { padding-block: 2rem max(1.5rem, env(safe-area-inset-bottom)); }
 
 /* Empty page: greeting, composer and examples sit together a little above centre.
-   A result page shows one check, with "New check" where the composer was. */
+   A result page reads top to bottom: the forward, its result, then "New check". */
 .empty { justify-content: center; padding-bottom: 12dvh; }
-.empty main { flex: none; padding-block: 0 2rem; }
-.empty footer { position: static; padding-top: 0; background: none; }
+.empty main { padding-block: 0 2rem; }
+.empty footer { padding-top: 0; }
 .empty .note,
 body:not(.empty) .greeting,
 body:not(.empty) .composer,
@@ -122,7 +116,7 @@ body:not(.empty) .examples { display: none; }
   font-weight: 500;
   box-shadow: var(--shadow);
   transition: background-color 0.15s;
-  view-transition-name: composer; /* "New check" and the composer morph into each other */
+  view-transition-name: composer; /* shared with the composer: "New check" grows back into it */
 }
 
 .new-check:hover { background: color-mix(in srgb, var(--accent) 80%, var(--bg)); }
@@ -278,34 +272,37 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
 
 /* Result */
 
-.messages {
+.report {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  gap: 1.5rem;
 }
 
-.user {
-  align-self: flex-end;
+.forward {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 0.5rem;
-  max-width: min(85%, 36rem);
-}
-
-.user p {
   margin: 0;
-  padding: 0.625rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: var(--radius-lg);
   background: var(--bubble);
+}
+
+/* Long forwards fold to four lines, so the verdict stays on the first screen. */
+.forward p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  margin: 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
-.user img {
+.forward.whole p { -webkit-line-clamp: unset; }
+
+.forward img {
   display: block;
   max-width: min(100%, 16rem);
   max-height: 20rem;
@@ -313,7 +310,7 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
   border-radius: var(--radius);
 }
 
-.assistant {
+.result {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -353,7 +350,7 @@ details[open] > summary .chevron { transform: rotate(180deg); }
 
 .reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 
-.copy, .retry {
+.copy, .retry, .more {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -367,9 +364,10 @@ details[open] > summary .chevron { transform: rotate(180deg); }
 }
 
 .copy { margin: -0.5rem 0 0 -0.5rem; }
+.more { margin-left: -0.5rem; }
 .copy svg { width: 1rem; height: 1rem; }
 .retry { border-color: var(--border); }
-.copy:hover, .retry:hover { background: var(--bubble); color: var(--text); }
+.copy:hover, .retry:hover, .more:hover { background: var(--bubble); color: var(--text); }
 
 .failed { margin: 0; }
 

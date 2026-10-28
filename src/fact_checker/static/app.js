@@ -4,7 +4,7 @@ const send = form.querySelector(".send");
 const picker = form.querySelector("input[type=file]");
 const attachment = form.querySelector(".attachment");
 const problem = document.querySelector(".problem");
-const messages = document.querySelector(".messages");
+const report = document.querySelector(".report");
 const newCheck = document.querySelector(".new-check");
 const note = document.querySelector(".note");
 const icons = document.querySelector("#verdict-icons").content;
@@ -16,7 +16,7 @@ const touch = matchMedia("(pointer: coarse)").matches;
 
 let image = null; // { data: base64, type, url }
 let busy = false;
-let following = true; // keep the newest output in view unless the reader scrolled up
+let running = null; // AbortController of the check in progress
 
 function el(tag, props = {}, ...children) {
   const node = Object.assign(document.createElement(tag), props);
@@ -26,9 +26,15 @@ function el(tag, props = {}, ...children) {
 
 const icon = (selector) => icons.querySelector(selector).cloneNode(true);
 const host = (url) => new URL(url).hostname.replace(/^www\./, "");
+const empty = () => document.body.classList.contains("empty");
+const transition = (change) => (document.startViewTransition ? document.startViewTransition(change) : change());
 
 function update() {
   send.disabled = busy || !(text.value.trim() || image);
+}
+
+// Only while the composer shows: a hidden textarea measures 0 and would stay collapsed.
+function fit() {
   text.style.height = "auto";
   text.style.height = `${text.scrollHeight}px`;
 }
@@ -36,10 +42,6 @@ function update() {
 function say(message) {
   problem.textContent = message;
   problem.hidden = !message;
-}
-
-function scrollDown() {
-  if (following) scrollTo(0, document.documentElement.scrollHeight);
 }
 
 async function attach(file) {
@@ -69,6 +71,15 @@ function linkify(reply) {
   return reply
     .split(/(https?:\/\/[^\s<>()]*[^\s<>().,!?;:'"])/g)
     .map((part, i) => (i % 2 ? el("a", { href: part, textContent: part, target: "_blank", rel: "noopener" }) : part));
+}
+
+// Long forwards fold to four lines (see .forward p), with a toggle only when something is hidden.
+function fold(quote) {
+  const p = quote.querySelector("p");
+  if (!p || p.scrollHeight <= p.clientHeight) return;
+  const more = el("button", { type: "button", className: "more", textContent: "Show all" });
+  more.onclick = () => (more.textContent = quote.classList.toggle("whole") ? "Show less" : "Show all");
+  quote.append(more);
 }
 
 function claim(result) {
@@ -104,9 +115,9 @@ function answer({ reply, results }) {
       label.textContent = "Copy reply";
     }, 2000);
   };
-  const parts = [el("p", { className: "reply" }, ...linkify(reply))];
   // Nothing was checked: no reply worth sending back, and no verdicts or sources to caution about.
-  note.style.visibility = results.length ? "" : "hidden"; // keeps its space, so "New check" never moves
+  note.hidden = !results.length;
+  const parts = [el("p", { className: "reply" }, ...linkify(reply))];
   if (results.length) parts.push(copy, el("ul", { className: "claims" }, ...results.map(claim)));
   return parts;
 }
@@ -123,35 +134,35 @@ async function* lines(body) {
   }
 }
 
-function fail(li, message, payload) {
-  li.removeAttribute("aria-busy");
-  li.replaceChildren(el("p", { className: "failed", textContent: message }));
+function fail(out, message, payload) {
+  out.removeAttribute("aria-busy");
+  out.replaceChildren(el("p", { className: "failed", textContent: message }));
   if (payload) {
-    li.append(el("button", { type: "button", className: "retry", textContent: "Try again", onclick: () => check(payload, li) }));
+    out.append(el("button", { type: "button", className: "retry", textContent: "Try again", onclick: () => check(payload, out) }));
   }
 }
 
-async function check(payload, li) {
-  if (busy) return;
+async function check(payload, out) {
+  const controller = (running = new AbortController());
   busy = true;
   newCheck.hidden = true;
+  note.hidden = true;
   update();
   const label = el("span", { textContent: "Reading the message…" });
   const steps = el("ol");
   const progress = el("details", { className: "progress" }, el("summary", {}, label, icon('[data-icon="chevron"]')), steps);
   progress.dataset.running = "";
-  li.setAttribute("aria-busy", "true");
-  li.replaceChildren(progress);
-  following = true;
-  scrollDown();
+  out.setAttribute("aria-busy", "true");
+  out.replaceChildren(progress);
   const started = Date.now();
   try {
     const response = await fetch("/api/checks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+      signal: controller.signal,
     });
-    if (response.status === 429) return fail(li, "You've reached today's limit. Please try again tomorrow.");
+    if (response.status === 429) return fail(out, "You've reached today's limit. Please try again tomorrow.");
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     let done = false;
     for await (const event of lines(response.body)) {
@@ -162,58 +173,78 @@ async function check(payload, li) {
       } else {
         delete progress.dataset.running;
         label.textContent = `Checked in ${Math.round((Date.now() - started) / 1000)}s`;
-        li.append(...answer(event));
-        li.removeAttribute("aria-busy");
+        out.append(...answer(event));
+        out.removeAttribute("aria-busy");
         done = true;
       }
-      scrollDown();
     }
     if (!done) throw new Error("Stream ended early");
   } catch {
-    fail(li, "Something went wrong.", payload);
+    if (!controller.signal.aborted) fail(out, "Something went wrong.", payload);
   } finally {
-    busy = false;
-    transition(() => (newCheck.hidden = false));
-    update();
-    scrollDown();
+    // A check the reader left (Back) must not touch the page that replaced it.
+    if (running === controller) {
+      running = null;
+      busy = false;
+      update();
+      transition(() => (newCheck.hidden = false));
+    }
   }
 }
 
-const empty = () => document.body.classList.contains("empty");
-const transition = (change) => (document.startViewTransition ? document.startViewTransition(change) : change());
-
-// Each check stands alone: it replaces the page, and "New check" brings the composer back.
+// Each check stands alone: it replaces the page and gets its own history entry, so Back starts over.
 function submit(forward, screenshot) {
+  if (busy) return;
+  busy = true; // now, not in the transition: a held Enter must not start a second check
+  update();
+  history.pushState({ check: true }, "");
   transition(() => {
     document.body.classList.remove("empty");
-    const bubble = el("li", { className: "user" });
-    if (screenshot) bubble.append(el("img", { src: screenshot.url, alt: "Screenshot sent for checking" }));
-    if (forward) bubble.append(el("p", { textContent: forward }));
-    const result = el("li", { className: "assistant" });
-    messages.replaceChildren(bubble, result);
-    note.style.visibility = "";
+    const quote = el("blockquote", { className: "forward" });
+    if (screenshot) quote.append(el("img", { src: screenshot.url, alt: "Screenshot sent for checking" }));
+    if (forward) quote.append(el("p", { textContent: forward }));
+    const out = el("div", { className: "result" });
+    report.replaceChildren(quote, out);
+    fold(quote);
     text.value = "";
+    text.style.height = ""; // back to one row
     detach();
     say("");
     if (touch) text.blur();
-    check({ text: forward, image: screenshot?.data ?? null, image_type: screenshot?.type ?? null }, result);
+    scrollTo(0, 0);
+    check({ text: forward, image: screenshot?.data ?? null, image_type: screenshot?.type ?? null }, out);
   });
 }
 
-newCheck.addEventListener("click", () => transition(() => {
-  document.body.classList.add("empty");
-  messages.replaceChildren();
-  newCheck.hidden = true;
-  scrollTo(0, 0);
-  if (!touch) text.focus();
-}));
+function reset() {
+  running?.abort();
+  running = null;
+  busy = false;
+  transition(() => {
+    for (const img of report.querySelectorAll("img")) URL.revokeObjectURL(img.src);
+    document.body.classList.add("empty");
+    report.replaceChildren();
+    newCheck.hidden = true;
+    update();
+    scrollTo(0, 0);
+    if (!touch) text.focus();
+  });
+}
+
+newCheck.addEventListener("click", () => (history.state?.check ? history.back() : reset()));
+addEventListener("popstate", () => {
+  if (!empty()) reset();
+});
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   if (!send.disabled) submit(text.value.trim(), image);
 });
 
-text.addEventListener("input", update);
+text.addEventListener("input", () => {
+  update();
+  fit();
+});
 text.addEventListener("keydown", (e) => {
   // On phones Enter adds a line; the send button sends.
   if (e.key === "Enter" && !e.shiftKey && !e.isComposing && !touch) {
@@ -254,14 +285,8 @@ addEventListener("drop", (e) => {
   if (empty() && e.dataTransfer.files[0]) attach(e.dataTransfer.files[0]);
 });
 
-addEventListener("scroll", () => {
-  following = innerHeight + scrollY >= document.documentElement.scrollHeight - 120;
-});
-
 for (const example of document.querySelectorAll(".examples button")) {
-  example.addEventListener("click", () => {
-    if (!busy) submit(example.dataset.text, null);
-  });
+  example.addEventListener("click", () => submit(example.dataset.text, null));
 }
 
 update();

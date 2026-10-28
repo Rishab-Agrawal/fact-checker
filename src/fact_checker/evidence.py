@@ -1,6 +1,7 @@
 """Where evidence comes from (fact-check archive, web), and the Jev questions that gate the pipeline."""
 
 import csv
+import logging
 import os
 from datetime import date
 from functools import cache
@@ -156,5 +157,9 @@ CHECKABLE = {
 
 def checkable(message: str) -> bool:
     """Whether a message has anything to fact-check; Jev reads text only, so screenshots skip this."""
-    answer = jev().invoke({"state": {"message": message}, "questions": CHECKABLE})
+    try:
+        answer = jev().invoke({"state": {"message": message}, "questions": CHECKABLE})
+    except Exception as e:  # only a shortcut: if Jev is down, let Claude decide
+        logging.warning("Jev checkable: %s", e)
+        return True
     return answer.nouls["claim"].noul >= CHECKABLE_MIN
