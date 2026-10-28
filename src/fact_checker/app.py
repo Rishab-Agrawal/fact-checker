@@ -37,6 +37,13 @@ VERDICTS = {
 }
 AVATAR = ":material/fact_check:"
 USER_AVATAR = ":material/person:"
+EXAMPLES = {
+    "UNESCO's best national anthem": "Proud moment for every Indian! UNESCO has declared Jana Gana Mana the best national "
+                                     "anthem in the world. Share with everyone!",
+    "Hot water kills the virus": "Japanese doctors advise: drinking hot water every 15 minutes washes the coronavirus "
+                                 "into the stomach, where acid kills it. Forward to everyone you love.",
+    "दिसंबर में 6 दिन अंधेरा": "नासा ने पुष्टि की है कि दिसंबर में पृथ्वी पर 6 दिन तक पूरा अंधेरा रहेगा। सभी को बताएं।",
+}
 # ponytail: in-memory, so limits reset on redeploy and assume one replica; move to Postgres if the app scales out
 PER_IP_DAILY = 10
 
@@ -106,32 +113,13 @@ def show_answer(values) -> None:
     for r in values.get("results", []):
         with st.expander(f"{VERDICTS[r['verdict']]} {r['claim']}"):
             st.write(r["rationale"])
-            for s in r["sources"]:
-                st.markdown(f"- [{s['title']}]({s['url']})")
-            st.caption(f"Confidence {r['confidence']:.0%}" + (" · from an earlier check" if r["from_memory"] else ""))
+            st.markdown("\n".join(f"- [{s['title']}]({s['url']})" for s in r["sources"]))
+            st.markdown(f":small[Confidence {r['confidence']:.0%}" + (" · from an earlier check" if r["from_memory"] else "") + "]")
 
 
-st.set_page_config(page_title="Is this forward true?", page_icon=AVATAR)
-threads = st.session_state.setdefault("threads", [])
-
-if not threads:
-    st.space("large")
-    st.title("Is this forward true?", anchor=False, text_alignment="center")
-    st.markdown("Paste a forwarded message or attach a screenshot. You get a verdict for each claim, with sources.",
-                text_alignment="center")
-
-for thread in threads:
-    values = graph().get_state(config(thread)).values
-    with st.chat_message("user", avatar=USER_AVATAR):
-        show_forward(values["forward"])
-    with st.chat_message("assistant", avatar=AVATAR):
-        show_answer(values)
-
-if prompt := st.chat_input("Paste a forwarded message", max_chars=4000, accept_file=True,
-                           file_type=["png", "jpg", "jpeg", "webp"]):
-    image = prompt.files[0] if prompt.files else None
+def check(text: str, image) -> None:
     forward = {
-        "text": prompt.text,
+        "text": text,
         "image": base64.b64encode(image.getvalue()).decode() if image else None,
         "image_type": image.type if image else None,
         "received_at": datetime.now(timezone.utc).isoformat(),
@@ -141,10 +129,47 @@ if prompt := st.chat_input("Paste a forwarded message", max_chars=4000, accept_f
     with st.chat_message("assistant", avatar=AVATAR):
         ip = st.context.headers.get("X-Real-IP") or st.context.ip_address  # Railway's edge sets X-Real-IP
         if allow(ip):
-            notify_admin(ip, prompt.text, image)
+            notify_admin(ip, text, image)
             thread = uuid4().hex
             run({"forward": forward}, thread)
             show_answer(graph().get_state(config(thread)).values)
-            threads.append(thread)
+            st.session_state.threads.append(thread)
         else:
             st.markdown(f"You've reached today's limit of {PER_IP_DAILY} checks. Please try again tomorrow.")
+
+
+def submitted(example: str | None = None) -> None:
+    st.session_state.submitted = True
+    st.session_state.example = example
+
+
+st.set_page_config(page_title="Fact checker", page_icon=AVATAR)
+threads = st.session_state.setdefault("threads", [])
+chat_input = {
+    "placeholder": "Paste a message or screenshot", "key": "prompt", "max_chars": 4000,
+    "accept_file": True, "file_type": ["png", "jpg", "jpeg", "webp"], "on_submit": submitted,
+}
+
+# Until the first check, the greeting and input sit centred; after it, the input pins to the bottom.
+if not (st.session_state.pop("submitted", False) or threads):
+    with st.container(key="welcome", horizontal_alignment="center", vertical_alignment="center", gap="medium"):
+        st.html("<style>.st-key-welcome { min-height: 70dvh } "
+                ".st-key-welcome h1 { font-size: clamp(1.75rem, 7vw, 2.75rem); text-wrap: balance }</style>")
+        st.title(f":primary[{AVATAR}] What should we check?", anchor=False, text_alignment="center")
+        st.chat_input(**chat_input)
+        with st.container(horizontal=True, horizontal_alignment="center"):
+            for label in EXAMPLES:
+                st.button(label, on_click=submitted, args=(label,))
+    st.stop()
+
+for thread in threads:
+    values = graph().get_state(config(thread)).values
+    with st.chat_message("user", avatar=USER_AVATAR):
+        show_forward(values["forward"])
+    with st.chat_message("assistant", avatar=AVATAR):
+        show_answer(values)
+
+if prompt := st.chat_input(**chat_input):
+    check(prompt.text, prompt.files[0] if prompt.files else None)
+elif example := st.session_state.pop("example", None):
+    check(EXAMPLES[example], None)
