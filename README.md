@@ -39,12 +39,12 @@ One Railway project, deployed from this repo:
 
 - **app**: the Streamlit page (`Procfile`). API keys are set here; the jobs reference them.
 - **ingest**: daily cron, `python -m fact_checker.ingest`. Adds new fact-checks to the archive.
-- **evals**: monthly cron, `python evals/averitec.py 40`. Run it now with `railway cron run --service evals`.
+- **evals**: monthly cron, `python evals/averitec.py 5` (40 once cost per claim is known). Run it now with `railway cron run --service evals`.
 - **Postgres**: archive, checkpoints, memory and eval runs.
 
 Locally: copy `.env.example` to `.env` and run the same commands with `uv run`. Tests: `uv run pytest`.
 
 ## Evals
 
-`evals/averitec.py` runs research on 40 [AVeriTeC](https://github.com/MichSchli/AVeriTeC) claims and saves accuracy,
+`evals/averitec.py` runs research on n (default 40) [AVeriTeC](https://github.com/MichSchli/AVeriTeC) claims and saves accuracy,
 macro-F1, a confusion table and token usage to the `eval_runs` table, with the deployed commit.
