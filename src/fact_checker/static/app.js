@@ -5,6 +5,8 @@ const picker = form.querySelector("input[type=file]");
 const attachment = form.querySelector(".attachment");
 const problem = document.querySelector(".problem");
 const messages = document.querySelector(".messages");
+const newCheck = document.querySelector(".new-check");
+const note = document.querySelector(".note");
 const icons = document.querySelector("#verdict-icons").content;
 
 const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp"];
@@ -102,8 +104,10 @@ function answer({ reply, results }) {
       label.textContent = "Copy reply";
     }, 2000);
   };
-  const parts = [el("p", { className: "reply" }, ...linkify(reply)), copy];
-  if (results.length) parts.push(el("ul", { className: "claims" }, ...results.map(claim)));
+  const parts = [el("p", { className: "reply" }, ...linkify(reply))];
+  // Nothing was checked: no reply worth sending back, and no verdicts or sources to caution about.
+  note.style.visibility = results.length ? "" : "hidden"; // keeps its space, so "New check" never moves
+  if (results.length) parts.push(copy, el("ul", { className: "claims" }, ...results.map(claim)));
   return parts;
 }
 
@@ -130,6 +134,7 @@ function fail(li, message, payload) {
 async function check(payload, li) {
   if (busy) return;
   busy = true;
+  newCheck.hidden = true;
   update();
   const label = el("span", { textContent: "Reading the message…" });
   const steps = el("ol");
@@ -168,28 +173,40 @@ async function check(payload, li) {
     fail(li, "Something went wrong.", payload);
   } finally {
     busy = false;
+    transition(() => (newCheck.hidden = false));
     update();
     scrollDown();
   }
 }
 
+const empty = () => document.body.classList.contains("empty");
+const transition = (change) => (document.startViewTransition ? document.startViewTransition(change) : change());
+
+// Each check stands alone: it replaces the page, and "New check" brings the composer back.
 function submit(forward, screenshot) {
-  const show = () => {
+  transition(() => {
     document.body.classList.remove("empty");
     const bubble = el("li", { className: "user" });
     if (screenshot) bubble.append(el("img", { src: screenshot.url, alt: "Screenshot sent for checking" }));
     if (forward) bubble.append(el("p", { textContent: forward }));
-    messages.append(bubble);
+    const result = el("li", { className: "assistant" });
+    messages.replaceChildren(bubble, result);
+    note.style.visibility = "";
     text.value = "";
     detach();
     say("");
     if (touch) text.blur();
-    check({ text: forward, image: screenshot?.data ?? null, image_type: screenshot?.type ?? null },
-      messages.appendChild(el("li", { className: "assistant" })));
-  };
-  if (document.body.classList.contains("empty") && document.startViewTransition) document.startViewTransition(show);
-  else show();
+    check({ text: forward, image: screenshot?.data ?? null, image_type: screenshot?.type ?? null }, result);
+  });
 }
+
+newCheck.addEventListener("click", () => transition(() => {
+  document.body.classList.add("empty");
+  messages.replaceChildren();
+  newCheck.hidden = true;
+  scrollTo(0, 0);
+  if (!touch) text.focus();
+}));
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -224,8 +241,9 @@ attachment.querySelector(".remove").addEventListener("click", () => {
 
 addEventListener("dragover", (e) => {
   if (!e.dataTransfer.types.includes("Files")) return;
-  e.preventDefault();
-  form.classList.add("dragging");
+  e.preventDefault(); // otherwise the browser opens the dropped file
+  if (empty()) form.classList.add("dragging");
+  else e.dataTransfer.dropEffect = "none";
 });
 addEventListener("dragleave", (e) => {
   if (!e.relatedTarget) form.classList.remove("dragging");
@@ -233,7 +251,7 @@ addEventListener("dragleave", (e) => {
 addEventListener("drop", (e) => {
   e.preventDefault();
   form.classList.remove("dragging");
-  if (e.dataTransfer.files[0]) attach(e.dataTransfer.files[0]);
+  if (empty() && e.dataTransfer.files[0]) attach(e.dataTransfer.files[0]);
 });
 
 addEventListener("scroll", () => {

@@ -1,3 +1,6 @@
+import pytest
+
+from fact_checker import graph
 from fact_checker.evidence import credible
 from fact_checker.graph import cite, fresh
 
@@ -28,3 +31,11 @@ def test_credible_uses_domain_ratings_and_official_suffixes():
     assert not credible("https://www.infowars.com/a")  # rated, but low
     assert not credible("https://notreuters.com/a")  # unrated
     assert not credible("https://viral-news.blogspot.com/x")  # blogspot.com's rating isn't this blog's
+
+
+def test_a_message_with_nothing_to_check_never_reaches_claude(monkeypatch):
+    monkeypatch.setattr(graph, "checkable", lambda text: False)
+    monkeypatch.setattr(graph, "llm", lambda effort: pytest.fail("Claude was called"))
+    forward = {"text": "Good morning! Have a blessed day", "image": None, "image_type": None, "received_at": ""}
+    assert graph.extract({"forward": forward}) == {"claims": []}
+    assert graph.reply({"results": []}) == {"reply": graph.NO_CLAIMS}

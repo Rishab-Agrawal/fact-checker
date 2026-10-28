@@ -99,13 +99,34 @@ footer {
   background: linear-gradient(transparent, var(--bg) 1.5rem);
 }
 
-/* Empty page: greeting, composer and examples sit together a little above centre. */
+/* Empty page: greeting, composer and examples sit together a little above centre.
+   A result page shows one check, with "New check" where the composer was. */
 .empty { justify-content: center; padding-bottom: 12dvh; }
 .empty main { flex: none; padding-block: 0 2rem; }
 .empty footer { position: static; padding-top: 0; background: none; }
 .empty .note,
 body:not(.empty) .greeting,
+body:not(.empty) .composer,
 body:not(.empty) .examples { display: none; }
+
+.new-check {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 0.5rem 0.875rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 500;
+  box-shadow: var(--shadow);
+  transition: background-color 0.15s;
+  view-transition-name: composer; /* "New check" and the composer morph into each other */
+}
+
+.new-check:hover { background: color-mix(in srgb, var(--accent) 80%, var(--bg)); }
+.new-check svg { width: 1.125rem; height: 1.125rem; }
 
 .greeting {
   margin: 0;
@@ -255,7 +276,7 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
   text-align: center;
 }
 
-/* Conversation */
+/* Result */
 
 .messages {
   display: flex;

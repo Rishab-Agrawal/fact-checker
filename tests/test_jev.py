@@ -5,7 +5,7 @@ import os
 import pytest
 
 import fact_checker  # noqa: F401  loads .env
-from fact_checker.evidence import gate, same_claim
+from fact_checker.evidence import checkable, gate, same_claim
 
 pytestmark = pytest.mark.skipif(not os.getenv("TYPESAFE_API_KEY"), reason="needs TYPESAFE_API_KEY")
 
@@ -31,3 +31,10 @@ def test_same_claim_across_languages_but_not_across_numbers():
     same, different = same_claim(CLAIM, [hindi, other_amount])
     assert same > 0.9
     assert different < 0.5
+
+
+def test_checkable_tells_claims_from_chatter():
+    assert checkable(CLAIM)
+    assert checkable("नासा ने पुष्टि की है कि दिसंबर में पृथ्वी पर 6 दिन तक अंधेरा रहेगा।")
+    assert not checkable("Good morning! Wishing everyone a blessed Sunday")
+    assert not checkable("Haha, who is coming to Riya's birthday on Saturday?")

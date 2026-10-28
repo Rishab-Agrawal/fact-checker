@@ -1,6 +1,6 @@
 ---
 name: Fact checker
-description: Paste a forward, get a verdict per claim, in a familiar chat.
+description: Paste a forward, get a verdict per claim, one check at a time.
 colors:
   accent: "#18181b"
   link: "#18181b"
@@ -134,9 +134,9 @@ components:
 
 **Creative North Star: "Graphite"**
 
-A fact-checker that behaves like the chat assistant people already use: claude.ai's flow, with its own look. One question, one input, then a conversation. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and grey user bubbles, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.
+A fact-checker with the calm flow of the assistants people already use: claude.ai's flow, with its own look. One question, one input, then one result; each check stands alone, so it is not a chat. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and grey user bubbles, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.
 
-Plain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names, so both themes come from one rule set. The favicon (`mark.svg`) carries its own dark variant.
+Plain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names, so both themes come from one rule set. The favicon is an inline SVG data URI in `index.html` (so it changes with the page) and carries its own dark variant.
 
 **Key Characteristics:**
 - Near-white ground (near-black in dark), a white composer card, grey user bubbles, unboxed replies.
@@ -186,7 +186,7 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 - **Badge** (500, 0.875rem, 1.6): verdict badges.
 
 ### Named Rules
-**The One Small Size Rule.** There are two text sizes in conversation: 1rem and `--small` (0.875rem). Nothing else.
+**The One Small Size Rule.** There are two text sizes in a result: 1rem and `--small` (0.875rem). Nothing else.
 
 **The Tabular Figures Rule.** Changing numbers (the "Checked in Ns" time and the confidence percentage) use `font-variant-numeric: tabular-nums`.
 
@@ -194,7 +194,7 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 
 ## Layout
 
-One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. After the first check the composer becomes a sticky footer that fades the ground in above it (a 1.5rem gradient) and the conversation grows above: messages 2rem apart, user messages right-aligned at up to min(85%, 36rem), assistant content left and unboxed. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
+One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. A check replaces the page: the forward right-aligned at up to min(85%, 36rem), the result 2rem below it, left and unboxed. The composer is hidden there; a sticky footer that fades the ground in above it (a 1.5rem gradient) holds the "New check" pill once the check ends, and the caution note while the result has verdicts. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
 
 ## Elevation & Depth
 
@@ -217,7 +217,7 @@ Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for c
 - **Shape:** 1.25rem corners, 1px hairline, the composer lift.
 - **Content:** the auto-growing textarea (to 40dvh) on top; an actions row below with attach on the left and send on the right. An attached screenshot shows as a 4rem thumbnail with a small ink-filled remove circle.
 - **Focus:** the border steps up to Strong Hairline; the textarea has no outline of its own. Drag-over sets the border to ink.
-- **Motion:** the one motion moment. On the first send the composer glides from the centre to the bottom with a View Transition (0.45s, `cubic-bezier(0.16, 1, 0.3, 1)`). Reduced motion removes it along with every other animation and transition.
+- **Motion:** the one motion moment. The composer and the "New check" pill share one View Transition name (0.45s, `cubic-bezier(0.16, 1, 0.3, 1)`): the pill arrives through it when a check ends and grows back into the centred composer on "New check". Reduced motion removes it along with every other animation and transition.
 
 ### Buttons
 - **Send:** ink square (0.5rem corners, 2rem) with a ground-coloured up-arrow; disabled at 40% opacity; hover mixes 80% ink toward the ground; press scales to 0.94.

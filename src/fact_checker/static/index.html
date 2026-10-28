@@ -9,7 +9,8 @@
   <meta property="og:description" content="Paste a forwarded message or screenshot. Get a verdict for each claim, with sources.">
   <meta name="theme-color" content="#fcfcfc" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="/mark.svg" type="image/svg+xml">
+  <!-- Inline, so the icon changes with the page: browsers cache icon files apart from it. -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2318181b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cstyle%3E@media (prefers-color-scheme: dark) { svg { stroke: %23ededef } }%3C/style%3E%3Cpath d='M7.9 20A9 9 0 1 0 4 16.1L2 22Z'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..600&family=Noto+Sans+Devanagari:wght@400..600&display=swap">
@@ -50,6 +51,10 @@
       <button type="button" data-text="Japanese doctors advise: drinking hot water every 15 minutes washes the coronavirus into the stomach, where acid kills it. Forward to everyone you love.">Hot water kills the virus</button>
       <button type="button" lang="hi" data-text="नासा ने पुष्टि की है कि दिसंबर में पृथ्वी पर 6 दिन तक पूरा अंधेरा रहेगा। सभी को बताएं।">दिसंबर में 6 दिन अंधेरा</button>
     </div>
+    <button type="button" class="new-check" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+      New check
+    </button>
     <p class="note">Verdicts can be wrong. Check the sources.</p>
   </footer>
 

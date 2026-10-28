@@ -1,4 +1,4 @@
-"""Where evidence comes from (fact-check archive, web) and the Jev gate it passes."""
+"""Where evidence comes from (fact-check archive, web), and the Jev questions that gate the pipeline."""
 
 import csv
 import os
@@ -20,6 +20,7 @@ EMBED_DIMS = 1536
 EVIDENCE_MIN = 0.5
 INJECTION_MAX = 0.7
 SAME_CLAIM_MIN = 0.9
+CHECKABLE_MIN = 0.2  # low on purpose: skipping a real claim costs more than a wasted check
 # Jev accuracy drops on long state, and the judge only needs the gist.
 # ponytail: plain truncation, chunk + gate per chunk if long pages lose evidence
 PASSAGE_CHARS = 4000
@@ -142,3 +143,18 @@ def same_claim(claim: str, candidates: list[str]) -> list[float]:
         return []
     answers = jev().batch([{"state": {"a": claim, "b": c}, "questions": SAME_CLAIM} for c in candidates])
     return [a.nouls["same"].noul for a in answers]
+
+
+CHECKABLE = {
+    "claim": Noul(
+        instructions="Does `message` state something as fact that evidence could confirm or refute, such as an "
+        "event, number, quote, rule, or health or science claim? Greetings, opinions, jokes, questions and "
+        "requests to share don't count."
+    )
+}
+
+
+def checkable(message: str) -> bool:
+    """Whether a message has anything to fact-check; Jev reads text only, so screenshots skip this."""
+    answer = jev().invoke({"state": {"message": message}, "questions": CHECKABLE})
+    return answer.nouls["claim"].noul >= CHECKABLE_MIN

@@ -464,7 +464,7 @@
       {
         "name": "composer-glide",
         "value": "View Transition, 0.45s, ease-out",
-        "purpose": "The one motion moment: on the first send the composer glides from the centre to the bottom."
+        "purpose": "The one motion moment: the composer and the New check pill share one View Transition; the pill arrives when a check ends and grows back into the composer."
       },
       {
         "name": "state-fade",
@@ -567,7 +567,7 @@
   ],
   "narrative": {
     "northStar": "Graphite",
-    "overview": "A fact-checker that behaves like the chat assistant people already use: claude.ai's flow, with its own look. One question, one input, then a conversation. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and grey user bubbles, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.\n\nPlain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names, so both themes come from one rule set. The favicon (`mark.svg`) carries its own dark variant.",
+    "overview": "A fact-checker with the calm flow of the assistants people already use: claude.ai's flow, with its own look. One question, one input, then one result; each check stands alone, so it is not a chat. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and grey user bubbles, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.\n\nPlain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names, so both themes come from one rule set. The favicon is an inline SVG data URI in `index.html` (so it changes with the page) and carries its own dark variant.",
     "keyCharacteristics": [
       "Near-white ground (near-black in dark), a white composer card, grey user bubbles, unboxed replies.",
       "No hue but the verdicts: ink fills the send button and draws the mark, focus ring, caret and selection.",
@@ -593,7 +593,7 @@
       },
       {
         "name": "The One Small Size Rule",
-        "body": "There are two text sizes in conversation: 1rem and `--small` (0.875rem). Nothing else.",
+        "body": "There are two text sizes in a result: 1rem and `--small` (0.875rem). Nothing else.",
         "section": "typography"
       },
       {

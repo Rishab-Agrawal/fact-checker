@@ -16,7 +16,7 @@ from langgraph.types import RetryPolicy, Send
 from pydantic import BaseModel, Field
 
 from fact_checker.evidence import (
-    SAME_CLAIM_MIN, Passage, gate, same_claim, search_archive, search_web,
+    SAME_CLAIM_MIN, Passage, checkable, gate, same_claim, search_archive, search_web,
 )
 
 MODEL = os.getenv("FACT_CHECKER_MODEL", "claude-sonnet-5-5")
@@ -263,6 +263,8 @@ EXTRACT_PROMPT = """Someone forwarded the message below and wants to know if it 
 
 def extract(state: State) -> dict:
     forward = state["forward"]
+    if not forward["image"] and not checkable(forward["text"]):
+        return {"claims": []}
     content = [{"type": "text", "text": f"<message>\n{forward['text']}\n</message>"}]
     if forward["image"]:
         content.append({"type": "image", "base64": forward["image"], "mime_type": forward["image_type"]})
@@ -282,16 +284,18 @@ REPLY_PROMPT = """Write the reply to someone who forwarded a message to check it
 - For each claim: its verdict, one short reason, and one source link if there is one.
 - Under 120 words, warm and respectful, no lecturing. Family members will read it.
 - Plain text, no markdown: it gets pasted into chats like WhatsApp.
-- If anything is false or misleading, gently suggest not forwarding it.
-- If there were no claims, say the message has no factual claim to check."""
+- If anything is false or misleading, gently suggest not forwarding it."""
+NO_CLAIMS = "There's nothing here to fact-check: the message doesn't state anything as fact."
 
 
 def reply(state: State) -> dict:
+    if not state.get("results"):
+        return {"reply": NO_CLAIMS}
     results = "\n\n".join(
         f"Claim: {r['claim']}\nVerdict: {r['verdict']}\nWhy: {r['rationale']}\n"
         f"Source: {r['sources'][0]['url'] if r['sources'] else 'none'}"
-        for r in state.get("results", [])
-    ) or "No claims."
+        for r in state["results"]
+    )
     message = llm("low").invoke(
         [("system", REPLY_PROMPT.format(language=state["language"])), ("human", results)]
     )
