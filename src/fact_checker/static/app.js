@@ -78,7 +78,12 @@ function fold(quote) {
   const p = quote.querySelector("p");
   if (!p || p.scrollHeight <= p.clientHeight) return;
   const more = el("button", { type: "button", className: "more", textContent: "Show all" });
-  more.onclick = () => (more.textContent = quote.classList.toggle("whole") ? "Show less" : "Show all");
+  more.setAttribute("aria-expanded", "false");
+  more.onclick = () => {
+    const whole = quote.classList.toggle("whole");
+    more.textContent = whole ? "Show less" : "Show all";
+    more.setAttribute("aria-expanded", String(whole));
+  };
   quote.append(more);
 }
 
