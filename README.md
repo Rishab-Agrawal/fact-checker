@@ -1,5 +1,7 @@
 # fact-checker
 
+**Try it: [fact-check.up.railway.app](https://fact-check.up.railway.app)**
+
 Paste a message (text or screenshot). It extracts the checkable claims, researches each in parallel, and
 replies in its language with a verdict per claim (true / false / misleading / unverifiable) and sources.
 
@@ -9,6 +11,7 @@ replies in its language with a verdict per claim (true / false / misleading / un
 
 ```mermaid
 graph TD
+  claim([claim]) --> recall
   recall -->|seen before| done([done])
   recall --> archive
   archive -->|usable| judge
