@@ -2,6 +2,4 @@
 __pycache__/
 .pytest_cache/
 .env
-.impeccable/review/
-.impeccable/mocks/
-.impeccable/questions/
+.impeccable/
