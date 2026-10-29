@@ -392,6 +392,11 @@ try {
 } catch {}
 
 newCheck.addEventListener("click", startOver);
+panel.querySelector(".start").addEventListener("click", () => {
+  if (panel.matches(":popover-open")) panel.hidePopover();
+  if (!empty()) startOver();
+  else if (!touch) text.focus();
+});
 addEventListener("popstate", () => {
   const record = records.find((r) => r.id === history.state?.id);
   if (record) transition(() => display(record));

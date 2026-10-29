@@ -243,7 +243,7 @@ Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for c
 - **Body:** separated by a hairline; the rationale, a disc list of source links each with its muted domain, then the confidence line.
 
 ### History
-- **Panel:** ground-coloured with a hairline on its right; a muted "Recent" label beside the toggle, then one row per check, newest first. It slides (0.3s, the composer's ease-out): collapsing on wide screens, with the column's padding sliding along, and in and out as the narrow drawer, its scrim fading with it.
+- **Panel:** ground-coloured with a hairline on its right; a "New check" row (plus icon, ink, 500 weight) beside the toggle, so starting over never needs a scroll, then a muted "Recent" label and one row per check, newest first. It slides (0.3s, the composer's ease-out): collapsing on wide screens, with the column's padding sliding along, and in and out as the narrow drawer, its scrim fading with it.
 - **Toggle:** a hairline-bordered 2rem square like attach (2.5rem on coarse pointers); hover fills Grey Bubble, press scales to 0.94.
 - **Row:** the message's first line (or a screenshot's first claim) in muted label text, one line with an ellipsis; hover and the open check fill Grey Bubble with ink text. A running check pulses like the progress line. A small x deletes it, shown on hover or focus, always on coarse pointers.
 
