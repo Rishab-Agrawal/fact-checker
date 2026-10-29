@@ -12,6 +12,7 @@ from collections.abc import Iterator
 from datetime import datetime, timezone
 from functools import cache
 from pathlib import Path
+from queue import Queue
 from typing import Literal
 from uuid import uuid4
 
@@ -85,18 +86,44 @@ class Check(BaseModel):
     image_type: Literal["image/png", "image/jpeg", "image/webp"] | None = None
 
 
-def events(message: dict) -> Iterator[str]:
-    """One JSON line per step started, then the result. Failures become a generic error; details go to the log."""
-    config = {"configurable": {"thread_id": uuid4().hex}}
+def outcome(check_id: str) -> dict:
+    """A finished check's result, from its last checkpoint, or a generic error."""
+    state = graph().get_state({"configurable": {"thread_id": check_id}})
+    if "reply" not in state.values:
+        return {"error": "failed"}
+    took = datetime.fromisoformat(state.created_at) - datetime.fromisoformat(state.values["message"]["received_at"])
+    seconds = round(took.total_seconds())
+    return {"reply": state.values["reply"], "results": state.values.get("results", []), "seconds": seconds}
+
+
+# ponytail: in-memory like the limits, so a redeploy ends running checks and they read as failed
+running: set[str] = set()
+
+
+def run(check_id: str, message: dict, events: Queue) -> None:
+    """Runs a check to the end and queues one event per step started, then the outcome, then None."""
     try:
+        config = {"configurable": {"thread_id": check_id}}
         for _, task in graph().stream({"message": message}, config, stream_mode="tasks", subgraphs=True):
             if "input" in task and task["name"] in STEPS:
-                yield json.dumps({"step": STEPS[task["name"]]}) + "\n"
-        values = graph().get_state(config).values
-        yield json.dumps({"reply": values["reply"], "results": values.get("results", [])}) + "\n"
+                events.put({"step": STEPS[task["name"]]})
+        events.put(outcome(check_id))
     except Exception:
         logging.exception("Check failed")
-        yield json.dumps({"error": "failed"}) + "\n"
+        events.put({"error": "failed"})
+    finally:
+        running.discard(check_id)
+        events.put(None)
+
+
+def stream(message: dict) -> Iterator[str]:
+    """The check's id, then its events as JSON lines. It runs on its own thread, so it ends even if the page leaves."""
+    check_id, events = uuid4().hex, Queue()
+    running.add(check_id)
+    threading.Thread(target=run, args=(check_id, message, events), daemon=True).start()
+    yield json.dumps({"id": check_id}) + "\n"
+    while event := events.get():
+        yield json.dumps(event) + "\n"
 
 
 app = FastAPI(docs_url=None, redoc_url=None)
@@ -111,7 +138,13 @@ def check(body: Check, request: Request) -> StreamingResponse:
         raise HTTPException(429)
     notify_admin(ip, body.text, bool(body.image))
     message = body.model_dump() | {"received_at": datetime.now(timezone.utc).isoformat()}
-    return StreamingResponse(events(message), media_type="application/x-ndjson")
+    return StreamingResponse(stream(message), media_type="application/x-ndjson")
+
+
+@app.get("/api/checks/{check_id}")
+def result(check_id: str) -> dict:
+    """Where the page finds a check whose stream broke: a reload, a closed tab, a phone asleep."""
+    return {"pending": True} if check_id in running else outcome(check_id)
 
 
 @app.middleware("http")

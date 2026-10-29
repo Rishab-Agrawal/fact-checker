@@ -18,7 +18,8 @@ class FakeGraph:
             raise RuntimeError("secret detail")
 
     def get_state(self, config):
-        return SimpleNamespace(values={"reply": "False.", "results": []})
+        values = {"reply": "False.", "results": [], "message": {"received_at": "2026-01-01T00:00:00+00:00"}}
+        return SimpleNamespace(values=values, created_at="2026-01-01T00:00:07+00:00")
 
 
 @pytest.fixture(autouse=True)
@@ -38,10 +39,16 @@ def test_rate_limit_is_per_ip():
     assert app.allow("2.2.2.2")
 
 
-def test_check_streams_started_steps_then_the_result(monkeypatch):
-    assert post(monkeypatch, FakeGraph(), "3.3.3.3") == [
-        {"step": "Reading the message"}, {"reply": "False.", "results": []},
-    ]
+def test_check_streams_its_id_then_started_steps_then_the_result(monkeypatch):
+    events = post(monkeypatch, FakeGraph(), "3.3.3.3")
+    result = {"reply": "False.", "results": [], "seconds": 7}
+    assert events[1:] == [{"step": "Reading the message"}, result]
+    assert TestClient(app.app).get(f"/api/checks/{events[0]['id']}").json() == result
+
+
+def test_a_running_check_reads_as_pending(monkeypatch):
+    monkeypatch.setattr(app, "running", {"abc"})
+    assert TestClient(app.app).get("/api/checks/abc").json() == {"pending": True}
 
 
 def test_failure_reaches_the_page_only_as_a_generic_error(monkeypatch):

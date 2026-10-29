@@ -12,6 +12,7 @@ colors:
   placeholder: "#71717a"
   border: "#e6e6e9"
   border-strong: "#d2d2d7"
+  scrim: "#00000033"
   "true": "#166534"
   "false": "#b91c1c"
   misleading: "#8a4b05"
@@ -26,6 +27,7 @@ colors:
   placeholder-dark: "#8e8e96"
   border-dark: "#2a2a2e"
   border-strong-dark: "#3f3f46"
+  scrim-dark: "#00000080"
   true-dark: "#7dcf9a"
   false-dark: "#f0a19b"
   misleading-dark: "#e9ac74"
@@ -159,6 +161,7 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 - **Ink** (text): all body text.
 - **Zinc Gray** (muted): secondary text, the progress line, source domains, idle icon buttons.
 - **Placeholder**: the composer placeholder only.
+- **Scrim** (scrim, 20% black; 50% in dark): behind the history drawer on narrow screens.
 - **Hairline** (border): every rule. **Strong Hairline** (border-strong): the focused composer, hovered pills, the scrollbar thumb.
 
 ### Verdict
@@ -194,7 +197,7 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 
 ## Layout
 
-One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. A check replaces the page and reads top to bottom: the message on the right, as wide as its content (folded to four lines with "Show all" when longer, so the verdict stays on the first screen), the result 1.5rem below it, left and unboxed, then the "New check" pill once the check ends, with the caution note under it while the result has verdicts. The composer is hidden there; the page opens at the top, never scrolled to the result's end, and Back returns to the empty page. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
+One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. A check replaces the page and reads top to bottom: the message on the right, as wide as its content (folded to four lines with "Show all" when longer, so the verdict stays on the first screen), the result 1.5rem below it, left and unboxed, then the "New check" pill once the check ends, with the caution note under it while the result has verdicts. The composer is hidden there; the page opens at the top, never scrolled to the result's end. Each check and the empty page are their own browser history entries, and a reload returns to the check it was on. Once there is a first check, a 16rem history panel sits at the left from 64rem up, pushing the column right; narrower, a panel-left toggle at the top left opens it as a drawer over a scrim. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
 
 ## Elevation & Depth
 
@@ -238,6 +241,10 @@ Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for c
 - **Background:** none; 1px hairline border; header hover a 50% Grey Bubble wash.
 - **Header:** verdict badge, the claim, and a muted chevron that rotates 180° on open (0.2s).
 - **Body:** separated by a hairline; the rationale, a disc list of source links each with its muted domain, then the confidence line.
+
+### History
+- **Panel:** ground-coloured with a hairline on its right; a muted "Recent" label, then one row per check, newest first.
+- **Row:** the message's first line (or a screenshot's first claim) in muted label text, one line with an ellipsis; hover and the open check fill Grey Bubble with ink text. A running check pulses like the progress line. A small x deletes it, shown on hover or focus, always on coarse pointers.
 
 ### Verdict Badges
 Tinted 0.5rem-cornered badges: drawn icon plus one word in the verdict colour. Check/True, x/False, warning triangle/Misleading, circled question/Unverifiable.

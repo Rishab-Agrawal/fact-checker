@@ -18,6 +18,14 @@
   <script src="/app.js" defer></script>
 </head>
 <body class="empty">
+  <button type="button" class="history-toggle" popovertarget="history" aria-label="Recent checks" title="Recent checks">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+  </button>
+  <nav id="history" class="history" popover aria-labelledby="history-heading">
+    <h2 id="history-heading">Recent</h2>
+    <ul></ul>
+  </nav>
+
   <main>
     <h1 class="greeting">
       <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="m9 12 2 2 4-4"/></svg>

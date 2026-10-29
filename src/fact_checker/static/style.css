@@ -15,6 +15,7 @@
   --misleading: #8a4b05;
   --unverifiable: #52525b;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 0.25rem 1rem rgb(0 0 0 / 0.04);
+  --scrim: rgb(0 0 0 / 0.2);
   --column: 44rem;
   --small: 0.875rem;
   --radius-sm: 0.5rem;
@@ -40,6 +41,7 @@
     --misleading: #e9ac74;
     --unverifiable: #b4b4bc;
     --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 0.25rem 1rem rgb(0 0 0 / 0.25);
+    --scrim: rgb(0 0 0 / 0.5);
   }
 }
 
@@ -141,6 +143,112 @@ body:not(.empty) .examples { display: none; }
   margin-right: 0.25em;
   vertical-align: -0.12em;
   color: var(--accent);
+}
+
+/* History: earlier checks, newest first. A panel beside the page on wide screens; a drawer from the toggle on narrow ones.
+   Nothing shows until there is a first check. */
+
+.history {
+  inset: 0 auto 0 0;
+  width: min(16rem, 85vw);
+  height: auto;
+  margin: 0;
+  padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem max(0.75rem, env(safe-area-inset-bottom));
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.history::backdrop { background: var(--scrim); }
+
+.history h2 {
+  margin: 0 0 0.25rem;
+  padding: 0.375rem 0.5rem;
+  color: var(--muted);
+  font-size: var(--small);
+  font-weight: 400;
+}
+
+.history ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history li {
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s;
+}
+
+.history li:hover, .history li:has([aria-current]) { background: var(--bubble); }
+
+.history .open {
+  flex: 1;
+  min-width: 0;
+  padding: 0.375rem 0.5rem;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: var(--small);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s;
+}
+
+.history li:hover .open, .history [aria-current] { color: var(--text); }
+.history .open[data-running] { animation: pulse 1.6s ease-in-out infinite; }
+
+.forget {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.forget svg { width: 0.875rem; height: 0.875rem; }
+.forget:hover { color: var(--text); }
+.history li:hover .forget, .history li:focus-within .forget { opacity: 1; }
+
+.history-toggle {
+  position: absolute;
+  top: max(0.75rem, env(safe-area-inset-top));
+  left: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--muted);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.history-toggle:hover { background: var(--bubble); color: var(--text); }
+.history-toggle svg { width: 1.25rem; height: 1.25rem; }
+body:not(:has(.history li)) .history-toggle { display: none; }
+
+@media (min-width: 64rem) {
+  body:has(.history li) { padding-left: 16rem; }
+  body:has(.history li) .history { display: block; } /* always open here; the popover is only the narrow drawer */
+  .history::backdrop, .history-toggle { display: none; }
 }
 
 /* Composer */
@@ -445,6 +553,7 @@ details[open] > summary .chevron { transform: rotate(180deg); }
 
 @media (pointer: coarse) {
   .actions button { width: 2.5rem; height: 2.5rem; }
+  .forget { width: 2.5rem; height: 2.5rem; opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -41,6 +41,9 @@ graph TD
 - **Public, no login**: 10 checks per IP per day, and an admin Telegram bot that reports each check.
 - **FastAPI and one hand-written page, not a UI framework**: the API streams each step as it starts (LangGraph's
   `tasks` stream mode), and the page owns every pixel. Failures reach the page only as a generic message.
+- **A check outlives its page**: it runs on its own thread, so a reload, closed tab or sleeping phone doesn't
+  waste it. The page keeps its latest 20 checks in IndexedDB (no account, no server copy) and asks
+  `GET /api/checks/{id}` for any whose stream broke.
 
 ## Run
 

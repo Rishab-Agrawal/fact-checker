@@ -30,7 +30,7 @@ Each claim is researched on its own: earlier verdicts, an archive of ~88k profes
 
 ## Brand Commitments
 
-- The flow of claude.ai (user-pinned), not its look, following the device's light or dark setting. On an empty page the greeting and input sit centered. Each check stands alone, so it is not a chat: a check replaces the page (the message at the top right, folded when long, then the result, then "New check"), and Back or "New check" brings the input back.
+- The flow of claude.ai (user-pinned), not its look, following the device's light or dark setting. On an empty page the greeting and input sit centered. Each check stands alone, so it is not a chat: a check replaces the page (the message at the top right, folded when long, then the result, then "New check"), and "New check" brings the input back. Earlier checks are listed on the left, newest first, kept in the browser only (the latest 20).
 - Look: minimal and sophisticated, never a clone of another product (user-pinned).
 - Voice: minimal, friendly, simple. No copy repeated between the heading, the placeholder and other text.
 
