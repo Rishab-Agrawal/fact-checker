@@ -1,6 +1,6 @@
 ---
 name: Fact checker
-description: Paste a forward, get a verdict per claim, one check at a time.
+description: Paste a message, get a verdict per claim, one check at a time.
 colors:
   accent: "#18181b"
   link: "#18181b"
@@ -88,7 +88,7 @@ components:
   example-pill-hover:
     backgroundColor: "{colors.surface}"
     textColor: "{colors.text}"
-  forward-quote:
+  message-quote:
     backgroundColor: "{colors.bubble}"
     textColor: "{colors.text}"
     typography: "{typography.body}"
@@ -134,12 +134,12 @@ components:
 
 **Creative North Star: "Graphite"**
 
-A fact-checker with the calm flow of the assistants people already use: claude.ai's flow, with its own look. One question, one input, then one result; each check stands alone, so it is not a chat. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and a grey quoted forward, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.
+A fact-checker with the calm flow of the assistants people already use: claude.ai's flow, with its own look. One question, one input, then one result; each check stands alone, so it is not a chat. The world is graphite on near-white: a near-white ground, near-black ink, a white composer card and a grey quoted message, with no accent hue at all. Ink is the accent, so the four verdict colours are the only colour on the page. A dark twin on near-black follows the device setting; there is no theme toggle.
 
 Plain HTML, CSS and JS with no build step. Every token is a custom property on `:root` in `style.css`, and a single `prefers-color-scheme: dark` block reassigns the same names, so both themes come from one rule set. The favicon is an inline SVG data URI in `index.html` (so it changes with the page) and carries its own dark variant.
 
 **Key Characteristics:**
-- Near-white ground (near-black in dark), a white composer card, the forward quoted in a grey block, unboxed results.
+- Near-white ground (near-black in dark), a white composer card, the message quoted in a grey block, unboxed results.
 - No hue but the verdicts: ink fills the send button and draws the mark, focus ring, caret and selection.
 - Geist in every role, Noto Sans Devanagari for Hindi; one small size.
 - Verdicts as tinted badges pairing a colour, a drawn icon and a word.
@@ -155,7 +155,7 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 ### Neutral
 - **Near-white Ground / Near-black Ground** (bg): the page and the `theme-color`; also the send arrow and the remove-button cross, which sit on ink.
 - **White Surface / Graphite Surface** (surface): the composer card and hovered example pills.
-- **Grey Bubble** (bubble): the quoted forward and the hover fill of quiet buttons.
+- **Grey Bubble** (bubble): the quoted message and the hover fill of quiet buttons.
 - **Ink** (text): all body text.
 - **Zinc Gray** (muted): secondary text, the progress line, source domains, idle icon buttons.
 - **Placeholder**: the composer placeholder only.
@@ -177,11 +177,11 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 **Display Font:** Geist.
 **Devanagari:** Noto Sans Devanagari (400 to 600), reached through the same stack for Hindi text.
 
-**Character:** A plain, precise grotesque at regular weight; the greeting is the only tightened, heavier line. Geist is a user-confirmed choice (recorded as a detector ignore-value in `.impeccable/config.json`). The Devanagari sans matches its stroke so Hindi forwards sit in the same voice.
+**Character:** A plain, precise grotesque at regular weight; the greeting is the only tightened, heavier line. Geist is a user-confirmed choice (recorded as a detector ignore-value in `.impeccable/config.json`). The Devanagari sans matches its stroke so Hindi messages sit in the same voice.
 
 ### Hierarchy
 - **Display** (500, clamp(1.75rem, 7vw, 2.5rem), 1.2, -0.025em, balanced wrap): the empty-page greeting only.
-- **Body** (400, 1rem, 1.6): replies, rationales, the quoted forward, the composer.
+- **Body** (400, 1rem, 1.6): replies, rationales, the quoted message, the composer.
 - **Label** (400, 0.875rem): every secondary line: progress, example pills, copy and retry, domains, confidence, the footer note, the error line.
 - **Badge** (500, 0.875rem, 1.6): verdict badges.
 
@@ -194,7 +194,7 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 
 ## Layout
 
-One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. A check replaces the page and reads top to bottom: the forward quoted full width (folded to four lines with "Show all" when longer, so the verdict stays on the first screen), the result 1.5rem below it, left and unboxed, then the "New check" pill once the check ends, with the caution note under it while the result has verdicts. The composer is hidden there; the page opens at the top, never scrolled to the result's end, and Back returns to the empty page. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
+One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. A check replaces the page and reads top to bottom: the message quoted full width (folded to four lines with "Show all" when longer, so the verdict stays on the first screen), the result 1.5rem below it, left and unboxed, then the "New check" pill once the check ends, with the caution note under it while the result has verdicts. The composer is hidden there; the page opens at the top, never scrolled to the result's end, and Back returns to the empty page. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
 
 ## Elevation & Depth
 
@@ -208,7 +208,7 @@ Nearly flat. Surfaces separate by tone and 1px hairlines; the one shadow is the 
 
 ## Shapes
 
-Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for claim rows and image thumbnails, 1.25rem for the composer and the quoted forward, full pills for example chips (and a circle for the attachment's remove button). Borders are 1px hairlines. Icons are Lucide line icons drawn inline (24 viewBox, 2px round stroke, `currentColor`), including the mark (Lucide's message-circle-check in ink). Never emoji or text glyphs.
+Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for claim rows and image thumbnails, 1.25rem for the composer and the quoted message, full pills for example chips (and a circle for the attachment's remove button). Borders are 1px hairlines. Icons are Lucide line icons drawn inline (24 viewBox, 2px round stroke, `currentColor`), including the mark (Lucide's message-circle-check in ink). Never emoji or text glyphs.
 
 ## Components
 
@@ -229,7 +229,7 @@ Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for c
 - **Hover:** strong-hairline border, surface fill, ink text. Shown only on the empty page.
 
 ### Messages
-- **Forward quote:** a `blockquote`, Grey Bubble, 1.25rem corners, full column width; an attached screenshot sits above the text with a hairline border and 0.75rem corners; text folds to four lines with a quiet "Show all" / "Show less" toggle.
+- **Message quote:** a `blockquote`, Grey Bubble, 1.25rem corners, full column width; an attached screenshot sits above the text with a hairline border and 0.75rem corners; text folds to four lines with a quiet "Show all" / "Show less" toggle.
 - **Reply:** unboxed body text with linkified URLs, followed by a copy button.
 - **Progress:** a disclosure line in muted label text with a chevron; while running, the current step pulses between muted and ink (1.6s), keeping full contrast at both ends.
 

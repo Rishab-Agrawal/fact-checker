@@ -1,7 +1,7 @@
 # fact-checker
 
-Paste a forwarded message (text or screenshot). It extracts the checkable claims, researches each in parallel, and
-replies in the sender's language with a verdict per claim (true / false / misleading / unverifiable) and sources.
+Paste a message (text or screenshot). It extracts the checkable claims, researches each in parallel, and
+replies in its language with a verdict per claim (true / false / misleading / unverifiable) and sources.
 
 ## How it works
 
@@ -37,13 +37,13 @@ graph TD
 - **One Postgres** holds the archive, graph checkpoints and memory.
 - **Public, no login**: 10 checks per IP per day, and an admin Telegram bot that reports each check.
 - **FastAPI and one hand-written page, not a UI framework**: the API streams each step as it starts (LangGraph's
-  `tasks` stream mode), and the chat page owns every pixel. Failures reach the page only as a generic message.
+  `tasks` stream mode), and the page owns every pixel. Failures reach the page only as a generic message.
 
 ## Run
 
 One Railway project, deployed from this repo:
 
-- **app**: the API and chat page (`Procfile`). API keys are set here; the jobs reference them.
+- **app**: the API and the page (`Procfile`). API keys are set here; the jobs reference them.
 - **ingest**: daily cron, `python -m fact_checker.ingest`. Adds new fact-checks to the archive.
 - **evals**: monthly cron, `python evals/averitec.py 5` (40 once cost per claim is known). Run it now with `railway cron run --service evals`.
 - **Postgres**: archive, checkpoints, memory and eval runs.

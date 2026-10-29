@@ -1,7 +1,7 @@
 [project]
 name = "fact-checker"
 version = "0.1.0"
-description = "Checks forwarded messages: claim extraction, parallel research, debate, verdicts"
+description = "Checks messages: claim extraction, parallel research, debate, verdicts"
 readme = "README.md"
 authors = [
     { name = "rishab", email = "rishabsecond@gmail.com" }

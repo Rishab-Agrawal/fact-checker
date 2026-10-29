@@ -22,7 +22,7 @@ from fact_checker.evidence import (
 MODEL = os.getenv("FACT_CHECKER_MODEL", "claude-sonnet-5-5")
 MAX_CLAIMS = 5
 DEBATE_BELOW = 0.7  # judge confidence under which the debate runs (it always runs for "unverifiable")
-REMEMBER_MIN = 0.8  # judge confidence needed before a verdict is reused for other forwards
+REMEMBER_MIN = 0.8  # judge confidence needed before a verdict is reused for other messages
 MEMORY_DAYS = 30  # truths go stale; re-check after this
 RETRY = RetryPolicy(max_attempts=3)
 
@@ -43,7 +43,7 @@ def llm(effort: str) -> ChatAnthropic:
 # --- State ---------------------------------------------------------------------------
 
 
-class Forward(TypedDict):
+class Message(TypedDict):
     text: str
     image: str | None  # base64
     image_type: str | None  # e.g. "image/jpeg"
@@ -64,7 +64,7 @@ class ClaimResult(TypedDict):
 
 
 class State(TypedDict):
-    forward: Forward
+    message: Message
     language: str
     claims: list[str]
     results: Annotated[list[ClaimResult], operator.add]
@@ -225,7 +225,7 @@ def cite(judgement: dict, evidence: list[Evidence], claim: str) -> ClaimResult:
 
 def finish(state: ClaimState, runtime: Runtime) -> dict:
     result = cite(state["judgement"], state["evidence"], state["claim"])
-    # Only grounded verdicts are reused: a wrong one would be served to every forward for MEMORY_DAYS.
+    # Only grounded verdicts are reused: a wrong one would be served to every message for MEMORY_DAYS.
     if result["verdict"] != "unverifiable" and result["confidence"] >= REMEMBER_MIN and grounded(state):
         key = hashlib.sha256(state["claim"].encode()).hexdigest()
         runtime.store.put(("verdicts",), key, {**result, "checked_at": state["as_of"]}, index=["claim"])
@@ -261,10 +261,10 @@ class Extraction(BaseModel):
     claims: list[str] = Field(description="Checkable claims, most important first")
 
 
-EXTRACT_PROMPT = """Someone forwarded the message below and wants to know if it is true. List its checkable claims.
+EXTRACT_PROMPT = """List the checkable claims in the message below.
 
-- A checkable claim is a factual statement that evidence could confirm or refute. Skip opinions, predictions,
-  greetings and calls to action like "share this".
+- A checkable claim is a factual statement that evidence could confirm or refute; asking whether something is true
+  counts as stating it. Skip opinions, predictions and greetings.
 - Make each claim stand alone: resolve pronouns, keep names, numbers, dates and places exactly.
 - Write claims in English, whatever the message's language, so they can be searched.
 - At most {max_claims} claims. Merge duplicates.
@@ -272,12 +272,12 @@ EXTRACT_PROMPT = """Someone forwarded the message below and wants to know if it 
 
 
 def extract(state: State) -> dict:
-    forward = state["forward"]
-    if not forward["image"] and not checkable(forward["text"]):
+    message = state["message"]
+    if not message["image"] and not checkable(message["text"]):
         return {"claims": []}
-    content = [{"type": "text", "text": f"<message>\n{forward['text']}\n</message>"}]
-    if forward["image"]:
-        content.append({"type": "image", "base64": forward["image"], "mime_type": forward["image_type"]})
+    content = [{"type": "text", "text": f"<message>\n{message['text']}\n</message>"}]
+    if message["image"]:
+        content.append({"type": "image", "base64": message["image"], "mime_type": message["image_type"]})
     out = llm("low").with_structured_output(Extraction, method="json_schema").invoke(
         [("system", EXTRACT_PROMPT.format(max_claims=MAX_CLAIMS)), ("human", content)]
     )
@@ -285,17 +285,15 @@ def extract(state: State) -> dict:
 
 
 def research_all(state: State) -> list[Send] | str:
-    as_of = datetime.fromisoformat(state["forward"]["received_at"]).date().isoformat()
+    as_of = datetime.fromisoformat(state["message"]["received_at"]).date().isoformat()
     return [Send("research", {"claim": c, "as_of": as_of}) for c in state["claims"]] or "reply"
 
 
-REPLY_PROMPT = """Write a reply, in {language}, to paste back into the chat a forwarded message came from.
+REPLY_PROMPT = """Say what fact-checking the message found, in {language}.
 
 - For each claim: its verdict, one short reason, and one source link if there is one.
-- Under 120 words, warm and respectful, no lecturing. Family members will read it.
-- Start with the first verdict. No thanks or praise for checking: the chat never saw the check.
-- Plain text, no markdown: it gets pasted into chats like WhatsApp.
-- If anything is false or misleading, gently suggest not forwarding it."""
+- Under 120 words, respectful, no lecturing. Nothing before the first verdict or after the last.
+- Plain text, no markdown: it is shown as written."""
 NO_CLAIMS = "There's nothing here to fact-check: the message doesn't state anything as fact."
 
 

@@ -1,4 +1,4 @@
-"""Fact-checker for forwarded messages."""
+"""Fact-checker for messages."""
 
 from dotenv import load_dotenv
 

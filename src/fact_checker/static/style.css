@@ -94,7 +94,7 @@ main { padding-block: 2.5rem 0; }
 footer { padding-block: 2rem max(1.5rem, env(safe-area-inset-bottom)); }
 
 /* Empty page: greeting, composer and examples sit together a little above centre.
-   A result page reads top to bottom: the forward, its result, then "New check". */
+   A result page reads top to bottom: the message, its result, then "New check". */
 .empty { justify-content: center; padding-bottom: 12dvh; }
 .empty main { padding-block: 0 2rem; }
 .empty footer { padding-top: 0; }
@@ -281,7 +281,7 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
   gap: 1.5rem;
 }
 
-.forward {
+.message {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -292,8 +292,8 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
   background: var(--bubble);
 }
 
-/* Long forwards fold to four lines, so the verdict stays on the first screen. */
-.forward p {
+/* Long messages fold to four lines, so the verdict stays on the first screen. */
+.message p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
@@ -303,9 +303,9 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
   overflow-wrap: anywhere;
 }
 
-.forward.whole p { -webkit-line-clamp: unset; }
+.message.whole p { -webkit-line-clamp: unset; }
 
-.forward img {
+.message img {
   display: block;
   max-width: min(100%, 16rem);
   max-height: 20rem;

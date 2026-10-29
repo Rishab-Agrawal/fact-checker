@@ -44,8 +44,8 @@ def test_credible_uses_domain_ratings_and_official_suffixes():
 def test_a_message_with_nothing_to_check_never_reaches_claude(monkeypatch):
     monkeypatch.setattr(graph, "checkable", lambda text: False)
     monkeypatch.setattr(graph, "llm", lambda effort: pytest.fail("Claude was called"))
-    forward = {"text": "Good morning! Have a blessed day", "image": None, "image_type": None, "received_at": ""}
-    assert graph.extract({"forward": forward}) == {"claims": []}
+    message = {"text": "Good morning! Have a blessed day", "image": None, "image_type": None, "received_at": ""}
+    assert graph.extract({"message": message}) == {"claims": []}
     assert graph.reply({"results": []}) == {"reply": graph.NO_CLAIMS}
 
 

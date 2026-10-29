@@ -1,4 +1,4 @@
-"""The web app: a chat page and the API it streams checks from. Run: uvicorn fact_checker.app:app --reload"""
+"""The web app: the page and the API it streams checks from. Run: uvicorn fact_checker.app:app --reload"""
 
 import json
 import logging
@@ -85,11 +85,11 @@ class Check(BaseModel):
     image_type: Literal["image/png", "image/jpeg", "image/webp"] | None = None
 
 
-def events(forward: dict) -> Iterator[str]:
+def events(message: dict) -> Iterator[str]:
     """One JSON line per step started, then the result. Failures become a generic error; details go to the log."""
     config = {"configurable": {"thread_id": uuid4().hex}}
     try:
-        for _, task in graph().stream({"forward": forward}, config, stream_mode="tasks", subgraphs=True):
+        for _, task in graph().stream({"message": message}, config, stream_mode="tasks", subgraphs=True):
             if "input" in task and task["name"] in STEPS:
                 yield json.dumps({"step": STEPS[task["name"]]}) + "\n"
         values = graph().get_state(config).values
@@ -110,8 +110,8 @@ def check(body: Check, request: Request) -> StreamingResponse:
     if not allow(ip):
         raise HTTPException(429)
     notify_admin(ip, body.text, bool(body.image))
-    forward = body.model_dump() | {"received_at": datetime.now(timezone.utc).isoformat()}
-    return StreamingResponse(events(forward), media_type="application/x-ndjson")
+    message = body.model_dump() | {"received_at": datetime.now(timezone.utc).isoformat()}
+    return StreamingResponse(events(message), media_type="application/x-ndjson")
 
 
 @app.middleware("http")

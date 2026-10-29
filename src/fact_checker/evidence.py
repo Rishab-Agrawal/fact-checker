@@ -148,9 +148,9 @@ def same_claim(claim: str, candidates: list[str]) -> list[float]:
 
 CHECKABLE = {
     "claim": Noul(
-        instructions="Does `message` state something as fact that evidence could confirm or refute, such as an "
-        "event, number, quote, rule, or health or science claim? Greetings, opinions, jokes, questions and "
-        "requests to share don't count."
+        instructions="Does `message` state, or ask whether, something is true that public evidence could confirm "
+        "or refute, such as an event, number, quote, rule, or health or science claim? Greetings, opinions and "
+        "jokes don't count."
     )
 }
 

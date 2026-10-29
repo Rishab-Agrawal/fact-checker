@@ -73,7 +73,7 @@ function linkify(reply) {
     .map((part, i) => (i % 2 ? el("a", { href: part, textContent: part, target: "_blank", rel: "noopener" }) : part));
 }
 
-// Long forwards fold to four lines (see .forward p), with a toggle only when something is hidden.
+// Long messages fold to four lines (see .message p), with a toggle only when something is hidden.
 function fold(quote) {
   const p = quote.querySelector("p");
   if (!p || p.scrollHeight <= p.clientHeight) return;
@@ -198,16 +198,16 @@ async function check(payload, out) {
 }
 
 // Each check stands alone: it replaces the page and gets its own history entry, so Back starts over.
-function submit(forward, screenshot) {
+function submit(message, screenshot) {
   if (busy) return;
   busy = true; // now, not in the transition: a held Enter must not start a second check
   update();
   history.pushState({ check: true }, "");
   transition(() => {
     document.body.classList.remove("empty");
-    const quote = el("blockquote", { className: "forward" });
+    const quote = el("blockquote", { className: "message" });
     if (screenshot) quote.append(el("img", { src: screenshot.url, alt: "Screenshot sent for checking" }));
-    if (forward) quote.append(el("p", { textContent: forward }));
+    if (message) quote.append(el("p", { textContent: message }));
     const out = el("div", { className: "result" });
     report.replaceChildren(quote, out);
     fold(quote);
@@ -217,7 +217,7 @@ function submit(forward, screenshot) {
     say("");
     if (touch) text.blur();
     scrollTo(0, 0);
-    check({ text: forward, image: screenshot?.data ?? null, image_type: screenshot?.type ?? null }, out);
+    check({ text: message, image: screenshot?.data ?? null, image_type: screenshot?.type ?? null }, out);
   });
 }
 

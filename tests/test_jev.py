@@ -36,5 +36,6 @@ def test_same_claim_across_languages_but_not_across_numbers():
 def test_checkable_tells_claims_from_chatter():
     assert checkable(CLAIM)
     assert checkable("नासा ने पुष्टि की है कि दिसंबर में पृथ्वी पर 6 दिन तक अंधेरा रहेगा।")
+    assert checkable("did anthropic remove coding rounds from hiring?")
     assert not checkable("Good morning! Wishing everyone a blessed Sunday")
     assert not checkable("Haha, who is coming to Riya's birthday on Saturday?")
