@@ -289,14 +289,11 @@ def research_all(state: State) -> list[Send] | str:
     return [Send("research", {"claim": c, "as_of": as_of}) for c in state["claims"]] or "reply"
 
 
-REPLY_PROMPT = """Say what fact-checking the message found, in {language}.
+REPLY_PROMPT = """Give the overall verdict on the message, in {language}: name what it claims and say why.
 
-- Open with an overall verdict on the message, naming what it claims, and why in one sentence. The reply must
-  make sense on its own.
-- With more than one claim, then give each: the claim in a few words, its verdict and one short reason.
-- One source link per claim, if there is one.
-- Under 150 words, respectful, no lecturing. Nothing before the overall verdict or after the last claim.
-- Plain text, no markdown: it is shown as written."""
+- One or two sentences, under 60 words. Each claim's verdict and sources are shown below it, so don't list them.
+- Respectful, no lecturing. Nothing before the verdict.
+- Plain text, no markdown or links: it is shown as written."""
 NO_CLAIMS = "There's nothing here to fact-check: the message doesn't state anything as fact."
 
 
@@ -304,8 +301,7 @@ def reply(state: State) -> dict:
     if not state.get("results"):
         return {"reply": NO_CLAIMS}
     results = "\n\n".join(
-        f"Claim: {r['claim']}\nVerdict: {r['verdict']}\nWhy: {r['rationale']}\n"
-        f"Source: {r['sources'][0]['url'] if r['sources'] else 'none'}"
+        f"Claim: {r['claim']}\nVerdict: {r['verdict']}\nWhy: {r['rationale']}"
         for r in state["results"]
     )
     message = llm("low").invoke(

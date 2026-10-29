@@ -87,11 +87,18 @@ function fold(quote) {
   quote.append(more);
 }
 
+const links = (result) => result.sources.filter((s) => /^https?:\/\//.test(s.url));
+
+// What "Copy reply" puts on the clipboard: plain text that reads well pasted into any chat.
+function transcript(reply, results) {
+  const claims = results.map((r) => [`${LABELS[r.verdict]}: ${r.claim}`, r.rationale, ...links(r).map((s) => s.url)]);
+  return [reply, ...claims.map((lines) => lines.join("\n"))].join("\n\n");
+}
+
 function claim(result) {
   const badge = el("span", { className: "badge" }, icon(`[data-verdict="${result.verdict}"]`), LABELS[result.verdict]);
   badge.dataset.verdict = result.verdict;
-  const sources = result.sources
-    .filter((s) => /^https?:\/\//.test(s.url))
+  const sources = links(result)
     .map((s) => el("li", {},
       el("a", { href: s.url, textContent: s.title || host(s.url), target: "_blank", rel: "noopener" }),
       el("span", { className: "domain", textContent: host(s.url) })));
@@ -109,7 +116,7 @@ function answer({ reply, results }) {
   const copy = el("button", { type: "button", className: "copy" }, icon('[data-icon="copy"]'), label);
   copy.onclick = async () => {
     try {
-      await navigator.clipboard.writeText(reply);
+      await navigator.clipboard.writeText(transcript(reply, results));
       copy.firstChild.replaceWith(icon('[data-verdict="true"]'));
       label.textContent = "Copied";
     } catch {
@@ -123,7 +130,7 @@ function answer({ reply, results }) {
   // Nothing was checked: no reply worth sending back, and no verdicts or sources to caution about.
   note.hidden = !results.length;
   const parts = [el("p", { className: "reply" }, ...linkify(reply))];
-  if (results.length) parts.push(copy, el("ul", { className: "claims" }, ...results.map(claim)));
+  if (results.length) parts.push(el("ul", { className: "claims" }, ...results.map(claim)), copy);
   return parts;
 }
 

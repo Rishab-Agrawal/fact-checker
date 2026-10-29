@@ -230,7 +230,7 @@ Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for c
 
 ### Messages
 - **Message bubble:** the `blockquote` sits on the right at up to 85% of the column (36rem), as wide as its content. Its text is a Grey Bubble with 1.25rem corners, folded to four lines with a quiet "Show all" / "Show less" toggle under it; an attached screenshot sits above, unboxed, with a hairline border and 0.75rem corners.
-- **Reply:** unboxed body text with linkified URLs, followed by a copy button.
+- **Reply:** the overall verdict in a sentence or two, unboxed body text; the claim rows follow, then a copy button that copies the verdict and every claim as plain text.
 - **Progress:** a disclosure line in muted label text with a chevron; while running, the current step pulses between muted and ink (1.6s), keeping full contrast at both ends.
 
 ### Cards / Containers (claim rows)
