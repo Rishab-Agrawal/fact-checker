@@ -220,7 +220,9 @@ def cite(judgement: dict, evidence: list[Evidence], claim: str) -> ClaimResult:
     return ClaimResult(
         claim=claim, verdict=judgement["verdict"], confidence=judgement["confidence"],
         rationale=judgement["rationale"],
-        sources=[{"title": e["title"], "url": e["url"]} for e in cited if e["url"]], from_memory=False,
+        # One entry per page: archive, web and debate can each cite the same one.
+        sources=list({e["url"]: {"title": e["title"], "url": e["url"]} for e in cited if e["url"]}.values()),
+        from_memory=False,
     )
 
 

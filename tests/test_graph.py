@@ -19,6 +19,12 @@ def test_cited_verdict_keeps_sources():
     assert out["sources"] == [{"title": EVIDENCE[0]["title"], "url": "https://altnews.in/x"}]
 
 
+def test_a_page_cited_twice_is_one_source():
+    judgement = {"verdict": "false", "confidence": 0.9, "rationale": "r", "citations": ["F1", "W1"]}
+    out = cite(judgement, EVIDENCE + [{**EVIDENCE[0], "id": "W1"}], "c")
+    assert len(out["sources"]) == 1
+
+
 def test_a_confident_verdict_on_unvetted_sources_still_gets_the_debate():
     blog = {"id": "W1", "credible": False}
     judgement = {"verdict": "false", "confidence": 0.8, "citations": ["W1"]}
