@@ -145,8 +145,8 @@ body:not(.empty) .examples { display: none; }
   color: var(--accent);
 }
 
-/* History: earlier checks, newest first. A panel beside the page on wide screens; a drawer from the toggle on narrow ones.
-   Nothing shows until there is a first check. */
+/* History: earlier checks, newest first. A panel beside the page on wide screens, collapsed by the toggle;
+   a drawer from the toggle on narrow ones. Both slide. Nothing shows until there is a first check. */
 
 .history {
   inset: 0 auto 0 0;
@@ -158,9 +158,24 @@ body:not(.empty) .examples { display: none; }
   border-right: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
+  translate: -100%;
+  transition: translate 0.3s var(--ease-out), visibility 0.3s, display 0.3s allow-discrete, overlay 0.3s allow-discrete;
 }
 
-.history::backdrop { background: var(--scrim); }
+.history:popover-open { translate: 0; }
+
+.history::backdrop {
+  background: var(--scrim);
+  opacity: 0;
+  transition: opacity 0.3s, display 0.3s allow-discrete, overlay 0.3s allow-discrete;
+}
+
+.history:popover-open::backdrop { opacity: 1; }
+
+@starting-style {
+  .history:popover-open { translate: -100%; }
+  .history:popover-open::backdrop { opacity: 0; }
+}
 
 .history h2 {
   margin: 0 0 0.25rem;
@@ -229,26 +244,33 @@ body:not(.empty) .examples { display: none; }
   position: absolute;
   top: max(0.75rem, env(safe-area-inset-top));
   left: 0.75rem;
+  z-index: 1;
   display: grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   padding: 0;
-  border: 0;
+  border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  background: none;
+  background: var(--bg);
   color: var(--muted);
   transition: background-color 0.15s, color 0.15s;
 }
 
 .history-toggle:hover { background: var(--bubble); color: var(--text); }
-.history-toggle svg { width: 1.25rem; height: 1.25rem; }
+.history-toggle:active { transform: scale(0.94); }
+.history-toggle svg { width: 1.125rem; height: 1.125rem; }
 body:not(:has(.history li)) .history-toggle { display: none; }
 
 @media (min-width: 64rem) {
-  body:has(.history li) { padding-left: 16rem; }
-  body:has(.history li) .history { display: block; } /* always open here; the popover is only the narrow drawer */
-  .history::backdrop, .history-toggle { display: none; }
+  body:has(.history li):not(.collapsed) { padding-left: 16rem; }
+  body.ready { transition: padding-left 0.3s var(--ease-out); } /* not on load, when the list first fills in */
+  body:has(.history li) .history { display: block; } /* the popover is only the narrow drawer */
+  .history { translate: 0; }
+  body.collapsed .history { translate: -100%; visibility: hidden; }
+  .history::backdrop { display: none; }
+  .history-toggle { position: fixed; }
+  .history h2 { margin-left: 2.25rem; } /* beside the toggle */
 }
 
 /* Composer */
@@ -553,7 +575,8 @@ details[open] > summary .chevron { transform: rotate(180deg); }
 
 @media (pointer: coarse) {
   .actions button { width: 2.5rem; height: 2.5rem; }
-  .forget { width: 2.5rem; height: 2.5rem; opacity: 1; }
+  .forget, .history-toggle { width: 2.5rem; height: 2.5rem; }
+  .forget { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

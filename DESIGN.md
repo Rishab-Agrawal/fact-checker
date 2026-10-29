@@ -197,7 +197,7 @@ Cool greys from near-white to near-black, and four verdict colours that only eve
 
 ## Layout
 
-One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. A check replaces the page and reads top to bottom: the message on the right, as wide as its content (folded to four lines with "Show all" when longer, so the verdict stays on the first screen), the result 1.5rem below it, left and unboxed, then the "New check" pill once the check ends, with the caution note under it while the result has verdicts. The composer is hidden there; the page opens at the top, never scrolled to the result's end. Each check and the empty page are their own browser history entries, and a reload returns to the check it was on. Once there is a first check, a 16rem history panel sits at the left from 64rem up, pushing the column right; narrower, a panel-left toggle at the top left opens it as a drawer over a scrim. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
+One centred column, 44rem of content plus 1rem gutters, shared by `main` and `footer`. On the empty page the body centres vertically with 12dvh of bottom padding, so the greeting, composer and three example pills sit together a little above the middle. A check replaces the page and reads top to bottom: the message on the right, as wide as its content (folded to four lines with "Show all" when longer, so the verdict stays on the first screen), the result 1.5rem below it, left and unboxed, then the "New check" pill once the check ends, with the caution note under it while the result has verdicts. The composer is hidden there; the page opens at the top, never scrolled to the result's end. Each check and the empty page are their own browser history entries, and a reload returns to the check it was on. Once there is a first check, a 16rem history panel sits at the left from 64rem up, pushing the column right; a panel-left toggle at the top left collapses it (remembered per browser). Narrower, the same toggle opens it as a drawer over a scrim. Claims stack 0.5rem apart at full width. The footer respects the bottom safe-area inset. On coarse pointers the composer's icon buttons grow from 2rem to 2.5rem.
 
 ## Elevation & Depth
 
@@ -243,7 +243,8 @@ Three soft radii and a pill: 0.5rem for small controls and badges, 0.75rem for c
 - **Body:** separated by a hairline; the rationale, a disc list of source links each with its muted domain, then the confidence line.
 
 ### History
-- **Panel:** ground-coloured with a hairline on its right; a muted "Recent" label, then one row per check, newest first.
+- **Panel:** ground-coloured with a hairline on its right; a muted "Recent" label beside the toggle, then one row per check, newest first. It slides (0.3s, the composer's ease-out): collapsing on wide screens, with the column's padding sliding along, and in and out as the narrow drawer, its scrim fading with it.
+- **Toggle:** a hairline-bordered 2rem square like attach (2.5rem on coarse pointers); hover fills Grey Bubble, press scales to 0.94.
 - **Row:** the message's first line (or a screenshot's first claim) in muted label text, one line with an ellipsis; hover and the open check fill Grey Bubble with ink text. A running check pulses like the progress line. A small x deletes it, shown on hover or focus, always on coarse pointers.
 
 ### Verdict Badges

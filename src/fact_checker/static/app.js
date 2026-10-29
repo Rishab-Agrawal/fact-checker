@@ -369,6 +369,28 @@ function startOver() {
   reset();
 }
 
+// Wide screens collapse the panel, remembered per browser; narrow ones open it as a drawer (the toggle's popovertarget).
+const toggle = document.querySelector(".history-toggle");
+const wide = matchMedia("(min-width: 64rem)");
+function collapse(collapsed) {
+  document.body.classList.toggle("collapsed", collapsed);
+  if (wide.matches) toggle.setAttribute("aria-expanded", String(!collapsed));
+  else toggle.removeAttribute("aria-expanded"); // the popover reports its own state
+}
+toggle.addEventListener("click", (e) => {
+  if (!wide.matches) return;
+  e.preventDefault(); // no popover here
+  const collapsed = !document.body.classList.contains("collapsed");
+  collapse(collapsed);
+  try {
+    localStorage.setItem("collapsed", collapsed ? "1" : "");
+  } catch {}
+});
+wide.addEventListener("change", () => collapse(document.body.classList.contains("collapsed")));
+try {
+  collapse(!!localStorage.getItem("collapsed"));
+} catch {}
+
 newCheck.addEventListener("click", startOver);
 addEventListener("popstate", () => {
   const record = records.find((r) => r.id === history.state?.id);
@@ -436,6 +458,8 @@ if (!touch) text.focus();
 store("getAll").then((all = []) => {
   records = all.sort((a, b) => b.at - a.at);
   draw();
+  document.body.offsetWidth; // lay out the filled list first, so only later changes slide
+  document.body.classList.add("ready");
   records.filter(pending).forEach(follow);
   const record = records.find((r) => r.id === history.state?.id);
   if (record) display(record);
