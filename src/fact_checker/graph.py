@@ -74,7 +74,8 @@ class State(TypedDict):
 class Judgement(BaseModel):
     verdict: Verdict
     confidence: float = Field(description="0 to 1: how firmly the evidence settles the verdict")
-    rationale: str = Field(description="One to three plain sentences on why")
+    rationale: str = Field(description="One to three plain sentences on why, for a reader who sees only the cited "
+                           "sources: name sources, never evidence ids or evidence set aside")
     citations: list[str] = Field(description="Ids of the evidence the verdict rests on")
 
 
