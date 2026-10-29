@@ -13,7 +13,7 @@ graph TD
   recall --> archive
   archive -->|usable| judge
   archive -->|nothing usable| web --> judge
-  judge -->|unsure| advocate & skeptic --> judge
+  judge -->|unsure or no credible source| advocate & skeptic --> judge
   judge --> finish --> done
 ```
 
@@ -21,7 +21,7 @@ graph TD
 - **archive** (RAG): ~88k professional fact-checks from Google's ClaimReview feed, in pgvector.
 - **web** (corrective RAG): Tavily search.
 - **advocate / skeptic** (multi-agent): two tool-using agents argue opposite sides, then the judge decides again, once.
-- **finish**: a verdict citing no real evidence becomes unverifiable; confident ones (≥ 0.8) are remembered for 30 days.
+- **finish**: a verdict citing no real evidence becomes unverifiable; confident ones (≥ 0.8) citing a credible source are remembered for 30 days.
 
 ## Design decisions
 

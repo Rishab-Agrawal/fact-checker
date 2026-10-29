@@ -19,6 +19,14 @@ def test_cited_verdict_keeps_sources():
     assert out["sources"] == [{"title": EVIDENCE[0]["title"], "url": "https://altnews.in/x"}]
 
 
+def test_a_confident_verdict_on_unvetted_sources_still_gets_the_debate():
+    blog = {"id": "W1", "credible": False}
+    judgement = {"verdict": "false", "confidence": 0.8, "citations": ["W1"]}
+    assert graph.after_judge({"evidence": [blog], "arguments": [], "judgement": judgement}) == ["advocate", "skeptic"]
+    blog["credible"] = True
+    assert graph.after_judge({"evidence": [blog], "arguments": [], "judgement": judgement}) == "finish"
+
+
 def test_memory_is_fresh_only_within_window_and_never_from_the_future():
     assert fresh("2026-10-01", "2026-10-26")
     assert not fresh("2026-08-01", "2026-10-26")
