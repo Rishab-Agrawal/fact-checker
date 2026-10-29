@@ -289,10 +289,11 @@ def research_all(state: State) -> list[Send] | str:
     return [Send("research", {"claim": c, "as_of": as_of}) for c in state["claims"]] or "reply"
 
 
-REPLY_PROMPT = """Write the reply to someone who forwarded a message to check it, in {language}.
+REPLY_PROMPT = """Write a reply, in {language}, to paste back into the chat a forwarded message came from.
 
 - For each claim: its verdict, one short reason, and one source link if there is one.
 - Under 120 words, warm and respectful, no lecturing. Family members will read it.
+- Start with the first verdict. No thanks or praise for checking: the chat never saw the check.
 - Plain text, no markdown: it gets pasted into chats like WhatsApp.
 - If anything is false or misleading, gently suggest not forwarding it."""
 NO_CLAIMS = "There's nothing here to fact-check: the message doesn't state anything as fact."
