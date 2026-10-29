@@ -281,15 +281,15 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
   gap: 1.5rem;
 }
 
+/* The visitor's turn: on the right, as wide as its content. */
 .message {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
+  align-self: flex-end;
   gap: 0.5rem;
+  max-width: min(85%, 36rem);
   margin: 0;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-lg);
-  background: var(--bubble);
 }
 
 /* Long messages fold to four lines, so the verdict stays on the first screen. */
@@ -299,6 +299,11 @@ textarea:focus-visible { outline: none; } /* the composer's border shows focus *
   -webkit-line-clamp: 4;
   overflow: hidden;
   margin: 0;
+  /* A transparent border, not padding: overflow clips at the padding edge, so a fifth line would show in padding. */
+  border: solid transparent;
+  border-width: 0.625rem 1rem;
+  border-radius: var(--radius-lg);
+  background: var(--bubble);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -367,7 +372,7 @@ details[open] > summary .chevron { transform: rotate(180deg); }
 }
 
 .copy { margin: -0.5rem 0 0 -0.5rem; }
-.more { margin-left: -0.5rem; }
+.more { margin: -0.25rem -0.5rem 0 0; }
 .copy svg { width: 1rem; height: 1rem; }
 .retry { border-color: var(--border); }
 .copy:hover, .retry:hover, .more:hover { background: var(--bubble); color: var(--text); }

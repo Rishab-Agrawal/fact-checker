@@ -291,8 +291,11 @@ def research_all(state: State) -> list[Send] | str:
 
 REPLY_PROMPT = """Say what fact-checking the message found, in {language}.
 
-- For each claim: its verdict, one short reason, and one source link if there is one.
-- Under 120 words, respectful, no lecturing. Nothing before the first verdict or after the last.
+- Open with an overall verdict on the message, naming what it claims, and why in one sentence. The reply must
+  make sense on its own.
+- With more than one claim, then give each: the claim in a few words, its verdict and one short reason.
+- One source link per claim, if there is one.
+- Under 150 words, respectful, no lecturing. Nothing before the overall verdict or after the last claim.
 - Plain text, no markdown: it is shown as written."""
 NO_CLAIMS = "There's nothing here to fact-check: the message doesn't state anything as fact."
 
