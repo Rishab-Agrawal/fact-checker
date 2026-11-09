@@ -16,6 +16,7 @@ A bug, bloat or over-engineering usually points to something larger: weak design
 
 ## Project
 
-- Jev (TypeSafe System One) only for narrow single-hop gates where it loses no quality; generation, multi-hop reasoning and dates stay with Claude. The README lists where.
+- Jev (TypeSafe System One) only for narrow single-hop gates where it loses no quality; generation, multi-hop reasoning and dates stay with Claude, except that Jev may confirm a reference fact two sites state outright. The README lists where.
 - Railway: the app listens on `$PORT` (8080); the public domain's target port must match it.
+- Railway Postgres: `shared_buffers` is 16 MB (`ALTER SYSTEM`, stored on its volume) because idle memory is billed; one archive search needs about 8 MB.
 - The Telegram bot is the *admin* bot (`TELEGRAM_ADMIN_*`); unprefixed Telegram names are kept for a possible user-facing bot.

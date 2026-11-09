@@ -1,10 +1,18 @@
+from types import SimpleNamespace
+
 import pytest
+from langgraph.store.memory import InMemoryStore
 
 from fact_checker import evidence, graph
 from fact_checker.evidence import credible
 from fact_checker.graph import cite, fresh
 
 EVIDENCE = [{"id": "F1", "title": "Alt News rated a claim \"False\"", "url": "https://altnews.in/x"}]
+
+
+def jev_scores(*scores):
+    answers = [SimpleNamespace(nouls={"confirms": SimpleNamespace(noul=s)}) for s in scores]
+    return SimpleNamespace(batch=lambda inputs: answers)
 
 
 def test_verdict_without_existing_citation_is_unverifiable():
@@ -28,9 +36,34 @@ def test_a_page_cited_twice_is_one_source():
 def test_a_confident_verdict_on_unvetted_sources_still_gets_the_debate():
     blog = {"id": "W1", "credible": False}
     judgement = {"verdict": "false", "confidence": 0.8, "citations": ["W1"]}
-    assert graph.after_judge({"evidence": [blog], "arguments": [], "judgement": judgement}) == ["advocate", "skeptic"]
+    state = {"evidence": [blog], "arguments": [], "judgement": judgement, "reference": False}
+    assert graph.after_judge(state) == ["advocate", "skeptic"]
+    assert graph.after_judge({**state, "reference": True}) == "finish"  # calendars and almanacs aren't rated
     blog["credible"] = True
-    assert graph.after_judge({"evidence": [blog], "arguments": [], "judgement": judgement}) == "finish"
+    assert graph.after_judge(state) == "finish"
+
+
+def test_a_reference_fact_two_sites_confirm_never_reaches_claude(monkeypatch):
+    pages = [{"kind": "web", "url": f"https://{host}/x", "title": "t", "text": "t", "published": None, "credible": False}
+             for host in ("a.com", "b.com")]
+    monkeypatch.setattr(graph, "reference_fact", lambda claim: True)
+    monkeypatch.setattr(graph, "search_archive", lambda *args: pytest.fail("archive searched"))
+    monkeypatch.setattr(graph, "search_web", lambda *args: pages)
+    monkeypatch.setattr(graph, "gate", lambda claim, found: found)
+    monkeypatch.setattr(evidence, "jev", lambda: jev_scores(0.99, 0.99))
+    monkeypatch.setattr(graph, "llm", lambda effort: pytest.fail("Claude was called"))
+    out = graph.research_builder.compile(store=InMemoryStore()).invoke({"claim": "c", "as_of": "2026-11-08"})
+    result = out["results"][0]
+    assert result["verdict"] == "true"
+    assert len(result["sources"]) == 2
+
+
+def test_confirmation_takes_two_different_sites(monkeypatch):
+    pages = [{"url": f"https://{host}/x", "title": "t", "text": "t"} for host in ("a.com", "www.a.com", "b.com")]
+    monkeypatch.setattr(evidence, "jev", lambda: jev_scores(0.99, 0.99, 0.5))
+    assert evidence.confirming("c", pages, "2026-11-08") == {}
+    monkeypatch.setattr(evidence, "jev", lambda: jev_scores(0.99, 0.5, 0.99))
+    assert set(evidence.confirming("c", pages, "2026-11-08")) == {"a.com", "b.com"}
 
 
 def test_memory_is_fresh_only_within_window_and_never_from_the_future():

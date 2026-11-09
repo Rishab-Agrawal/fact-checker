@@ -14,8 +14,12 @@ graph TD
   claim([claim]) --> recall
   recall -->|seen before| done([done])
   recall --> archive
+  recall -->|reference fact| web
   archive -->|usable| judge
   archive -->|nothing usable| web --> judge
+  web -->|reference fact| confirm
+  confirm -->|2+ sites state it| finish
+  confirm --> judge
   judge -->|unsure or no credible source| advocate & skeptic --> judge
   judge --> finish --> done
 ```
@@ -23,15 +27,19 @@ graph TD
 - **recall** (memory): earlier verdicts; Jev confirms it is the same claim before one is reused.
 - **archive** (RAG): ~88k professional fact-checks from Google's ClaimReview feed, in pgvector.
 - **web** (corrective RAG): Tavily search.
+- **confirm**: for a settled reference fact (a date, a capital, a measurement), two different sites stating it outright settle it as true.
 - **advocate / skeptic** (multi-agent): two tool-using agents argue opposite sides, then the judge decides again, once.
 - **finish**: a verdict citing no real evidence becomes unverifiable; confident ones (≥ 0.8) citing a credible source are remembered for 30 days.
 
 ## Design decisions
 
 - **Jev only where it loses no quality**: whether a text message has anything checkable (if not, it never reaches
-  Claude and gets a fixed reply), passage relevance, prompt-injection and same-claim checks. Extraction, judging,
-  debate and the reply stay with Claude: they generate text (claims are rewritten to stand alone, in English) or
-  reason across sources and dates, and Jev [doesn't generate text](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md).
+  Claude and gets a fixed reply), passage relevance, prompt-injection and same-claim checks, whether a claim is a
+  reference fact, and whether a page states one. Extraction, other judging, debate and the reply stay with Claude:
+  they generate text (claims are rewritten to stand alone, in English) or reason across sources and dates, and Jev
+  [doesn't generate text](https://docs.typesafe.ai/model-jaggedness/jev-1.13.md).
+- **Simple facts don't pay for a debate**: reference sites (calendars, almanacs) aren't in the news-domain ratings, so
+  without this they would always count as ungrounded. They still go to the debate if the judge is unsure.
 - **Evidence is capped at the claim's date**, so evals can't find the fact-check a benchmark claim came from.
 - **The citation guard is code, not an LLM grader**: free, and it can't hallucinate.
 - **Source credibility comes from published ratings**, not a hand-picked list: [Lin et al. 2023](https://github.com/hauselin/domain-quality-ratings)

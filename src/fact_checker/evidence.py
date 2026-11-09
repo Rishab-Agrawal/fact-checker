@@ -22,6 +22,9 @@ EVIDENCE_MIN = 0.5
 INJECTION_MAX = 0.7
 SAME_CLAIM_MIN = 0.9
 CHECKABLE_MIN = 0.2  # low on purpose: skipping a real claim costs more than a wasted check
+REFERENCE_MIN = 0.3
+CONFIRMS_MIN = 0.95
+CONFIRMING_SITES = 2
 # Jev accuracy drops on long state, and the judge only needs the gist.
 # ponytail: plain truncation, chunk + gate per chunk if long pages lose evidence
 PASSAGE_CHARS = 4000
@@ -72,10 +75,14 @@ def domain_quality() -> dict[str, float]:
         return {row["domain"]: float(row["pc1"]) for row in csv.DictReader(f)}
 
 
+def site(url: str) -> str:
+    return (urlparse(url).hostname or "").removeprefix("www.")
+
+
 def credible(url: str) -> bool:
     # Exact host only: the ratings list subdomains separately, and a platform's
     # rating (blogspot.com, medium.com) says nothing about one blog on it.
-    host = (urlparse(url).hostname or "").removeprefix("www.")
+    host = site(url)
     return host.endswith(CREDIBLE_SUFFIXES) or domain_quality().get(host, 0) >= CREDIBLE_MIN
 
 
@@ -163,3 +170,37 @@ def checkable(message: str) -> bool:
         logging.warning("Jev checkable: %s", e)
         return True
     return answer.nouls["claim"].noul >= CHECKABLE_MIN
+
+
+REFERENCE = {
+    "settled": Noul(
+        instructions="Is `claim` a settled reference fact that any encyclopedia, almanac or calendar would state "
+        "(such as a date, a capital, a distance or a measurement), rather than a news event, a quote, a health "
+        "claim, a statistic or something people dispute?"
+    )
+}
+
+
+def reference_fact(claim: str) -> bool:
+    try:
+        answer = jev().invoke({"state": {"claim": claim}, "questions": REFERENCE})
+    except Exception as e:  # only a shortcut: if Jev is down, take the full path
+        logging.warning("Jev reference_fact: %s", e)
+        return False
+    return answer.nouls["settled"].noul >= REFERENCE_MIN
+
+
+CONFIRMS = {"confirms": Noul(instructions="Does `passage` show that `claim` is true, given that today is `today`?")}
+
+
+def confirming[P: Passage](claim: str, passages: list[P], today: str) -> dict[str, P]:
+    """One passage per site that confirms the claim, or nothing if too few independent sites do."""
+    if not passages:
+        return {}
+    answers = jev().batch([
+        {"state": {"claim": claim, "today": today, "passage": {"title": p["title"], "text": p["text"][:PASSAGE_CHARS]}},
+         "questions": CONFIRMS}
+        for p in passages
+    ])
+    sites = {site(p["url"]): p for p, a in zip(passages, answers) if a.nouls["confirms"].noul >= CONFIRMS_MIN}
+    return sites if len(sites) >= CONFIRMING_SITES else {}
